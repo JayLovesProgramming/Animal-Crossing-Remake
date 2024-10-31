@@ -24,6 +24,7 @@ void GenerateCurvedGround(GroundTile grounds[GRID_SIZE][GRID_SIZE], Texture2D gr
     }
 };
 
+// Ends the drawing loop and draws some other things outside of the main game
 void EndDrawingLoop()
 {
     EndBlendMode();
