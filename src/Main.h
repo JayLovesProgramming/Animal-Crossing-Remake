@@ -1,3 +1,4 @@
+// Main.h
 #pragma once
 
 #include "raylib.h"
@@ -6,13 +7,16 @@
 #include <cmath> 
 #include <random> 
 #include <string> 
+#include <sys/stat.h>
 #include <assert.h>
+
 #include "Monitor.h"
 #include "Camera.h"
 #include "Flower.h"
 #include "Grass.h"
 #include "Tree.h"
 #include "Controls.h"
+#include "UI.h"
 #include "Debug.h"
 // #include "DevImGUI.h"
 

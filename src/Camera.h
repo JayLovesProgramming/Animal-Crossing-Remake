@@ -1,3 +1,4 @@
+// Camera.h
 #pragma once
 
 #include "raylib.h"
@@ -24,11 +25,11 @@ public:
     {
         if (IsKeyDown(KEY_LEFT))
         {
-            cameraRotationAngle -= turningModifier; // Rotate left
+            cameraRotationAngle += turningModifier; // Rotate left
         }
         if (IsKeyDown(KEY_RIGHT))
         {
-            cameraRotationAngle += turningModifier; // Rotate right
+            cameraRotationAngle -= turningModifier; // Rotate right
         }
 
         Vector3 forwardDirection = {

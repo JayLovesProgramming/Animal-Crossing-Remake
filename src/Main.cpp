@@ -1,3 +1,4 @@
+// Main.cpp
 #include "Main.h"
 
 // Generates a curved surface ? Randomized?
@@ -23,7 +24,7 @@ void GenerateCurvedGround(GroundTile grounds[GRID_SIZE][GRID_SIZE], Texture2D gr
 
             grounds[x][z].model = LoadModelFromMesh(mesh);
             grounds[x][z].model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = grassTexture;
-            grounds[x][z].position = Vector3{ xOffset, 0.0f, zOffset };
+            grounds[x][z].position = Vector3{xOffset, 0.0f, zOffset};
         }
     }
 };
@@ -34,27 +35,11 @@ void EndDrawingLoop()
     EndBlendMode();
     EndMode3D();
     DrawText(TextFormat("FPS: %i", GetFPS()), screenWidth - 220, screenHeight - 100, 30, GREEN);
+
+    DrawShakeTreePrompt(true, 250.0f, uiConfig);
+
     EndDrawing();
 }
-
-// void LoadFencesTexture()
-// {
-//     fenceTexture = LoadTexture("../src/Assets/Textures/fence.png");
-//     assert(fenceTexture.id != 0);
-// }
-
-// void DrawFences()
-// {
-//     for (int i = 0; i < fenceAmount; i++)
-//     {
-//         // DrawCube(Vector3{i* 1.5f, 0.5f, 0.0f}, 1.0f, 1.0f, 0.2f, WHITE);
-//         // DrawBillboard(characterCamera.camera, fenceTexture, Vector3{i* 1.5f, 0.5f, 0.0f}, 1.0f, WHITE);
-//         // DrawTexture(fenceTexture, (i * 1.0), 0.0f, WHITE);
-//         Rectangle fenceRectangle = {1.0f, 1.0f, 2.0f, 2.0f};
-//         Vector2 fenceVec2 = {1.0f, 2.0f};
-//         DrawTextureRec(fenceTexture, fenceRectangle, fenceVec2, RED);
-//     }
-// }
 
 bool PressedExit()
 {
@@ -71,6 +56,10 @@ void InitGame()
 {
     SetWindowState(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "Animal Crossing - Dev Build");
+
+    uiConfig = LoadUIConfig(configFilePath);
+    lastModifiedTime = GetLastModificationTime(configFilePath);
+
     InitGameWindowIcon();
     SetWindowMonitor(0);
     SetWindowState(FLAG_VSYNC_HINT);
@@ -81,7 +70,6 @@ void InitGame()
     SetExitKey(0);
     characterCamera.InitCamera();
     trees.LoadTrees();
-    // LoadFencesTexture();
 }
 
 void DrawLoop(Vector3 characterPosition, GroundTile grounds[GRID_SIZE][GRID_SIZE])
@@ -90,17 +78,17 @@ void DrawLoop(Vector3 characterPosition, GroundTile grounds[GRID_SIZE][GRID_SIZE
     ClearBackground(BLACK);
     BeginMode3D(characterCamera.camera);
     BeginBlendMode(BLEND_ALPHA);
-    
+
     flower.DrawFlowerS();
-    
+
     trees.DrawTrees();
 
     DrawCube(characterPosition, 1.0f, 2.0f, 1.0f, PINK);
 
-    // DrawFences();
-
-    for(int x = 0; x < GRID_SIZE; x++) {
-        for(int z = 0; z < GRID_SIZE; z++) {
+    for (int x = 0; x < GRID_SIZE; x++)
+    {
+        for (int z = 0; z < GRID_SIZE; z++)
+        {
             if (WIRE_FLOOR)
             {
                 DrawModelWires(grounds[x][z].model, grounds[x][z].position, 1.0f, WHITE);
@@ -121,15 +109,16 @@ void UnloadEverything(GroundTile grounds[GRID_SIZE][GRID_SIZE])
     UnloadTexture(grassTexture);
     trees.UnloadTrees();
 
-    for(int x = 0; x < GRID_SIZE; x++) {
-        for(int z = 0; z < GRID_SIZE; z++) {
+    for (int x = 0; x < GRID_SIZE; x++)
+    {
+        for (int z = 0; z < GRID_SIZE; z++)
+        {
             UnloadModel(grounds[x][z].model);
         }
     }
-    
+
     CloseWindow();
 }
-
 
 int main(void)
 {
@@ -139,16 +128,25 @@ int main(void)
 
     flower.LoadFLowers();
     flower.GenerateRandomFlowers(25, 50.0f, 50.0f);
-    
+
     GroundTile grounds[GRID_SIZE][GRID_SIZE];
     GenerateCurvedGround(grounds, grassTexture);
 
     while (!WindowShouldClose())
     {
+        // Check for file modification and reload if necessary
+        time_t currentModTime = GetLastModificationTime(configFilePath);
+        if (currentModTime != lastModifiedTime)
+        {
+            std::cout << "Config file modified. Reloading..." << std::endl;
+            uiConfig = LoadUIConfig(configFilePath);
+            lastModifiedTime = currentModTime;
+        }
+
         gameControls.UpdateControls(&characterPosition, characterSpeed);
         characterCamera.UpdateCamera(&characterPosition);
         DrawLoop(characterPosition, grounds);
-        
+
         if (PressedExit())
         {
             break;
