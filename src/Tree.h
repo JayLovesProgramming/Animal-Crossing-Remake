@@ -10,7 +10,7 @@ public:
     Model treeModel;
     std::vector<Vector3> treePositions;
     const float treeCollisionRadius = 1.45f;
-    const int numberOfTrees = 0;
+    const int numberOfTrees = 100;
     const float treeSpacing = 5.0f;
 
     void LoadTrees()
