@@ -8,9 +8,11 @@ class GameControls
 {
 public:
     int animFrameCounter = 0;
+
     float mapMinX = -50.0f;
-    float mapMaxX = 50.0f;
     float mapMinZ = -50.0f;
+
+    float mapMaxX = 50.0f;
     float mapMaxZ = 50.0f;
 
     void UpdateControls(Vector3 *characterPosition, float characterSpeed)
@@ -26,6 +28,16 @@ public:
         float forwardLength = sqrtf(forwardDirection.x * forwardDirection.x + forwardDirection.z * forwardDirection.z);
         forwardDirection.x /= forwardLength;
         forwardDirection.z /= forwardLength;
+
+        Vector3 rightDirection = {
+            cosf(DEG2RAD * characterCamera.cameraRotationAngle),
+            0.0f,
+            -sinf(DEG2RAD * characterCamera.cameraRotationAngle)
+        };
+        
+        float rightLength = sqrtf(rightDirection.x * rightDirection.x + rightDirection.z * rightDirection.z);
+        rightDirection.x /= forwardLength;
+        rightDirection.z /= forwardLength;
 
         // Forward
         if (IsKeyDown(KEY_W))
@@ -56,22 +68,30 @@ public:
         }
 
         // Left
-        if (IsKeyDown(KEY_A))
+         if (IsKeyDown(KEY_A))
         {
-            if (characterPosition->x - deltaSpeed >= mapMinX)
+            if (characterPosition->x + rightDirection.x * deltaSpeed >= mapMinX)
             {
-                characterPosition->x -= deltaSpeed;
+                characterPosition->x -= rightDirection.x * deltaSpeed;
                 animFrameCounter++;
+            }
+            if (characterPosition->z + rightDirection.z * deltaSpeed >= mapMinZ)
+            {
+                characterPosition->z -= rightDirection.z * deltaSpeed;
             }
         }
 
         // Right
         if (IsKeyDown(KEY_D))
         {
-            if (characterPosition->x -  deltaSpeed <= mapMaxX)
+            if (characterPosition->x - rightDirection.x * deltaSpeed >= mapMinX)
             {
-                characterPosition->x += deltaSpeed;
+                characterPosition->x += rightDirection.x * deltaSpeed;
                 animFrameCounter++;
+            }
+            if (characterPosition->z - rightDirection.z * deltaSpeed >= mapMinZ)
+            {
+                characterPosition->z += rightDirection.z * deltaSpeed;
             }
         }
         
