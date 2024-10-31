@@ -14,7 +14,11 @@ void GenerateCurvedGround(GroundTile grounds[GRID_SIZE][GRID_SIZE], Texture2D gr
             for (int i = 0; i < mesh.vertexCount; i++)
             {
                 Vector3 *vertex = (Vector3 *)&mesh.vertices[i * 3];
-                vertex->y += CURVE_AMPLITUDE * sinf(CURVE_FREQUENCY * (vertex->x, vertex->z));
+                float height = CURVE_AMPLITUDE * sinf(CURVE_FREQUENCY * (vertex->x + xOffset + vertex->z + zOffset));
+                vertex->y = height;
+                // float xPosition = vertex->x + xOffset;
+                // float zPosition = vertex->y + zOffset;
+                // vertex->y += CURVE_AMPLITUDE * sinf(CURVE_FREQUENCY * (xPosition, zPosition));
             }
 
             grounds[x][z].model = LoadModelFromMesh(mesh);
@@ -57,12 +61,21 @@ bool PressedExit()
     return IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_BACKSPACE);
 }
 
+void InitGameWindowIcon()
+{
+    Image windowIcon = LoadImage("../src/Assets/Textures/icon.png");
+    SetWindowIcon(windowIcon);
+};
 
 void InitGame()
 {
-    InitWindow(screenWidth, screenHeight, "Animal Crossing Remake By Jay");
+    SetWindowState(FLAG_WINDOW_RESIZABLE);
+    InitWindow(screenWidth, screenHeight, "Animal Crossing - Dev Build");
+    InitGameWindowIcon();
     SetWindowMonitor(0);
     SetWindowState(FLAG_VSYNC_HINT);
+    SetWindowState(FLAG_WINDOW_ALWAYS_RUN);
+    SetWindowState(FLAG_WINDOW_TRANSPARENT);
     SetConfigFlags(FLAG_MSAA_4X_HINT);
     SetTargetFPS(30);
     SetExitKey(0);
@@ -121,10 +134,7 @@ void UnloadEverything(GroundTile grounds[GRID_SIZE][GRID_SIZE])
 int main(void)
 {
     InitGame();
-
-    Vector3 characterPosition = {0.0f, 1.0f, 0.0f};
     Grass grass;
-    grass.LoadGrassTexture();
     Texture2D grassTexture = grass.grassTexture;
 
     flower.LoadFLowers();

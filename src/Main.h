@@ -28,7 +28,7 @@ const static auto CURVE_FREQUENCY = 0.5f;
 
 Texture2D grassTexture;
 Model ground;
-Vector3 characterPosition;
+Vector3 characterPosition = {0.0f, 1.0f, 0.0f};
 // Texture2D fenceTexture;
 
 struct GroundTile

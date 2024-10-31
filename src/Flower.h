@@ -1,6 +1,7 @@
 #pragma once
 
 #include "raylib.h"
+#include "Debug.h"
 #include <iostream>
 #include <vector>
 #include <cstdlib>
@@ -17,7 +18,10 @@ public:
 
     void LoadFLowers()
     {
-        std::cout << "Loaded flowers" << std::endl;
+        if (DEBUG_FLOWERS)
+        {
+            std::cout << "Loaded flowers" << std::endl;
+        }
         srand(static_cast<unsigned>(time(0)));
         flowerModel = LoadModel("../src/Assets/Models/plant/scene.gltf");
         assert(flowerModel.meshCount != 0);
@@ -26,7 +30,10 @@ public:
     }
     void DrawFlowerS()
     {
-        std::cout << "Drawing flowers" << std::endl;
+        if (DEBUG_FLOWERS)
+        {
+            std::cout << "Drawing flowers" << std::endl;
+        }
         for (const Flower &flower : flowers)
         {
             DrawModel(flowerModel, flower.position, flower.scale, flower.color);

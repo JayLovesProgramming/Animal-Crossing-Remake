@@ -1,6 +1,7 @@
 #pragma once
 
 #include "raylib.h"
+#include "Camera.h"
 #include <cmath>
 
 class GameControls
@@ -16,43 +17,80 @@ public:
     {
         float deltaSpeed = characterSpeed * GetFrameTime();
 
-        if (IsKeyDown(KEY_W) && characterPosition->z - deltaSpeed >= mapMinZ)
-        {
-            characterPosition->z -= deltaSpeed;
-            animFrameCounter++;
-        }
-        if (IsKeyDown(KEY_S) && characterPosition->z + deltaSpeed <= mapMaxZ)
-        {
-            characterPosition->z += deltaSpeed;
-            animFrameCounter++;
-        }
-        if (IsKeyDown(KEY_A) && characterPosition->x - deltaSpeed >= mapMinX)
-        {
-            characterPosition->x -= deltaSpeed;
-            animFrameCounter++;
-        }
-        if (IsKeyDown(KEY_D) && characterPosition->x + deltaSpeed <= mapMaxX)
-        {
-            characterPosition->x += deltaSpeed;
-            animFrameCounter++;
-        }
+        Vector3 forwardDirection = {
+            sinf(DEG2RAD * characterCamera.cameraRotationAngle),
+            0.0f,
+            cosf(DEG2RAD * characterCamera.cameraRotationAngle)
+        };
 
-        for (int i = 0; i < trees.treePositions.size(); i++)
+        float forwardLength = sqrtf(forwardDirection.x * forwardDirection.x + forwardDirection.z * forwardDirection.z);
+        forwardDirection.x /= forwardLength;
+        forwardDirection.z /= forwardLength;
+
+        // Forward
+        if (IsKeyDown(KEY_W))
         {
-            const Vector3 &treePos = trees.treePositions[i];
-            float distance = sqrtf(powf(characterPosition->x - treePos.x, 2) + powf(characterPosition->y - treePos.y, 2) + powf(characterPosition->z - treePos.z, 2));
-            if (distance < trees.treeCollisionRadius)
+            if (characterPosition->z + forwardDirection.z * deltaSpeed <= mapMaxZ)
             {
-                if (IsKeyDown(KEY_W) && characterPosition->z + deltaSpeed <= mapMaxZ)
-                    characterPosition->z += deltaSpeed;
-                if (IsKeyDown(KEY_S) && characterPosition->z - deltaSpeed >= mapMinZ)
-                    characterPosition->z -= deltaSpeed;
-                if (IsKeyDown(KEY_A) && characterPosition->x + deltaSpeed <= mapMaxX)
-                    characterPosition->x += deltaSpeed;
-                if (IsKeyDown(KEY_D) && characterPosition->x - deltaSpeed >= mapMinX)
-                    characterPosition->x -= deltaSpeed;
+                characterPosition->z -= forwardDirection.z * deltaSpeed;
+                animFrameCounter++;
+            }
+            if (characterPosition->x + forwardDirection.x * deltaSpeed <= mapMaxX)
+            {
+                characterPosition->x -= forwardDirection.x * deltaSpeed;
             }
         }
+
+        // Backward
+        if (IsKeyDown(KEY_S))
+        {
+            if (characterPosition->z - forwardDirection.z * deltaSpeed >= mapMinZ)
+            {
+                characterPosition->z += forwardDirection.z * deltaSpeed;
+                animFrameCounter++;
+            }
+            if (characterPosition->x - forwardDirection.x * deltaSpeed >= mapMinX)
+            {
+                characterPosition->x += forwardDirection.x * deltaSpeed;
+            }
+        }
+
+        // Left
+        if (IsKeyDown(KEY_A))
+        {
+            if (characterPosition->x - deltaSpeed >= mapMinX)
+            {
+                characterPosition->x -= deltaSpeed;
+                animFrameCounter++;
+            }
+        }
+
+        // Right
+        if (IsKeyDown(KEY_D))
+        {
+            if (characterPosition->x -  deltaSpeed <= mapMaxX)
+            {
+                characterPosition->x += deltaSpeed;
+                animFrameCounter++;
+            }
+        }
+        
+        // for (int i = 0; i < trees.treePositions.size(); i++)
+        // {
+        //     const Vector3 &treePos = trees.treePositions[i];
+        //     float distance = sqrtf(powf(characterPosition->x - treePos.x, 2) + powf(characterPosition->y - treePos.y, 2) + powf(characterPosition->z - treePos.z, 2));
+        //     if (distance < trees.treeCollisionRadius)
+        //     {
+        //         if (IsKeyDown(KEY_W) && characterPosition->z + deltaSpeed <= mapMaxZ)
+        //             characterPosition->z += deltaSpeed;
+        //         if (IsKeyDown(KEY_S) && characterPosition->z - deltaSpeed >= mapMinZ)
+        //             characterPosition->z -= deltaSpeed;
+        //         if (IsKeyDown(KEY_A) && characterPosition->x + deltaSpeed <= mapMaxX)
+        //             characterPosition->x += deltaSpeed;
+        //         if (IsKeyDown(KEY_D) && characterPosition->x - deltaSpeed >= mapMinX)
+        //             characterPosition->x -= deltaSpeed;
+        //     }
+        // }
     }
 };
 

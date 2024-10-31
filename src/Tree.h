@@ -10,7 +10,7 @@ public:
     Model treeModel;
     std::vector<Vector3> treePositions;
     const float treeCollisionRadius = 1.45f;
-    const int numberOfTrees = 200;
+    const int numberOfTrees = 0;
     const float treeSpacing = 5.0f;
 
     void LoadTrees()
@@ -32,19 +32,19 @@ public:
             Vector3 newPos = {x, 0.0f, z};
 
             // Check if the new position is far enough from existing positions
-            bool isFarEnough = true;
+            bool isTreeSpaced = true;
             for (const Vector3& pos : treePositions)
             {
                 float distance = Vector3Distance(newPos, pos);
                 if (distance < treeSpacing)
                 {
-                    isFarEnough = false;
+                    isTreeSpaced = false;
                     break;
                 }
             }
 
             // If far enough, add to positions
-            if (isFarEnough)
+            if (isTreeSpaced)
             {
                 treePositions.push_back(newPos);
             }
@@ -67,7 +67,6 @@ public:
         }
     }
 
-private:
 };
 
 Tree trees;
