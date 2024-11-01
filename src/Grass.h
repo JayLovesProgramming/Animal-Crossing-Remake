@@ -17,4 +17,6 @@ public:
     }
 
     void LoadGrassTexture();
+
+    void DEBUG_GrassTexture(bool initial);
 };

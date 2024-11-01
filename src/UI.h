@@ -64,7 +64,7 @@ void DrawShakeTreePrompt(bool isNearTree, float alpha, UIConfig config)
     if (isNearTree)
     {
         // std::cout << "Drawing UI prompt" << std::endl;
-        std::cout << config.boxSize.x << ", " << config.boxSize.y << std::endl;
+        // std::cout << config.boxSize.x << ", " << config.boxSize.y << std::endl;
         DrawRectangleRounded(Rectangle{config.boxPosition.x, config.boxPosition.y, config.boxSize.x, config.boxSize.y}, 0.2, 10, Fade(DARKGRAY, alpha));
         Vector2 iconPosition = {config.boxPosition.x + config.iconOffset.x, config.boxPosition.y + config.boxSize.y / 2};
         DrawCircle(iconPosition.x, iconPosition.y, 10, Fade(WHITE, alpha));
