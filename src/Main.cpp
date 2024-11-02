@@ -5,7 +5,7 @@
 void EndDrawingLoop()
 {
     EndMode3D(); // End the 3D mode so we can then draw other UI on top
-
+    // std::cout << screenWidth << std::endl;
     DrawText(TextFormat("FPS: %i", GetFPS()), screenWidth - 220, screenHeight - 100, 30, GREEN); // Draws the current FPS
 
     uiManager.DrawShakeTreePrompt(true, 250.0f); // Draws some simple UI for shaking the tree
@@ -90,13 +90,15 @@ int main(void)
     Grass grass;                                       // TODO: Fix this. Move it from here
     GenerateCurvedGround(grounds, grass.grassTexture); // Generates the surfaces planes
 
+
     while (!WindowShouldClose())
     {
-
+        mouseManager.UpdateMousePosition();
+        HandleWindow();
         DrawLoop(characterPosition, grounds); // Main game draw loop
         gameControls.UpdateControls(&characterPosition, characterSpeed);
         characterCamera.UpdateCamera(&characterPosition);
-        
+
         if (PressedExit()) // Check for a specific key and exit the game
         {
             break;

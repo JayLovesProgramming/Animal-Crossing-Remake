@@ -8,9 +8,8 @@ class CharacterCamera
 public:
     Camera camera = {0};
     constexpr static float cameraDistance = 15.0f;
-    constexpr static float turningModifier = 8.0f;
+    constexpr static float turningModifier = 1.0f;
     float cameraRotationAngle = 0.0f;
-    
 
     void InitCamera()
     {
@@ -23,11 +22,11 @@ public:
 
     void UpdateCamera(Vector3 *characterPosition)
     {
-        if (IsKeyDown(KEY_LEFT))
+        if (IsKeyDown(KEY_LEFT) || GetMouseDelta().x < 0)
         {
             cameraRotationAngle += turningModifier; // Rotate left
         }
-        if (IsKeyDown(KEY_RIGHT))
+        else if (IsKeyDown(KEY_RIGHT) || GetMouseDelta().x > 0)
         {
             cameraRotationAngle -= turningModifier; // Rotate right
         }
@@ -35,8 +34,7 @@ public:
         Vector3 forwardDirection = {
             sinf(DEG2RAD * cameraRotationAngle),
             0.0f,
-            cosf(DEG2RAD * cameraRotationAngle)
-        };  
+            cosf(DEG2RAD * cameraRotationAngle)};
 
         float forwardLength = (forwardDirection.x * forwardDirection.x) + (forwardDirection.z * forwardDirection.z);
         forwardDirection.x /= forwardLength;

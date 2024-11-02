@@ -20,6 +20,7 @@
 #include "Debug.h"
 #include "Character.h"
 #include "Map.h"
+#include "Mouse.h"
 
 Vector3 characterPosition = {0.0f, 1.0f, 0.0f};
 GroundTile grounds[GRID_SIZE][GRID_SIZE];

@@ -1,9 +1,11 @@
 // Window.h
-#pragma once 
+#pragma once
 
-const static int screenWidth = 1280;
-const static int screenHeight = 720;
-const static auto targetFPS = 100;
+int screenWidth = 1280;
+int screenHeight = 720;
+const static auto targetFPS = 75;
+int prevScreenWidth;
+int prevScreenHeight;
 
 // TODO: Make a class
 
@@ -12,38 +14,96 @@ bool PressedExit() // Check if a exit key is pressed. Used to exit and destroy t
     return IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_BACKSPACE); // ESC or Backspace (Should be debug only but on release remove this check)
 }
 
+void ResetValues(bool resetPreviousScreen)
+{
+    if (resetPreviousScreen)
+    {
+        prevScreenWidth = screenWidth;
+        prevScreenHeight = screenHeight;
+    }
+    else
+    {
+        screenWidth = prevScreenWidth;
+        screenHeight = prevScreenHeight;
+    }
+}
+
+void HandleAltEnterWindowMode()
+{
+    int monitor = GetCurrentMonitor();
+    bool altEnterPressed = (IsKeyPressed(KEY_ENTER) && (IsKeyDown(KEY_LEFT_ALT) || IsKeyDown(KEY_RIGHT_ALT)));
+    if (altEnterPressed)
+    {
+        if (!IsWindowFullscreen())
+        {
+            // if we are not full screen, set the window size to match the monitor we are on
+            ResetValues(true);
+            int monitorWidth = GetMonitorWidth(monitor);
+            int monitorHeight = GetMonitorHeight(monitor);
+            SetWindowSize(monitorWidth, monitorHeight);
+            ToggleFullscreen();
+            screenWidth = monitorWidth;
+            screenHeight = monitorHeight;
+        }
+        else
+        {
+            // if we are full screen, then go back to the windowed size
+            ToggleFullscreen();
+            if (prevScreenWidth != NULL && prevScreenHeight != NULL)
+            {
+                SetWindowSize(prevScreenWidth, prevScreenHeight);
+                ResetValues(false);
+            }
+            else
+            {
+                SetWindowSize(screenWidth, screenHeight);
+            }
+        }
+    }
+}
+
+void HandleWindow()
+{
+    HandleAltEnterWindowMode();
+}
+
 void InitGameWindowIcon() // Inits the window icon and sets it
 {
     Image windowIcon = LoadImage("../src/Assets/Textures/icon.png"); // Loads the window icon
-    SetWindowIcon(windowIcon); // Sets the window icon
+    SetWindowIcon(windowIcon);                                       // Sets the window icon
 };
 
-void checkForVSync()
+void checkForVSync(int currentMonitor)
 {
-    int currentMonitor = GetCurrentMonitor();
     int currentMonitorRefreshRate = GetMonitorRefreshRate(currentMonitor);
 
-    if (targetFPS >= currentMonitorRefreshRate)
+    if (targetFPS > currentMonitorRefreshRate)
     {
+        std::cout << "VSYNC: Disabled" << std::endl;
         SetTargetFPS(targetFPS); // Sets the TARGET FPS
     }
     else
     {
-        SetWindowState(FLAG_VSYNC_HINT);        // Enables V-Sync
+        std::cout << "VSYNC: Enabled" << std::endl;
+        SetWindowState(FLAG_VSYNC_HINT); // Enables V-Sync
     }
 }
 
 void SetWindowFlags()
 {
-    InitGameWindowIcon();                                                 // Init a window icon
+    InitGameWindowIcon(); // Init a window icon
     // Set some flags for the window
-    SetWindowState(FLAG_WINDOW_RESIZABLE);  // Makes the window resizeable
-    SetWindowMonitor(0);                    // Sets the window to your primary application. To be tested
+    SetWindowState(FLAG_WINDOW_RESIZABLE); // Makes the window resizeable
+    int currentMonitor = GetCurrentMonitor();
+    SetWindowMonitor(0); // Sets the window to your primary application. To be tested
 
-    checkForVSync();
+    checkForVSync(currentMonitor);
 
     SetWindowState(FLAG_WINDOW_ALWAYS_RUN); // Will run even if minimised
-    SetWindowState(FLAG_WINDOW_TRANSPARENT);
-    SetConfigFlags(FLAG_MSAA_4X_HINT);
-    SetExitKey(0);    // Removes all defaults for Exit key so I can create my own.
+    // SetWindowState(FLAG_WINDOW_TRANSPARENT);
+    HideCursor();
+    // SetWindowState(FLAG_FULLSCREEN_MODE);
+    // SetConfigFlags(FLAG_MSAA_4X_HINT);
+    // SetMouseCursor(0);
+    SetExitKey(0); // Removes all defaults for Exit key so I can create my own.
 };
