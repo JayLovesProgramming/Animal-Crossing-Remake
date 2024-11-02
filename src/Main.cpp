@@ -36,7 +36,7 @@ void EndDrawingLoop()
     EndMode3D();
     DrawText(TextFormat("FPS: %i", GetFPS()), screenWidth - 220, screenHeight - 100, 30, GREEN);
 
-    DrawShakeTreePrompt(true, 250.0f, uiConfig);
+    uiManager.DrawShakeTreePrompt(true, 250.0f);
 
     EndDrawing();
 }
@@ -57,8 +57,7 @@ void InitGame()
     SetWindowState(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "Animal Crossing - Dev Build");
 
-    uiConfig = LoadUIConfig(configFilePath);
-    lastModifiedTime = GetLastModificationTime(configFilePath);
+    uiManager.LoadUIConfig();
 
     InitGameWindowIcon();
     SetWindowMonitor(0);
@@ -82,6 +81,8 @@ void DrawLoop(Vector3 characterPosition, GroundTile grounds[GRID_SIZE][GRID_SIZE
     flower.DrawFlowerS();
 
     trees.DrawTrees();
+
+    uiManager.LiveUpdateUI();
 
     DrawCube(characterPosition, 1.0f, 2.0f, 1.0f, PINK);
 
@@ -134,14 +135,6 @@ int main(void)
 
     while (!WindowShouldClose())
     {
-        // Check for file modification and reload if necessary
-        time_t currentModTime = GetLastModificationTime(configFilePath);
-        if (currentModTime != lastModifiedTime)
-        {
-            std::cout << "Config file modified. Reloading..." << std::endl;
-            uiConfig = LoadUIConfig(configFilePath);
-            lastModifiedTime = currentModTime;
-        }
 
         gameControls.UpdateControls(&characterPosition, characterSpeed);
         characterCamera.UpdateCamera(&characterPosition);

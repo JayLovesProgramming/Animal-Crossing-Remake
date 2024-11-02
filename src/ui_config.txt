@@ -1,4 +1,4 @@
-boxPositionX=500
+boxPositionX=400
 boxPositionY=650
 boxSizeX=300
 boxSizeY=50

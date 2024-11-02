@@ -7,70 +7,83 @@
 #include <sys/stat.h>
 #include <iostream>
 
-struct UIConfig
+class UIManager
 {
+public:
     Vector2 boxPosition;
     Vector2 boxSize;
     Vector2 iconOffset;
     char promptText[256];
-};
-UIConfig uiConfig;
-time_t lastModifiedTime;
-const char *configFilePath = "../src/ui_config.txt";
 
-time_t GetLastModificationTime(const char *filename)
-{
-    struct stat fileStat;
-    if (stat(filename, &fileStat) == 0)
+    time_t lastModifiedTime;
+    const char *configFilePath = "C:/Users/jayxw/Desktop/AnimalCrossing/src/ui_config.txt";
+
+    time_t GetLastModificationTime()
     {
-        return fileStat.st_mtime;
-    }
-    return 0;
-}
-
-UIConfig LoadUIConfig(const char *filename)
-{
-    UIConfig config;
-    std::cout << "Opening UI config: " << filename << std::endl;
-    FILE *file = fopen(filename, "r");
-
-    if (file != NULL)
-    {
-        if (fscanf(file, "boxPositionX=%f\n", &config.boxPosition.x) != 1 ||
-            fscanf(file, "boxPositionY=%f\n", &config.boxPosition.y) != 1 ||
-            fscanf(file, "boxSizeX=%f\n", &config.boxSize.x) != 1 ||
-            fscanf(file, "boxSizeY=%f\n", &config.boxSize.y) != 1 ||
-            fscanf(file, "iconOffsetX=%f\n", &config.iconOffset.x) != 1 ||
-            fscanf(file, "iconOffsetY=%f\n", &config.iconOffset.y) != 1 ||
-            fscanf(file, "promptText=%255[^\n]", config.promptText) != 1)
+        struct stat fileStat;
+        if (stat(UIManager::configFilePath, &fileStat) == 0)
         {
-            std::cout << "Error reading config values." << std::endl;
+            return fileStat.st_mtime;
+        }
+        return 0;
+    };
+
+    void LoadUIConfig()
+    {
+        std::cout << "Opening UI config: " << UIManager::configFilePath << std::endl;
+        FILE *file = fopen(UIManager::configFilePath, "r");
+
+        if (file != NULL)
+        {
+            LoadConfigValues(file);
+            fclose(file);
+            UIManager::lastModifiedTime = UIManager::GetLastModificationTime();
+            std::cout << "Loaded UI config" << std::endl;
         }
         else
         {
-            std::cout << "Loaded UI config" << std::endl;
+            std::cerr << "Failed to open the UI config file" << std::endl;
         }
-        fclose(file);
-    }
-    else
-    {
-        std::cout << "Failed to load the file" << std::endl;
-    }
-    return config;
-}
+    };
 
-void DrawShakeTreePrompt(bool isNearTree, float alpha, UIConfig config)
-{
-    if (isNearTree)
+    void DrawShakeTreePrompt(bool isNearTree, float alpha)
     {
-        // std::cout << "Drawing UI prompt" << std::endl;
-        // std::cout << config.boxSize.x << ", " << config.boxSize.y << std::endl;
-        DrawRectangleRounded(Rectangle{config.boxPosition.x, config.boxPosition.y, config.boxSize.x, config.boxSize.y}, 0.2, 10, Fade(DARKGRAY, alpha));
-        Vector2 iconPosition = {config.boxPosition.x + config.iconOffset.x, config.boxPosition.y + config.boxSize.y / 2};
-        DrawCircle(iconPosition.x, iconPosition.y, 10, Fade(WHITE, alpha));
-        DrawText("E", iconPosition.x - 6, iconPosition.y - 10, 20, Fade(BLACK, alpha));
+        if (isNearTree)
+        {
+            DrawRectangleRounded(Rectangle{UIManager::boxPosition.x, UIManager::boxPosition.y, UIManager::boxSize.x, UIManager::boxSize.y}, 0.2, 10, Fade(DARKGRAY, alpha));
 
-        Vector2 textPosition = {iconPosition.x + 30, iconPosition.y - 10};
-        DrawText(config.promptText, textPosition.x, textPosition.y, 20, Fade(WHITE, alpha));
+            Vector2 iconPosition = {UIManager::boxPosition.x + UIManager::iconOffset.x, UIManager::boxPosition.y + UIManager::boxSize.y / 2};
+            DrawCircle(iconPosition.x, iconPosition.y, 10, Fade(WHITE, alpha));
+            DrawText("E", iconPosition.x - 6, iconPosition.y - 10, 20, Fade(BLACK, alpha));
+
+            Vector2 textPosition = {iconPosition.x + 30, iconPosition.y - 10};
+            DrawText(UIManager::promptText, textPosition.x, textPosition.y, 20, Fade(WHITE, alpha));
+        }
+    };
+
+    void LiveUpdateUI()
+    {
+        // Check for file modification and reload if necessary
+        time_t currentModTime = UIManager::GetLastModificationTime();
+        if (currentModTime != UIManager::lastModifiedTime)
+        {
+            std::cout << "Config file modified. Reloading..." << std::endl;
+            UIManager::LoadUIConfig();
+            UIManager::lastModifiedTime = currentModTime;
+        }
     }
-}
+
+private:
+    void LoadConfigValues(FILE *file)
+    {
+        fscanf(file, "boxPositionX=%f\n", &boxPosition.x);
+        fscanf(file, "boxPositionY=%f\n", &boxPosition.y);
+        fscanf(file, "boxSizeX=%f\n", &boxSize.x);
+        fscanf(file, "boxSizeY=%f\n", &boxSize.y);
+        fscanf(file, "iconOffsetX=%f\n", &iconOffset.x);
+        fscanf(file, "iconOffsetY=%f\n", &iconOffset.y);
+        fscanf(file, "promptText=%255[^\n]", promptText);
+    }
+};
+
+UIManager uiManager;
