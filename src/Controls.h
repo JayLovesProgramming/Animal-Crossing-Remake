@@ -1,20 +1,17 @@
 // Controls.h
 #pragma once
 
+#include <cmath>
 #include "raylib.h"
 #include "Camera.h"
-#include <cmath>
+#include "Map.h"
 
 class GameControls
 {
 public:
     int animFrameCounter = 0;
 
-    float mapMinX = -50.0f;
-    float mapMinZ = -50.0f;
 
-    float mapMaxX = 50.0f;
-    float mapMaxZ = 50.0f;
 
     void UpdateControls(Vector3 *characterPosition, float characterSpeed)
     {
@@ -72,14 +69,14 @@ public:
         }
 
         // Bound checks
-        if (newPosition.x < mapMinX)
-            newPosition.x = mapMinX;
-        if (newPosition.x > mapMaxX)
-            newPosition.x = mapMaxX;
-        if (newPosition.z < mapMinZ)
-            newPosition.z = mapMinZ;
-        if (newPosition.z > mapMaxZ)
-            newPosition.z = mapMaxZ;
+        if (newPosition.x < BOUNDARY_MIN_X)
+            newPosition.x = BOUNDARY_MIN_X;
+        if (newPosition.x > BOUNDARY_MAX_X)
+            newPosition.x = BOUNDARY_MAX_X;
+        if (newPosition.z < BOUNDARY_MIN_Z)
+            newPosition.z = BOUNDARY_MIN_Z;
+        if (newPosition.z > BOUNDARY_MAX_Z)
+            newPosition.z = BOUNDARY_MAX_Z;
 
         // Check for collisions with trees
         bool canMove = true;

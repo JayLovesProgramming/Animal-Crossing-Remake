@@ -7,6 +7,7 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include <cassert>
 
 class Flower
 {
@@ -14,10 +15,10 @@ public:
     Vector3 position;
     Color color = WHITE;
     float scale = 0.015f;
-    Model flowerModel;
+    static Model flowerModel;
     static std::vector<Flower> flowers;
 
-    void LoadFLowers()
+    static void LoadFlowers()
     {
         if (DEBUG_FLOWERS)
         {
@@ -26,47 +27,55 @@ public:
         srand(static_cast<unsigned>(time(0)));
         flowerModel = LoadModel("../src/Assets/Models/plant/scene.gltf");
         assert(flowerModel.meshCount != 0);
-        Flower::GenerateRandomFlowers(25, 50.0f, 50.0f);
-        // Shader defaultShader = LoadShader(NULL, NULL);
-        // flowerModel.materials[0].shader = defaultShader;
+        GenerateRandomFlowers(25, 50.0f, 50.0f);
     }
-    void DrawFlowers()
+
+    static void DrawFlowers()
     {
         if (DEBUG_FLOWERS)
         {
-            std::cout << "Drawing flowers" << std::endl;
+            // std::cout << "Drawing flowers" << std::endl;
         }
         for (const Flower &flower : flowers)
         {
             DrawModel(flowerModel, flower.position, flower.scale, flower.color);
         }
     }
+
     static void GenerateRandomFlowers(int count, float xRange, float zRange)
     {
         for (int i = 0; i < count; ++i)
         {
             Flower flower;
             flower.position = {
-                static_cast<float>(rand()) / RAND_MAX * xRange - (xRange / 2), // Random X in range [-xRange/2, xRange/2]
+                static_cast<float>(rand()) / RAND_MAX * xRange - (xRange / 2),
                 0.0f,
-                static_cast<float>(rand()) / RAND_MAX * zRange - (zRange / 2) // Random Z in range [-zRange/2, zRange/2]
+                static_cast<float>(rand()) / RAND_MAX * zRange - (zRange / 2)
             };
             flower.color = GenerateRandomFlowerColour();
             flowers.push_back(flower);
         }
     }
 
+    ~Flower()
+    {
+        if (DEBUG_FLOWERS)
+        {
+            std::cout << "DESTRUCTOR!!! FLOWER" << std::endl;
+        }
+        // UnloadModel(flowerModel);
+    }
+
 private:
     static Color GenerateRandomFlowerColour()
     {
         Color colors[] = {
-            YELLOW, // Good
-            PINK,   // Dont really like this colour
+            YELLOW,
+            PINK,
         };
         return colors[rand() % (sizeof(colors) / sizeof(colors[0]))];
-    };
+    }
 };
 
 std::vector<Flower> Flower::flowers;
-
-Flower flower;
+Model Flower::flowerModel;

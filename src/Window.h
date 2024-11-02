@@ -3,7 +3,7 @@
 
 int screenWidth = 1280;
 int screenHeight = 720;
-const static auto targetFPS = 75;
+const static auto targetFPS = 1000;
 int prevScreenWidth;
 int prevScreenHeight;
 

@@ -57,6 +57,7 @@ public:
     void UnloadTrees()
     {
         UnloadModel(treeModel);
+        std::cout << "Destroyed Tree Models" << std::endl;
     }
 
     void DrawTrees()
@@ -68,6 +69,16 @@ public:
         }
     }
 
+    Tree()
+    {
+        std::cout << "INIT TREE" << std::endl;
+        // LoadTrees();
+    }
+
+    ~Tree()
+    {
+        UnloadTrees();
+    }
 };
 
 Tree trees;

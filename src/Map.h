@@ -1,41 +1,64 @@
 #pragma once
 
-const static auto MAP_SHADER_TYPE = 0; // Can also use MATERIAL_MAP_DIFFUSE from Raylib which == 0
-const static auto GRID_SIZE = 20;
+const static auto MAP_SHADER_TYPE = 0;
+const static auto GRID_SIZE = 100;
 const static auto GROUND_SIZE = 5.0f;
 const static auto CURVE_AMPLITUDE = 15.0f;
 const static auto CURVE_FREQUENCY = 0.5f;
 
-struct GroundTile
+const static auto BOUNDARY_MIN_X = -((GRID_SIZE / 2) * GROUND_SIZE);
+const static auto BOUNDARY_MIN_Z = -((GRID_SIZE / 2) * GROUND_SIZE);
+const static auto BOUNDARY_MAX_X = ((GRID_SIZE / 2) * GROUND_SIZE);
+const static auto BOUNDARY_MAX_Z = ((GRID_SIZE / 2) * GROUND_SIZE);
+
+class SurfaceManager
 {
+public:
     Model model;
-    Vector3 position;
-};
-
-// Generates a curved surface ? Randomized?
-void GenerateCurvedGround(GroundTile grounds[GRID_SIZE][GRID_SIZE], Texture2D grassTexture)
-{
-    for (int x = 0; x < GRID_SIZE; x++)
+    Vector3 positions[GRID_SIZE][GRID_SIZE];
+    void GenerateGroundSurface(Texture2D grassTexture)
     {
-        for (int z = 0; z < GRID_SIZE; z++)
+        Mesh baseMesh = GenMeshPlane(GROUND_SIZE, GROUND_SIZE, 10, 10);
+
+        for (int i = 0; i < baseMesh.vertexCount; i++)
         {
-            float xOffset = (x - GRID_SIZE / 2) * GROUND_SIZE;
-            float zOffset = (z - GRID_SIZE / 2) * GROUND_SIZE;
+            Vector3 *vertex = (Vector3 *)&baseMesh.vertices[i * 3];
+            float height = CURVE_AMPLITUDE * sinf(CURVE_FREQUENCY * (vertex->x + vertex->z));
+            vertex->y = height;
+        }
 
-            Mesh mesh = GenMeshPlane(GROUND_SIZE, GROUND_SIZE, 10, 10);
-            for (int i = 0; i < mesh.vertexCount; i++)
+        model = LoadModelFromMesh(baseMesh);
+        model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = grassTexture;
+
+        for (int x = 0; x < GRID_SIZE; x++)
+        {
+            for (int z = 0; z < GRID_SIZE; z++)
             {
-                Vector3 *vertex = (Vector3 *)&mesh.vertices[i * 3];
-                float height = CURVE_AMPLITUDE * sinf(CURVE_FREQUENCY * (vertex->x + xOffset + vertex->z + zOffset));
-                vertex->y = height;
-                // float xPosition = vertex->x + xOffset;
-                // float zPosition = vertex->y + zOffset;
-                // vertex->y += CURVE_AMPLITUDE * sinf(CURVE_FREQUENCY * (xPosition, zPosition));
+                float xOffset = (x - GRID_SIZE / 2) * GROUND_SIZE;
+                float zOffset = (z - GRID_SIZE / 2) * GROUND_SIZE;
+                positions[x][z] = Vector3{xOffset, 0.0f, zOffset};
             }
+        }
+    }
 
-            grounds[x][z].model = LoadModelFromMesh(mesh);
-            grounds[x][z].model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = grassTexture;
-            grounds[x][z].position = Vector3{xOffset, 0.0f, zOffset};
+    void DrawGround()
+    {
+        // Gets the info for the ground/surface and draws it on the screen
+        for (int x = 0; x < GRID_SIZE; x++)
+        {
+            for (int z = 0; z < GRID_SIZE; z++)
+            {
+                if (WIRE_FLOOR)
+                {
+                    DrawModelWires(model, positions[x][z], 1.0f, WHITE);
+                }
+                else
+                {
+                    DrawModel(model, positions[x][z], 1.0f, WHITE);
+                }
+            }
         }
     }
 };
+
+SurfaceManager surfaceManager;
