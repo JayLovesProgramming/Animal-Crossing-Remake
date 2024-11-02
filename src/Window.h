@@ -73,9 +73,9 @@ void InitGameWindowIcon() // Inits the window icon and sets it
     SetWindowIcon(windowIcon);                                       // Sets the window icon
 };
 
-void checkForVSync(int currentMonitor)
+void checkForVSync()
 {
-    int currentMonitorRefreshRate = GetMonitorRefreshRate(currentMonitor);
+    int currentMonitorRefreshRate = GetMonitorRefreshRate(GetCurrentMonitor());
 
     if (targetFPS > currentMonitorRefreshRate)
     {
@@ -94,11 +94,8 @@ void SetWindowFlags()
     InitGameWindowIcon(); // Init a window icon
     // Set some flags for the window
     SetWindowState(FLAG_WINDOW_RESIZABLE); // Makes the window resizeable
-    int currentMonitor = GetCurrentMonitor();
     SetWindowMonitor(0); // Sets the window to your primary application. To be tested
-
-    checkForVSync(currentMonitor);
-
+    checkForVSync();
     SetWindowState(FLAG_WINDOW_ALWAYS_RUN); // Will run even if minimised
     // SetWindowState(FLAG_WINDOW_TRANSPARENT);
     HideCursor();

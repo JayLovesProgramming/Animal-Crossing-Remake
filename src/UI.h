@@ -62,16 +62,16 @@ public:
             Vector2 iconPosition = {UIManager::boxPosition.x + UIManager::iconOffset.x, UIManager::boxPosition.y + UIManager::boxSize.y / 2};
 
             DrawCircle(
-                iconPosition.x, 
-                iconPosition.y, 
+                static_cast<int>(iconPosition.x), 
+                static_cast<int>(iconPosition.y), 
                 10.0f, 
                 Fade(WHITE, alpha)
             );
 
-            DrawText("E", iconPosition.x - 6, iconPosition.y - 10, 20, Fade(BLACK, alpha));
+            DrawText("E", static_cast<int>(iconPosition.x - 6), static_cast<int>(iconPosition.y - 10), 20, Fade(BLACK, alpha));
 
             Vector2 textPosition = {iconPosition.x + 30, iconPosition.y - 10};
-            DrawText(UIManager::promptText, textPosition.x, textPosition.y, 20, Fade(WHITE, alpha));
+            DrawText(UIManager::promptText, static_cast<int>(textPosition.x), static_cast<int>(textPosition.y), 20, Fade(WHITE, alpha));
         }
     };
 

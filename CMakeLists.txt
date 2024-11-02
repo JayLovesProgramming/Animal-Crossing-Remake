@@ -15,3 +15,5 @@ if (WIN32)
 elseif (UNIX)
     target_link_libraries(MyExecutable C:/Users/jayxw/Desktop/AnimalCrossing/dependencies/raylib/lib/libraylib.a m pthread dl rt)
 endif()
+
+target_compile_definitions(MyExecutable PRIVATE _CRT_SECURE_NO_WARNINGS)

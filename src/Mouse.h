@@ -7,18 +7,10 @@ class MouseManager
 public:
     void UpdateMousePosition()
     {
-        Vector2 mousePosition = GetMousePosition();
+        Vector2 windowSize = { static_cast<float>(GetScreenWidth()), static_cast<float>(GetScreenHeight()) };
+        Vector2 centerPosition = { windowSize.x / 2, windowSize.y / 2 };
 
-        if (GetMouseX() < 1)
-            SetMousePosition(1, GetMouseY());
-        if (GetMouseX() >= GetScreenWidth() - 1)
-            SetMousePosition(GetScreenWidth() - 2, GetMouseY());
-        if (GetMouseY() < 1)
-            SetMousePosition(GetMouseX(), 1);
-        if (GetMouseY() >= GetScreenHeight() - 1)
-            SetMousePosition(GetMouseX(), GetScreenHeight() - 2);
-
-        SetMousePosition(mousePosition.x, mousePosition.y); // Update cursor position
+        SetMousePosition(static_cast<int>(centerPosition.x), static_cast<int>(centerPosition.y));
     }
 };
 
