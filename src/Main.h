@@ -10,7 +10,7 @@
 #include <sys/stat.h>
 #include <assert.h>
 
-#include "Monitor.h"
+#include "Window.h"
 #include "Camera.h"
 #include "Flower.h"
 #include "Grass.h"
@@ -21,11 +21,5 @@
 #include "Character.h"
 #include "Map.h"
 
-Model ground;
 Vector3 characterPosition = {0.0f, 1.0f, 0.0f};
-
-struct GroundTile
-{
-    Model model;
-    Vector3 position;
-};
+GroundTile grounds[GRID_SIZE][GRID_SIZE];

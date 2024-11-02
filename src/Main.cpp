@@ -1,91 +1,62 @@
 // Main.cpp
 #include "Main.h"
 
-// Generates a curved surface ? Randomized?
-void GenerateCurvedGround(GroundTile grounds[GRID_SIZE][GRID_SIZE], Texture2D grassTexture)
-{
-    for (int x = 0; x < GRID_SIZE; x++)
-    {
-        for (int z = 0; z < GRID_SIZE; z++)
-        {
-            float xOffset = (x - GRID_SIZE / 2) * GROUND_SIZE;
-            float zOffset = (z - GRID_SIZE / 2) * GROUND_SIZE;
-
-            Mesh mesh = GenMeshPlane(GROUND_SIZE, GROUND_SIZE, 10, 10);
-            for (int i = 0; i < mesh.vertexCount; i++)
-            {
-                Vector3 *vertex = (Vector3 *)&mesh.vertices[i * 3];
-                float height = CURVE_AMPLITUDE * sinf(CURVE_FREQUENCY * (vertex->x + xOffset + vertex->z + zOffset));
-                vertex->y = height;
-                // float xPosition = vertex->x + xOffset;
-                // float zPosition = vertex->y + zOffset;
-                // vertex->y += CURVE_AMPLITUDE * sinf(CURVE_FREQUENCY * (xPosition, zPosition));
-            }
-
-            grounds[x][z].model = LoadModelFromMesh(mesh);
-            grounds[x][z].model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = grassTexture;
-            grounds[x][z].position = Vector3{xOffset, 0.0f, zOffset};
-        }
-    }
-};
-
-// Ends the drawing loop and draws some other things outside of the main game
+// Ends the drawing loop and draws some other things outside of the main game draw
 void EndDrawingLoop()
 {
-    EndBlendMode();
-    EndMode3D();
-    DrawText(TextFormat("FPS: %i", GetFPS()), screenWidth - 220, screenHeight - 100, 30, GREEN);
+    EndMode3D(); // End the 3D mode so we can then draw other UI on top
 
-    uiManager.DrawShakeTreePrompt(true, 250.0f);
+    DrawText(TextFormat("FPS: %i", GetFPS()), screenWidth - 220, screenHeight - 100, 30, GREEN); // Draws the current FPS
 
-    EndDrawing();
+    uiManager.DrawShakeTreePrompt(true, 250.0f); // Draws some simple UI for shaking the tree
+
+    EndDrawing();   // Ends the canvas drawing and swap buffers
+    EndBlendMode(); // Used to end the blending mode - blending modes are used to control how colours and transparency are handled when drawing shapes, textures and other graphical elements on top of each other
 }
 
-bool PressedExit()
-{
-    return IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_BACKSPACE);
-}
-
-void InitGameWindowIcon()
-{
-    Image windowIcon = LoadImage("../src/Assets/Textures/icon.png");
-    SetWindowIcon(windowIcon);
-};
-
+// Initalizes the game
 void InitGame()
 {
-    SetWindowState(FLAG_WINDOW_RESIZABLE);
-    InitWindow(screenWidth, screenHeight, "Animal Crossing - Dev Build");
+    uiManager.LoadUIConfig(); // Loads the UI config when the game initalizes TODO: Init this in UI.h
 
-    uiManager.LoadUIConfig();
+    InitWindow(screenWidth, screenHeight, "Animal Crossing - Dev Build"); // Init a window with a screen width, height and window name
+    InitGameWindowIcon();                                                 // Init a window icon
 
-    InitGameWindowIcon();
-    SetWindowMonitor(0);
-    SetWindowState(FLAG_VSYNC_HINT);
-    SetWindowState(FLAG_WINDOW_ALWAYS_RUN);
+    // Set some flags for the window
+    SetWindowState(FLAG_WINDOW_RESIZABLE);  // Makes the window resizeable
+    SetWindowMonitor(0);                    // Sets the window to your primary application. To be tested
+    SetWindowState(FLAG_VSYNC_HINT);        // Enables V-Sync
+    SetWindowState(FLAG_WINDOW_ALWAYS_RUN); // Will run even if minimised
     SetWindowState(FLAG_WINDOW_TRANSPARENT);
     SetConfigFlags(FLAG_MSAA_4X_HINT);
-    SetTargetFPS(30);
-    SetExitKey(0);
-    characterCamera.InitCamera();
-    trees.LoadTrees();
+    SetTargetFPS(30); // Sets the TARGET FPS
+    SetExitKey(0);    // Removes all defaults for Exit key so I can create my own.
+
+    characterCamera.InitCamera(); // Init the camera for the character TODO: Init this in the Camera.h
+
+    trees.LoadTrees();    // Init and load the trees for the map TODO: Init and load this in Tree.h
+    flower.LoadFLowers(); // Init and load the flowers TOOD: Init and load this in Flower.h
 }
 
+// The main game draw loop. This draws everything you see on the screen
 void DrawLoop(Vector3 characterPosition, GroundTile grounds[GRID_SIZE][GRID_SIZE])
 {
+    // Begin the drawing, 3D mode and blend mode
     BeginDrawing();
-    ClearBackground(BLACK);
     BeginMode3D(characterCamera.camera);
     BeginBlendMode(BLEND_ALPHA);
 
-    flower.DrawFlowerS();
+    ClearBackground(BLACK); // Clears the background every frame
 
-    trees.DrawTrees();
+    flower.DrawFlowers(); // Draws the flowers on the map
 
-    uiManager.LiveUpdateUI();
+    trees.DrawTrees(); // Draws the trees on the map
 
-    DrawCube(characterPosition, 1.0f, 2.0f, 1.0f, PINK);
+    uiManager.LiveUpdateUI(); // Checks if the UI txt file gets updated and then updates it if it needs to
 
+    DrawCube(characterPosition, 1.0f, 2.0f, 1.0f, PINK); // Draw a pink cube for the character. TODO: Replace with a actual Model
+
+    // Gets the info for the ground/surface and draws it on the screen
     for (int x = 0; x < GRID_SIZE; x++)
     {
         for (int z = 0; z < GRID_SIZE; z++)
@@ -103,12 +74,15 @@ void DrawLoop(Vector3 characterPosition, GroundTile grounds[GRID_SIZE][GRID_SIZE
     EndDrawingLoop();
 }
 
+// Unloads everything when we destroy the window
 void UnloadEverything(GroundTile grounds[GRID_SIZE][GRID_SIZE])
 {
-    UnloadModel(flower.flowerModel);
-    UnloadModel(ground);
-    trees.UnloadTrees();
+    UnloadModel(flower.flowerModel); // TODO: Move this to Flower.h and make it execute as a destructor
 
+    trees.UnloadTrees(); // TODO: Move this to Tree.h and make it execute as a destructor
+
+    // TODO: Ensure the ground is unloaded properly
+    // Unload the ground
     for (int x = 0; x < GRID_SIZE; x++)
     {
         for (int z = 0; z < GRID_SIZE; z++)
@@ -117,34 +91,30 @@ void UnloadEverything(GroundTile grounds[GRID_SIZE][GRID_SIZE])
         }
     }
 
-    CloseWindow();
+    CloseWindow(); // Finally close the window
 }
 
 int main(void)
 {
-    InitGame();
-    Grass grass;
-    Texture2D grassTexture = grass.grassTexture;
+    InitGame(); // A main function to initalize all the shit we need
 
-    flower.LoadFLowers();
-    flower.GenerateRandomFlowers(25, 50.0f, 50.0f);
-
-    GroundTile grounds[GRID_SIZE][GRID_SIZE];
-    GenerateCurvedGround(grounds, grassTexture);
+    Grass grass;                                       // TODO: Fix this. Move it from here
+    GenerateCurvedGround(grounds, grass.grassTexture); // Generates the surfaces planes
 
     while (!WindowShouldClose())
     {
 
+        DrawLoop(characterPosition, grounds); // Main game draw loop
         gameControls.UpdateControls(&characterPosition, characterSpeed);
         characterCamera.UpdateCamera(&characterPosition);
-        DrawLoop(characterPosition, grounds);
-
-        if (PressedExit())
+        
+        if (PressedExit()) // Check for a specific key and exit the game
         {
             break;
         }
     }
-
-    UnloadEverything(grounds);
+    UnloadEverything(grounds); // TODO: Create a game instance for the ENTIRE game and make use of the destructors
     return 0;
 }
+
+// TODO: Keep the Main less than 150 lines

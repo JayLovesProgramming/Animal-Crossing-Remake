@@ -26,10 +26,11 @@ public:
         srand(static_cast<unsigned>(time(0)));
         flowerModel = LoadModel("../src/Assets/Models/plant/scene.gltf");
         assert(flowerModel.meshCount != 0);
+        Flower::GenerateRandomFlowers(25, 50.0f, 50.0f);
         // Shader defaultShader = LoadShader(NULL, NULL);
         // flowerModel.materials[0].shader = defaultShader;
     }
-    void DrawFlowerS()
+    void DrawFlowers()
     {
         if (DEBUG_FLOWERS)
         {

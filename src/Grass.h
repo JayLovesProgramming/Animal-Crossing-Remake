@@ -9,20 +9,21 @@
 class Grass
 {
 public:
-    Texture2D grassTexture; 
+    Texture2D grassTexture; // Define a texture var for the grassTexture
 
     Grass()
     {
-        LoadGrassTexture();
+        LoadGrassTexture(); // Load the grass texture on init
     }
 
-    void LoadGrassTexture();
+    void LoadGrassTexture(); // Declare the func
 
-    void DEBUG_GrassTexture(bool initial);
+    void DEBUG_GrassTexture(bool initial); // Declare the func
     
     ~Grass()
     {
-        UnloadTexture(grassTexture);
-        std::cout << "Destroyed Grass Texture" << std::endl;
+        UnloadTexture(grassTexture); // Unload the texture on destroy
+        std::cout << "Destroyed Grass Texture" << std::endl; // Let us know when it's been destroyed
     }
 };
+
