@@ -19,4 +19,10 @@ public:
     void LoadGrassTexture();
 
     void DEBUG_GrassTexture(bool initial);
+    
+    ~Grass()
+    {
+        UnloadTexture(grassTexture);
+        std::cout << "Destroyed Grass Texture" << std::endl;
+    }
 };

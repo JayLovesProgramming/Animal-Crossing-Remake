@@ -107,7 +107,6 @@ void UnloadEverything(GroundTile grounds[GRID_SIZE][GRID_SIZE])
 {
     UnloadModel(flower.flowerModel);
     UnloadModel(ground);
-    UnloadTexture(grassTexture);
     trees.UnloadTrees();
 
     for (int x = 0; x < GRID_SIZE; x++)

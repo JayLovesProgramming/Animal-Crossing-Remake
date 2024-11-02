@@ -21,8 +21,6 @@
 #include "Character.h"
 #include "Map.h"
 
-
-Texture2D grassTexture;
 Model ground;
 Vector3 characterPosition = {0.0f, 1.0f, 0.0f};
 
