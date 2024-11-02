@@ -23,96 +23,91 @@ public:
         Vector3 forwardDirection = {
             sinf(DEG2RAD * characterCamera.cameraRotationAngle),
             0.0f,
-            cosf(DEG2RAD * characterCamera.cameraRotationAngle)
-        };
+            cosf(DEG2RAD * characterCamera.cameraRotationAngle)};
+
+        Vector3 rightDirection = {
+            cosf(DEG2RAD * characterCamera.cameraRotationAngle),
+            0.0f,
+            -sinf(DEG2RAD * characterCamera.cameraRotationAngle)};
 
         float forwardLength = sqrtf(forwardDirection.x * forwardDirection.x + forwardDirection.z * forwardDirection.z);
         forwardDirection.x /= forwardLength;
         forwardDirection.z /= forwardLength;
 
-        Vector3 rightDirection = {
-            cosf(DEG2RAD * characterCamera.cameraRotationAngle),
-            0.0f,
-            -sinf(DEG2RAD * characterCamera.cameraRotationAngle)
-        };
-        
         float rightLength = sqrtf(rightDirection.x * rightDirection.x + rightDirection.z * rightDirection.z);
-        rightDirection.x /= forwardLength;
-        rightDirection.z /= forwardLength;
+        rightDirection.x /= rightLength;
+        rightDirection.z /= rightLength;
+
+        Vector3 newPosition = *characterPosition;
+
+        // Store initial position for collision checking
+        Vector3 initialPosition = *characterPosition;
 
         // Forward
         if (IsKeyDown(KEY_W))
         {
-            if (characterPosition->z + forwardDirection.z * deltaSpeed <= mapMaxZ)
-            {
-                characterPosition->z -= forwardDirection.z * deltaSpeed;
-                animFrameCounter++;
-            }
-            // TODO: Fix this collision with trees
-            if (characterPosition->x + forwardDirection.x * deltaSpeed <= mapMaxX)
-            {
-                characterPosition->x -= forwardDirection.x * deltaSpeed;
-            }
+            newPosition.z -= forwardDirection.z * deltaSpeed;
+            newPosition.x -= forwardDirection.x * deltaSpeed;
         }
 
         // Backward
         if (IsKeyDown(KEY_S))
         {
-            if (characterPosition->z - forwardDirection.z * deltaSpeed >= mapMinZ)
-            {
-                characterPosition->z += forwardDirection.z * deltaSpeed;
-                animFrameCounter++;
-            }
-            // TODO: Fix this collision with trees
-            if (characterPosition->x - forwardDirection.x * deltaSpeed >= mapMinX)
-            {
-                characterPosition->x += forwardDirection.x * deltaSpeed;
-            }
+            newPosition.z += forwardDirection.z * deltaSpeed;
+            newPosition.x += forwardDirection.x * deltaSpeed;
         }
 
         // Left
-         if (IsKeyDown(KEY_A))
+        if (IsKeyDown(KEY_A))
         {
-            if (characterPosition->x + rightDirection.x * deltaSpeed >= mapMinX)
-            {
-                characterPosition->x -= rightDirection.x * deltaSpeed;
-                animFrameCounter++;
-            }
-            if (characterPosition->z + rightDirection.z * deltaSpeed >= mapMinZ)
-            {
-                characterPosition->z -= rightDirection.z * deltaSpeed;
-            }
+            newPosition.x -= rightDirection.x * deltaSpeed;
+            newPosition.z -= rightDirection.z * deltaSpeed;
         }
 
         // Right
         if (IsKeyDown(KEY_D))
         {
-            if (characterPosition->x - rightDirection.x * deltaSpeed >= mapMinX)
-            {
-                characterPosition->x += rightDirection.x * deltaSpeed;
-                animFrameCounter++;
-            }
-            if (characterPosition->z - rightDirection.z * deltaSpeed >= mapMinZ)
-            {
-                characterPosition->z += rightDirection.z * deltaSpeed;
-            }
+            newPosition.x += rightDirection.x * deltaSpeed;
+            newPosition.z += rightDirection.z * deltaSpeed;
         }
-        
-        for (int i = 0; i < trees.treePositions.size(); i++)
+
+        // Bound checks
+        if (newPosition.x < mapMinX)
+            newPosition.x = mapMinX;
+        if (newPosition.x > mapMaxX)
+            newPosition.x = mapMaxX;
+        if (newPosition.z < mapMinZ)
+            newPosition.z = mapMinZ;
+        if (newPosition.z > mapMaxZ)
+            newPosition.z = mapMaxZ;
+
+        // Check for collisions with trees
+        bool canMove = true;
+        for (const Vector3 &treePos : trees.treePositions)
         {
-            const Vector3 &treePos = trees.treePositions[i];
-            float distance = sqrtf(powf(characterPosition->x - treePos.x, 2) + powf(characterPosition->y - treePos.y, 2) + powf(characterPosition->z - treePos.z, 2));
+            float distance = sqrtf(powf(newPosition.x - treePos.x, 2) + powf(newPosition.y - treePos.y, 2) + powf(newPosition.z - treePos.z, 2));
             if (distance < trees.treeCollisionRadius)
             {
-                if (IsKeyDown(KEY_W) && characterPosition->z + deltaSpeed <= mapMaxZ)
-                    characterPosition->z += deltaSpeed;
-                if (IsKeyDown(KEY_S) && characterPosition->z - deltaSpeed >= mapMinZ)
-                    characterPosition->z -= deltaSpeed;
-                if (IsKeyDown(KEY_A) && characterPosition->x + deltaSpeed <= mapMaxX)
-                    characterPosition->x += deltaSpeed;
-                if (IsKeyDown(KEY_D) && characterPosition->x - deltaSpeed >= mapMinX)
-                    characterPosition->x -= deltaSpeed;
+                canMove = false;
+
+                // Check if the character is trying to move into the tree
+                if (IsKeyDown(KEY_W) || IsKeyDown(KEY_S))
+                {
+                    newPosition.z = initialPosition.z; // Reset Z position
+                }
+                if (IsKeyDown(KEY_A) || IsKeyDown(KEY_D))
+                {
+                    newPosition.x = initialPosition.x; // Reset X position
+                }
+                break; // No need to check further trees
             }
+        }
+
+        // Apply movement if no collision detected
+        if (canMove)
+        {
+            *characterPosition = newPosition;
+            animFrameCounter++;
         }
     }
 };

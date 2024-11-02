@@ -20,20 +20,9 @@ void InitGame()
     uiManager.LoadUIConfig(); // Loads the UI config when the game initalizes TODO: Init this in UI.h
 
     InitWindow(screenWidth, screenHeight, "Animal Crossing - Dev Build"); // Init a window with a screen width, height and window name
-    InitGameWindowIcon();                                                 // Init a window icon
-
-    // Set some flags for the window
-    SetWindowState(FLAG_WINDOW_RESIZABLE);  // Makes the window resizeable
-    SetWindowMonitor(0);                    // Sets the window to your primary application. To be tested
-    SetWindowState(FLAG_VSYNC_HINT);        // Enables V-Sync
-    SetWindowState(FLAG_WINDOW_ALWAYS_RUN); // Will run even if minimised
-    SetWindowState(FLAG_WINDOW_TRANSPARENT);
-    SetConfigFlags(FLAG_MSAA_4X_HINT);
-    SetTargetFPS(30); // Sets the TARGET FPS
-    SetExitKey(0);    // Removes all defaults for Exit key so I can create my own.
+    SetWindowFlags();
 
     characterCamera.InitCamera(); // Init the camera for the character TODO: Init this in the Camera.h
-
     trees.LoadTrees();    // Init and load the trees for the map TODO: Init and load this in Tree.h
     flower.LoadFLowers(); // Init and load the flowers TOOD: Init and load this in Flower.h
 }

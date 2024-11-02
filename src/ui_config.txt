@@ -1,7 +1,7 @@
-boxPositionX=400
-boxPositionY=650
-boxSizeX=300
-boxSizeY=50
-iconOffsetX=40
-iconOffsetY=25
+boxPositionX=600.0
+boxPositionY=650.0
+boxSizeX=300.0
+boxSizeY=50.0
+iconOffsetX=40.0
+iconOffsetY=25.0
 promptText=Hold to Shake Tree

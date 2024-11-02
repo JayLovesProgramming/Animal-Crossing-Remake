@@ -14,9 +14,8 @@ public:
     Vector2 boxSize;
     Vector2 iconOffset;
     char promptText[256];
-
     time_t lastModifiedTime;
-    const char *configFilePath = "C:/Users/jayxw/Desktop/AnimalCrossing/src/ui_config.txt";
+    constexpr static char *configFilePath = "C:/Users/jayxw/Desktop/AnimalCrossing/src/ui_config.txt";
 
     time_t GetLastModificationTime()
     {
@@ -50,10 +49,25 @@ public:
     {
         if (isNearTree)
         {
-            DrawRectangleRounded(Rectangle{UIManager::boxPosition.x, UIManager::boxPosition.y, UIManager::boxSize.x, UIManager::boxSize.y}, 0.2, 10, Fade(DARKGRAY, alpha));
+            DrawRectangleRounded(
+                Rectangle
+                {UIManager::boxPosition.x, 
+                UIManager::boxPosition.y, 
+                UIManager::boxSize.x,
+                UIManager::boxSize.y}, 
+                0.2f, 
+                10, 
+                Fade(DARKGRAY, alpha));
 
             Vector2 iconPosition = {UIManager::boxPosition.x + UIManager::iconOffset.x, UIManager::boxPosition.y + UIManager::boxSize.y / 2};
-            DrawCircle(iconPosition.x, iconPosition.y, 10, Fade(WHITE, alpha));
+
+            DrawCircle(
+                iconPosition.x, 
+                iconPosition.y, 
+                10.0f, 
+                Fade(WHITE, alpha)
+            );
+
             DrawText("E", iconPosition.x - 6, iconPosition.y - 10, 20, Fade(BLACK, alpha));
 
             Vector2 textPosition = {iconPosition.x + 30, iconPosition.y - 10};
