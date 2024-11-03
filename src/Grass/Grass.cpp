@@ -1,5 +1,5 @@
-// Grass.cpp
-#include "Grass.h"
+// Grass/Grass.cpp
+#include "Grass/Grass.h"
 
 void Grass::DEBUG_GrassTexture(bool initial)
 {

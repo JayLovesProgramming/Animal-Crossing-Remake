@@ -1,10 +1,10 @@
-// Grass.h
+// Grass/Grass.h
 #pragma once
 
 #include <iostream>
 #include "raylib.h"
 #include "assert.h"
-#include "Debug.h"
+#include "Debug/Debug.h"
 
 class Grass
 {

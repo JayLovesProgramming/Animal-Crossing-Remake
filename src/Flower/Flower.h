@@ -1,8 +1,8 @@
-// Flower.h
+// Flower/Flower.h
 #pragma once
 
 #include "raylib.h"
-#include "Debug.h"
+#include "Debug/Debug.h"
 #include <iostream>
 #include <vector>
 #include <cstdlib>

@@ -1,17 +1,15 @@
-// Controls.h
+// Controls/Controls.h
 #pragma once
 
 #include <cmath>
 #include "raylib.h"
-#include "Camera.h"
-#include "Map.h"
+#include "Camera/Camera.h"
+#include "Map/Map.h"
 
 class GameControls
 {
 public:
     int animFrameCounter = 0;
-
-
 
     void UpdateControls(Vector3 *characterPosition, float characterSpeed)
     {

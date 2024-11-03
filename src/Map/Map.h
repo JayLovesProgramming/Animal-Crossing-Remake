@@ -1,8 +1,12 @@
+// Map/Map.h
 #pragma once
 
+#include "Debug/Debug.h"
+#include "raylib.h"
+
 const static auto MAP_SHADER_TYPE = 0;
-const static auto GRID_SIZE = 100;
-const static auto GROUND_SIZE = 5.0f;
+const static auto GRID_SIZE = 25;
+const static auto GROUND_SIZE = 2.0f;
 const static auto CURVE_AMPLITUDE = 15.0f;
 const static auto CURVE_FREQUENCY = 0.5f;
 
@@ -16,16 +20,10 @@ class SurfaceManager
 public:
     Model model;
     Vector3 positions[GRID_SIZE][GRID_SIZE];
+    
     void GenerateGroundSurface(Texture2D grassTexture)
     {
         Mesh baseMesh = GenMeshPlane(GROUND_SIZE, GROUND_SIZE, 10, 10);
-
-        for (int i = 0; i < baseMesh.vertexCount; i++)
-        {
-            Vector3 *vertex = (Vector3 *)&baseMesh.vertices[i * 3];
-            float height = CURVE_AMPLITUDE * sinf(CURVE_FREQUENCY * (vertex->x + vertex->z));
-            vertex->y = height;
-        }
 
         model = LoadModelFromMesh(baseMesh);
         model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = grassTexture;

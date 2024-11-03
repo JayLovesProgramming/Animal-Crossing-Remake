@@ -1,4 +1,4 @@
-// Camera.h
+// Camera/Camera.h
 #pragma once
 
 #include "raylib.h"

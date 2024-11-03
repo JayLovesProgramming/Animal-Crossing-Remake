@@ -1,4 +1,4 @@
-// Debug.h
+// Debug/Debug.h
 #pragma once
 
 constexpr static auto WIRE_FLOOR = false;

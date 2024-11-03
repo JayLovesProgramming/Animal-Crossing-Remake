@@ -8,7 +8,7 @@ void EndDrawingLoop()
     // std::cout << screenWidth << std::endl;
     DrawText(TextFormat("FPS: %i", GetFPS()), screenWidth - 220, screenHeight - 100, 30, GREEN); // Draws the current FPS
 
-    uiManager.DrawShakeTreePrompt(true, 250.0f); // Draws some simple UI for shaking the tree
+    // uiManager.DrawShakeTreePrompt(true, 250.0f); // Draws some simple UI for shaking the tree
 
     EndDrawing();   // Ends the canvas drawing and swap buffers
     EndBlendMode(); // Used to end the blending mode - blending modes are used to control how colours and transparency are handled when drawing shapes, textures and other graphical elements on top of each other
@@ -18,10 +18,10 @@ void EndDrawingLoop()
 void InitGame()
 {
     SetTraceLogLevel(LOG_WARNING);
-    uiManager.LoadUIConfig(); // Loads the UI config when the game initalizes TODO: Init this in UI.h
+    // uiManager.LoadUIConfig(); // Loads the UI config when the game initalizes TODO: Init this in UI.h
 
     InitWindow(screenWidth, screenHeight, "Animal Crossing - Dev Build"); // Init a window with a screen width, height and window name
-    SetWindowFlags();
+    WindowManager::SetWindowFlags();
 
     characterCamera.InitCamera(); // Init the camera for the character TODO: Init this in the Camera.h
     trees.LoadTrees();    // Init and load the trees for the map TODO: Init and load this in Tree.h
@@ -44,27 +44,11 @@ void DrawLoop(Vector3 characterPosition, SurfaceManager grounds[GRID_SIZE][GRID_
 
     surfaceManager.DrawGround();
 
-    uiManager.LiveUpdateUI(); // Checks if the UI txt file gets updated and then updates it if it needs to
+    // uiManager.LiveUpdateUI(); // Checks if the UI txt file gets updated and then updates it if it needs to
 
     DrawCube(characterPosition, 1.0f, 2.0f, 1.0f, PINK); // Draw a pink cube for the character. TODO: Replace with a actual Model
 
     EndDrawingLoop();
-}
-
-// Unloads everything when we destroy the window
-void UnloadEverything(SurfaceManager grounds[GRID_SIZE][GRID_SIZE])
-{
-    // TODO: Ensure the ground is unloaded properly
-    // Unload the ground
-    for (int x = 0; x < GRID_SIZE; x++)
-    {
-        for (int z = 0; z < GRID_SIZE; z++)
-        {
-            UnloadModel(grounds[x][z].model);
-        }
-    }
-
-    CloseWindow(); // Finally close the window
 }
 
 int main(void)
@@ -76,18 +60,17 @@ int main(void)
 
     while (!WindowShouldClose())
     {
-        mouseManager.UpdateMousePosition();
-        HandleWindow();
+        MouseManager::UpdateMousePosition();
+        WindowManager::HandleWindow();
         DrawLoop(characterPosition, grounds); // Main game draw loop
         gameControls.UpdateControls(&characterPosition, characterSpeed);
         characterCamera.UpdateCamera(&characterPosition);
 
-        if (PressedExit()) // Check for a specific key and exit the game
+        if (WindowManager::PressedExit()) // Check for a specific key and exit the game
         {
             break;
         }
     }
-    UnloadEverything(grounds); // TODO: Create a game instance for the ENTIRE game and make use of the destructors
     return 0;
 }
 

@@ -7,20 +7,17 @@
 #include <cmath> 
 #include <random> 
 #include <string> 
-#include <sys/stat.h>
 #include <assert.h>
 
-#include "Window.h"
-#include "Camera.h"
-#include "Flower.h"
-#include "Grass.h"
-#include "Tree.h"
-#include "Controls.h"
-#include "UI.h"
-#include "Debug.h"
-#include "Character.h"
-#include "Map.h"
-#include "Mouse.h"
-
-Vector3 characterPosition = {0.0f, 1.0f, 0.0f};
-SurfaceManager grounds[GRID_SIZE][GRID_SIZE];
+#include "Window/Window.cpp"
+#include "Camera/Camera.cpp"
+#include "Flower/Flower.cpp"
+#include "Tree/Tree.cpp"
+#include "Controls/Mouse.cpp"
+#include "Controls/Controls.cpp"
+#include "Debug/Debug.cpp"
+#include "Character/Character.cpp"
+#include "Map/Map.cpp"
+#include "GameState/GameState.cpp"
+#include "UI/UI.cpp"
+#include "Grass/Grass.cpp"

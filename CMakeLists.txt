@@ -7,7 +7,7 @@ include_directories(C:/Users/jayxw/Desktop/AnimalCrossing/dependencies/imgui)
 include_directories(C:/Users/jayxw/Desktop/AnimalCrossing/dependencies/rlImGui)
 
 # Add executable
-add_executable(MyExecutable src/Main.cpp src/Grass.cpp)
+add_executable(MyExecutable src/Main.cpp)
 
 # Link the libraries
 if (WIN32)
