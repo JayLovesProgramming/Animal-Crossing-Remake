@@ -5,13 +5,13 @@
 void EndDrawingLoop()
 {
     EndMode3D(); // End the 3D mode so we can then draw other UI on top
+    
     // std::cout << screenWidth << std::endl;
     DrawText(TextFormat("FPS: %i", GetFPS()), screenWidth - 220, screenHeight - 100, 30, GREEN); // Draws the current FPS
 
     // uiManager.DrawShakeTreePrompt(true, 250.0f); // Draws some simple UI for shaking the tree
 
     EndDrawing();   // Ends the canvas drawing and swap buffers
-    EndBlendMode(); // Used to end the blending mode - blending modes are used to control how colours and transparency are handled when drawing shapes, textures and other graphical elements on top of each other
 }
 
 // Initalizes the game
@@ -34,7 +34,6 @@ void DrawLoop(Vector3 characterPosition, SurfaceManager grounds[GRID_SIZE][GRID_
     // Begin the drawing, 3D mode and blend mode
     BeginDrawing();
     BeginMode3D(characterCamera.camera);
-    BeginBlendMode(BLEND_ALPHA);
 
     ClearBackground(BLACK); // Clears the background every frame
 
