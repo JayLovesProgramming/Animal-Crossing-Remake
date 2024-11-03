@@ -23,13 +23,13 @@ void InitGame()
     InitWindow(screenWidth, screenHeight, "Animal Crossing - Dev Build"); // Init a window with a screen width, height and window name
     WindowManager::SetWindowFlags();
 
-    characterCamera.InitCamera(); // Init the camera for the character TODO: Init this in the Camera.h
-
+    CharacterCamera::InitCamera(); // Init the camera for the character TODO: Init this in the Camera.h
     
     Tree::LoadTrees();    // Init and load the trees for the map TODO: Init and load this in Tree.h
 
-
     Flower::LoadFlowers(); // Init and load the flowers TOOD: Init and load this in Flower.h
+
+    Grass::LoadGrassTexture();
 }
 
 // The main game draw loop. This draws everything you see on the screen
@@ -37,17 +37,17 @@ void DrawLoop(Vector3 characterPosition, SurfaceManager grounds[GRID_SIZE][GRID_
 {
     // Begin the drawing, 3D mode and blend mode
     BeginDrawing();
-    BeginMode3D(characterCamera.camera);
+    BeginMode3D(CharacterCamera::camera);
 
     ClearBackground(BLACK); // Clears the background every frame
     
-    characterPosition.y = surfaceManager.GetHeightAtPosition(characterPosition.x, characterPosition.z);
+    characterPosition.y = SurfaceManager::GetHeightAtPosition(characterPosition.x, characterPosition.z);
 
     Flower::DrawFlowers(); // Draws the flowers on the map
 
     Tree::DrawTrees(); // Draws the trees on the map
 
-    surfaceManager.DrawGround();
+    SurfaceManager::DrawGround();
 
     // uiManager.LiveUpdateUI(); // Checks if the UI txt file gets updated and then updates it if it needs to
     DrawCube(characterPosition, 1.0f, 2.0f, 1.0f, PINK); // Draw a pink cube for the character. TODO: Replace with a actual Model
@@ -60,15 +60,17 @@ int main(void)
     InitGame(); // A main function to initalize all the shit we need
 
     Grass grass;                
-    surfaceManager.GenerateGroundSurface(grass.grassTexture); // Generates the surfaces planes
+    SurfaceManager::GenerateGroundSurface(grass.grassTexture); // Generates the surfaces planes
 
     while (!WindowShouldClose())
     {
         MouseManager::UpdateMousePosition();
         WindowManager::HandleWindow();
-        DrawLoop(characterPosition, grounds); // Main game draw loop
-        gameControls.UpdateControls(&characterPosition, characterSpeed);
-        characterCamera.UpdateCamera(&characterPosition);
+        DrawLoop(Character::characterPosition, grounds); // Main game draw loop
+
+        GameControls::UpdateControls(&Character::characterPosition, Character::characterSpeed);
+
+        CharacterCamera::UpdateCamera(&Character::characterPosition);
 
         if (WindowManager::PressedExit()) // Check for a specific key and exit the game
         {

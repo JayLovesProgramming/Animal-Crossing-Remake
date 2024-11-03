@@ -8,5 +8,3 @@ class MouseManager
 public:
     static void UpdateMousePosition();
 };
-
-MouseManager mouseManager;

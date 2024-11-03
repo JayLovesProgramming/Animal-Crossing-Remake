@@ -20,18 +20,18 @@ const static auto TEXTURE_REPEAT = 10.0f;
 class SurfaceManager
 {
 public:
-    Model model;
+    static Model model;
 
-       Image noiseImage; // Store the noise image for continuous sampling
-    float curveStrength = 2.0f;
-    float noiseScale = 0.5f;
-    float curvature = 0.001f;
+    static Image noiseImage; // Store the noise image for continuous sampling
+    constexpr static auto curveStrength = 2.0f;
+    constexpr static auto noiseScale = 0.5f;
+    constexpr static auto curvature = 0.001f;
     // Store the heights and noise values seperately
-    float heightMap[GRID_SIZE][GRID_SIZE];
-    float noiseMap[GRID_SIZE][GRID_SIZE];
+     static float heightMap[GRID_SIZE][GRID_SIZE];
+     static float noiseMap[GRID_SIZE][GRID_SIZE];
 
     // Get interpolated noise value at any position
-    float GetNoiseAt(float x, float z)
+    static float GetNoiseAt(float x, float z)
     {
         // Convert the world coords to grid coords
         float gridX = (x - BOUNDARY_MIN_X) / GROUND_SIZE;
@@ -66,7 +66,7 @@ public:
     }
 
     // Get the exact height at any world position
-    float GetHeightAtPosition(float x, float z)
+    static float GetHeightAtPosition(float x, float z)
     {
         // Calculate the base curved height
         float baseHeight = CalculateCurvedHeight(x, z);
@@ -80,7 +80,7 @@ public:
     }
 
     // Calculate the curved height
-    float CalculateCurvedHeight(float x, float z)
+    static float CalculateCurvedHeight(float x, float z)
     {
         float centerX = 0;                                  // Init the center X coord for the curve
         float centerZ = 0;                                  // Init the center Z coord for the curve
@@ -93,7 +93,7 @@ public:
         return -(distanceFromCenter * distanceFromCenter) * curvature; // Curvature effect on height
     }
 
-    void GenerateGroundSurface(Texture2D grassTexture)
+    static void GenerateGroundSurface(Texture2D grassTexture)
     {
         int vertexCount = GRID_SIZE * GRID_SIZE;
         int triangleCount = (GRID_SIZE - 1) * (GRID_SIZE - 1) * 2;
@@ -175,7 +175,7 @@ public:
         SetTextureWrap(model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture, TEXTURE_WRAP_REPEAT);
     };
 
-    void DrawGround()
+    static void DrawGround()
     {
         if (WIRE_FLOOR)
         {
@@ -187,14 +187,19 @@ public:
         }
     };
 
-    ~SurfaceManager()
+    static void UnloadGround()
     {
         UnloadModel(model);
         UnloadImage(noiseImage);
-    };
+        std::cout << "[UNLOADED]: Ground" << std::endl;
+    }
 
 private:
  
 };
 
-SurfaceManager surfaceManager;
+Model SurfaceManager::model;
+Image SurfaceManager::noiseImage;
+float SurfaceManager::heightMap[GRID_SIZE][GRID_SIZE];
+float SurfaceManager::noiseMap[GRID_SIZE][GRID_SIZE];
+SurfaceManager grounds[GRID_SIZE][GRID_SIZE];

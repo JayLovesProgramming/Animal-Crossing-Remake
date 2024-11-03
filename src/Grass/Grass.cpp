@@ -1,28 +1,15 @@
 // Grass/Grass.cpp
 #include "Grass/Grass.h"
 
-void Grass::DEBUG_GrassTexture(bool initial)
-{
-    if (initial)
-    {
-        if (DEBUG_GRASS)
-        {
-            std::cout << "Grass texture loading" << std::endl;
-        }   
-    }
-    else
-    {
-        if (DEBUG_GRASS)
-        {
-            std::cout << "Grass texture loaded successfully" << std::endl;
-        }   
-    }
-}
-
 void Grass::LoadGrassTexture()
 {
-    Grass::DEBUG_GrassTexture(true);                              
     Grass::grassTexture = LoadTexture("../src/Assets/Textures/grass.png");
-    assert(grassTexture.id != 0);      
-    Grass::DEBUG_GrassTexture(false);                                
+    assert(grassTexture.id != 0);
+    std::cout << "[LOADED]: Grass Texture" << std::endl;
 };
+
+void Grass::UnloadGrassTexture()
+{
+    UnloadTexture(grassTexture);                           // Unload the texture on destroy
+    std::cout << "[UNLOADED]: Grass Texture" << std::endl; // Let us know when it's been destroyed
+}

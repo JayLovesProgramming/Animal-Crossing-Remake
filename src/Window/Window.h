@@ -10,12 +10,12 @@ static int prevScreenHeight;
 class WindowManager
 {
 public:
-    bool static PressedExit() // Check if a exit key is pressed. Used to exit and destroy the window
+    static bool PressedExit() // Check if a exit key is pressed. Used to exit and destroy the window
     {
         return IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_BACKSPACE); // ESC or Backspace (Should be debug only but on release remove this check)
     }
 
-    void static ResetValues(bool resetPreviousScreen)
+    static void ResetValues(bool resetPreviousScreen)
     {
         if (resetPreviousScreen)
         {
@@ -29,7 +29,7 @@ public:
         }
     }
 
-    void static HandleAltEnterWindowMode()
+    static void HandleAltEnterWindowMode()
     {
         int monitor = GetCurrentMonitor();
         bool altEnterPressed = (IsKeyPressed(KEY_ENTER) && (IsKeyDown(KEY_LEFT_ALT) || IsKeyDown(KEY_RIGHT_ALT)));
@@ -63,18 +63,18 @@ public:
         }
     }
 
-    void static HandleWindow()
+    static void HandleWindow()
     {
         HandleAltEnterWindowMode();
     }
 
-    void static InitGameWindowIcon() // Inits the window icon and sets it
+    static void InitGameWindowIcon() // Inits the window icon and sets it
     {
         Image windowIcon = LoadImage("../src/Assets/Textures/icon.png"); // Loads the window icon
         SetWindowIcon(windowIcon);                                       // Sets the window icon
     };
 
-    void static checkForVSync()
+    static void CheckForVSync()
     {
         int currentMonitorRefreshRate = GetMonitorRefreshRate(GetCurrentMonitor());
 
@@ -90,13 +90,13 @@ public:
         }
     }
 
-    void static SetWindowFlags()
+    static void SetWindowFlags()
     {
         InitGameWindowIcon(); // Init a window icon
         // Set some flags for the window
         SetWindowState(FLAG_WINDOW_RESIZABLE); // Makes the window resizeable
         SetWindowMonitor(0);                   // Sets the window to your primary application. To be tested
-        checkForVSync();
+        CheckForVSync();
         SetWindowState(FLAG_WINDOW_ALWAYS_RUN); // Will run even if minimised
         // SetWindowState(FLAG_WINDOW_TRANSPARENT);
         HideCursor();
