@@ -9,22 +9,19 @@
 class Tree
 {
 public:
-    Model treeModel;
-    std::vector<Vector3> treePositions;
-    const float treeCollisionRadius = 1.45f;
-    const int numberOfTrees = 1000;
-    const float treeSpacing = 5.0f;
+    static Model treeModel;
+    static std::vector<Vector3> treePositions;
+    static constexpr auto treeCollisionRadius = 1.45f;
+    static constexpr auto numberOfTrees = 0;
+    static constexpr auto treeSpacing = 5.0f;
 
-    Tree(); // Constructor declaration
-    
-    ~Tree(); // Destructor declaration
+    static void LoadTrees();
 
-    void LoadTrees();
+    static void DrawTrees();
 
-    void UnloadTrees();
-
-    void DrawTrees();
+    static void UnloadTrees();
 
 };
 
-Tree trees;
+Model Tree::treeModel;
+std::vector<Vector3> Tree::treePositions;

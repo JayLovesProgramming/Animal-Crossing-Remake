@@ -5,6 +5,7 @@
 #include "raylib.h"
 #include "Camera/Camera.h"
 #include "Map/Map.h"
+#include "Tree/Tree.h"
 
 class GameControls
 {
@@ -78,10 +79,10 @@ public:
 
         // Check for collisions with trees
         bool canMove = true;
-        for (const Vector3 &treePos : trees.treePositions)
+        for (const auto &treePos : Tree::treePositions)
         {
             float distance = sqrtf(powf(newPosition.x - treePos.x, 2) + powf(newPosition.y - treePos.y, 2) + powf(newPosition.z - treePos.z, 2));
-            if (distance < trees.treeCollisionRadius)
+            if (distance < Tree::treeCollisionRadius)
             {
                 canMove = false;
 

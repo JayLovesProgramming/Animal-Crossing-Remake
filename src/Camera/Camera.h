@@ -1,7 +1,7 @@
-// Camera/Camera.h
 #pragma once
 
 #include "raylib.h"
+#include "Map/Map.h"
 
 class CharacterCamera
 {
@@ -27,31 +27,25 @@ public:
             camera.projection = (camera.projection == CAMERA_ORTHOGRAPHIC) ? CAMERA_PERSPECTIVE : CAMERA_ORTHOGRAPHIC;
         }
     }
+
     void UpdateCameraZoom()
     {
-        static float targetCameraDistance = CharacterCamera::cameraDistance;
+        static float targetCameraDistance = cameraDistance;
         float zoomSpeed = 1.5f;
         float minCameraDistance = 10.0f; // Minimum zoom level
         float maxCameraDistance = 20.0f; // Maximum zoom level
         float smoothFactor = 0.1f;       // Adjust this for smoother or faster transitions
 
-        // Get mouse wheel movement
         float mouseWheelMove = GetMouseWheelMove();
 
-        // Update target camera distance based on mouse wheel input
         if (mouseWheelMove != 0)
         {
             targetCameraDistance -= mouseWheelMove * zoomSpeed;
 
-            // Clamp the target camera distance to min and max values
-            if (targetCameraDistance < minCameraDistance)
-                targetCameraDistance = minCameraDistance;
-            if (targetCameraDistance > maxCameraDistance)
-                targetCameraDistance = maxCameraDistance;
+            targetCameraDistance = Clamp(targetCameraDistance, minCameraDistance, maxCameraDistance);
         }
 
-        // Smoothly interpolate the camera distance towards the target distance
-        CharacterCamera::cameraDistance += (targetCameraDistance - CharacterCamera::cameraDistance) * smoothFactor;
+        cameraDistance += (targetCameraDistance - cameraDistance) * smoothFactor;
     }
 
     void UpdateCamera(Vector3 *characterPosition)
@@ -69,11 +63,9 @@ public:
         if (IsKeyDown(KEY_RIGHT))
             rotationInput -= turningModifier;
 
-        rotationInput += (mouseDelta.x < 0) ? turningModifier : (mouseDelta.x > 0) ? -turningModifier
-                                                                                   : 0;
+        rotationInput += (mouseDelta.x < 0) ? turningModifier : (mouseDelta.x > 0) ? -turningModifier : 0;
 
         targetAngle += rotationInput;
-
         cameraRotationAngle += (targetAngle - cameraRotationAngle) * 0.1f;
 
         Vector3 forwardDirection = {
@@ -81,14 +73,19 @@ public:
             0.0f,
             cosf(DEG2RAD * cameraRotationAngle)};
 
-        float forwardLength = (forwardDirection.x * forwardDirection.x) + (forwardDirection.z * forwardDirection.z);
-        forwardDirection.x /= forwardLength;
-        forwardDirection.z /= forwardLength;
+        float forwardLength = Vector3Length(forwardDirection);
+        if (forwardLength != 0)
+        {
+            forwardDirection.x /= forwardLength;
+            forwardDirection.z /= forwardLength;
+        }
 
         camera.position.x = characterPosition->x + cameraDistance * forwardDirection.x;
         camera.position.z = characterPosition->z + cameraDistance * forwardDirection.z;
-        camera.position.y = characterPosition->y + 3.5f;
-        camera.target = *characterPosition;
+
+        camera.position.y = surfaceManager.GetHeightAtPosition(camera.position.x, camera.position.z) + 3.5f; // Maintain height above the surface
+
+        camera.target = *characterPosition; // Always look at the character
     }
 };
 

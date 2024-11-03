@@ -17,6 +17,7 @@ public:
     float scale = 0.015f;
     static Model flowerModel;
     static std::vector<Flower> flowers;
+    const static int numberOfFlowers = 0;
 
     static void LoadFlowers()
     {
@@ -24,10 +25,14 @@ public:
         {
             std::cout << "Loaded flowers" << std::endl;
         }
+
+        if (numberOfFlowers == 0)
+            return;
+
         srand(static_cast<unsigned>(time(0)));
         flowerModel = LoadModel("../src/Assets/Models/plant/scene.gltf");
         assert(flowerModel.meshCount != 0);
-        GenerateRandomFlowers(25, 50.0f, 50.0f);
+        GenerateRandomFlowers(numberOfFlowers, 50.0f, 50.0f);
     }
 
     static void DrawFlowers()
@@ -36,34 +41,34 @@ public:
         {
             // std::cout << "Drawing flowers" << std::endl;
         }
-        for (const Flower &flower : flowers)
+
+        if (numberOfFlowers != 0)
         {
-            DrawModel(flowerModel, flower.position, flower.scale, flower.color);
+            for (const Flower &flower : flowers)
+            {
+                DrawModel(flowerModel, flower.position, flower.scale, flower.color);
+            }
         }
     }
 
     static void GenerateRandomFlowers(int count, float xRange, float zRange)
     {
+        Flower flower;
         for (int i = 0; i < count; ++i)
         {
-            Flower flower;
             flower.position = {
                 static_cast<float>(rand()) / RAND_MAX * xRange - (xRange / 2),
                 0.0f,
-                static_cast<float>(rand()) / RAND_MAX * zRange - (zRange / 2)
-            };
+                static_cast<float>(rand()) / RAND_MAX * zRange - (zRange / 2)};
             flower.color = GenerateRandomFlowerColour();
             flowers.push_back(flower);
         }
     }
 
-    ~Flower()
+    static void UnloadFlowers()
     {
-        if (DEBUG_FLOWERS)
-        {
-            std::cout << "DESTRUCTOR!!! FLOWER" << std::endl;
-        }
-        // UnloadModel(flowerModel);
+        UnloadModel(flowerModel);
+        std::cout << "[UNLOADED]: Flowers" << std::endl;
     }
 
 private:

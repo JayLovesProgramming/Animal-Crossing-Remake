@@ -6,7 +6,7 @@
 class MouseManager
 {
 public:
-    void static UpdateMousePosition();
+    static void UpdateMousePosition();
 };
 
 MouseManager mouseManager;

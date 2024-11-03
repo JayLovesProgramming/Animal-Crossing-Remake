@@ -23,7 +23,7 @@ public:
     ~Grass()
     {
         UnloadTexture(grassTexture); // Unload the texture on destroy
-        std::cout << "Destroyed Grass Texture" << std::endl; // Let us know when it's been destroyed
+        std::cout << "[UNLOADED]: Grass" << std::endl; // Let us know when it's been destroyed
     }
 };
 

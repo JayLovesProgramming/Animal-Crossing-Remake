@@ -4,6 +4,8 @@
 #include <iostream>
 #include "raylib.h"
 #include "Map/Map.h"
+#include "Tree/Tree.h"
+#include "Flower/Flower.h"
 
 SurfaceManager grounds[GRID_SIZE][GRID_SIZE];
 
@@ -21,14 +23,16 @@ public:
                 UnloadModel(grounds[x][z].model);
             }
         }
-        std::cout << "Unloaded Ground Surface" << std::endl;
+        std::cout << "[UNLOADED]: Ground Surface" << std::endl;
     };
 
     ~GameState()
-    {
-        CloseWindow(); // Finally close the window
+    {   
+        Flower::UnloadFlowers();
+        Tree::UnloadTrees();
         UnloadGroundSurface();
-        std::cout << "Destroyed Game State" << std::endl;
+        CloseWindow(); // Finally close the window
+        std::cout << "[DESTROYED]: Game State" << std::endl;
     }
 };
 

@@ -24,7 +24,11 @@ void InitGame()
     WindowManager::SetWindowFlags();
 
     characterCamera.InitCamera(); // Init the camera for the character TODO: Init this in the Camera.h
-    trees.LoadTrees();    // Init and load the trees for the map TODO: Init and load this in Tree.h
+
+    
+    Tree::LoadTrees();    // Init and load the trees for the map TODO: Init and load this in Tree.h
+
+
     Flower::LoadFlowers(); // Init and load the flowers TOOD: Init and load this in Flower.h
 }
 
@@ -36,15 +40,16 @@ void DrawLoop(Vector3 characterPosition, SurfaceManager grounds[GRID_SIZE][GRID_
     BeginMode3D(characterCamera.camera);
 
     ClearBackground(BLACK); // Clears the background every frame
+    
+    characterPosition.y = surfaceManager.GetHeightAtPosition(characterPosition.x, characterPosition.z);
 
     Flower::DrawFlowers(); // Draws the flowers on the map
 
-    trees.DrawTrees(); // Draws the trees on the map
+    Tree::DrawTrees(); // Draws the trees on the map
 
     surfaceManager.DrawGround();
 
     // uiManager.LiveUpdateUI(); // Checks if the UI txt file gets updated and then updates it if it needs to
-
     DrawCube(characterPosition, 1.0f, 2.0f, 1.0f, PINK); // Draw a pink cube for the character. TODO: Replace with a actual Model
 
     EndDrawingLoop();

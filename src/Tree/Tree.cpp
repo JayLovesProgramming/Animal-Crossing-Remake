@@ -1,15 +1,6 @@
 // Tree/Tree.cpp
 #include "Tree/Tree.h"
 
-Tree::Tree() {
-    // std::cout << "INIT TREE" << std::endl;
-    // LoadTrees();
-}
-
-Tree::~Tree() {
-    UnloadTrees();
-}
-
 void Tree::LoadTrees() {
     treeModel = LoadModel("C:/Users/jayxw/Desktop/AnimalCrossing/src/Assets/Models/coconut_tree/scene.gltf");
     for (int i = 0; i < treeModel.materialCount; i++) {
@@ -38,16 +29,17 @@ void Tree::LoadTrees() {
         }
     }
 
-    std::cout << "Loaded trees" << std::endl;
+    std::cout << "[LOADED]: Trees" << std::endl;
 }
 
 void Tree::UnloadTrees() {
     UnloadModel(treeModel);
-    std::cout << "Destroyed Tree Models" << std::endl;
+    std::cout << "[UNLOADED]: Trees" << std::endl;
 }
 
 void Tree::DrawTrees() {
-    for (const Vector3 &treePos : treePositions) {
-        DrawModel(treeModel, treePos, 0.9f, WHITE);
+    for (const auto &position : treePositions) {
+        DrawModel(treeModel, position, 0.9f, WHITE);
     }
 }
+
