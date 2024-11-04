@@ -1,5 +1,5 @@
 // Camera/Camera.cpp
-#include "Camera/Camera.h"
+#include "Camera.h"
 
 void CharacterCamera::InitCamera()
 {

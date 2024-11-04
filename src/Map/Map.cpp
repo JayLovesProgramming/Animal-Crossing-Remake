@@ -1,5 +1,5 @@
 // Map/Map.cpp
-#include "Map/Map.h"
+#include "Map.h"
 
 // Get interpolated noise value at any position
 float SurfaceManager::GetNoiseAt(float x, float z)

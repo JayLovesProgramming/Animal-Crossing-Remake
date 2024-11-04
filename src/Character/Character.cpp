@@ -1,5 +1,5 @@
 // Character/Character.cpp
-#include "Character/Character.h"
+#include "Character.h"
 
 void Character::HandleCharacterMovement(Vector3 &characterPosition)
 {

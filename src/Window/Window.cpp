@@ -1,5 +1,5 @@
 // Window/Window.cpp
-#include "Window/Window.h"
+#include "Window.h"
 
 bool WindowManager::PressedExit() // Check if a exit key is pressed. Used to exit and destroy the window
 {

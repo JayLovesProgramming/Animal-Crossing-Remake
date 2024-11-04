@@ -1,7 +1,7 @@
-// UI/UI.cpp
-#include "UI/UI.h"
+// Menu/Menu.cpp
+#include "Menu.h"
 
-time_t UIManager::GetLastModificationTime()
+time_t MenuManager::GetLastModificationTime()
 {
     struct stat fileStat;
     if (stat(configFilePath, &fileStat) == 0)
@@ -11,18 +11,18 @@ time_t UIManager::GetLastModificationTime()
     return 0;
 };
 
-void UIManager::LoadConfigValues(FILE *file)
+void MenuManager::LoadConfigValues(FILE *file)
 {
-    fscanf(file, "boxPositionX=%f\n", boxPosition.x);
-    fscanf(file, "boxPositionY=%f\n", boxPosition.y);
-    fscanf(file, "boxSizeX=%f\n", boxSize.x);
-    fscanf(file, "boxSizeY=%f\n", boxSize.y);
-    fscanf(file, "iconOffsetX=%f\n", iconOffset.x);
-    fscanf(file, "iconOffsetY=%f\n", iconOffset.y);
-    fscanf(file, "promptText=%255[^\n]", promptText);
-}
+    fscanf(file, "boxPositionX=%f\n", &boxPosition.x);
+    fscanf(file, "boxPositionY=%f\n", &boxPosition.y);
+    fscanf(file, "boxSizeX=%f\n", &boxSize.x);
+    fscanf(file, "boxSizeY=%f\n", &boxSize.y);
+    fscanf(file, "iconOffsetX=%f\n", &iconOffset.x);
+    fscanf(file, "iconOffsetY=%f\n", &iconOffset.y);
+    fscanf(file, "promptText=%255[^\n]", &promptText);
+};
 
-void UIManager::LoadUIConfig()
+void MenuManager::LoadUIConfig()
 {
     std::cout << "Opening UI config: " << configFilePath << std::endl;
     FILE *file = fopen(configFilePath, "r");
@@ -40,7 +40,7 @@ void UIManager::LoadUIConfig()
     }
 };
 
-void UIManager::DrawShakeTreePrompt(bool isNearTree, float alpha)
+void MenuManager::DrawShakeTreePrompt(bool isNearTree, float alpha)
 {
     if (isNearTree)
     {
@@ -68,7 +68,7 @@ void UIManager::DrawShakeTreePrompt(bool isNearTree, float alpha)
     }
 };
 
-void UIManager::LiveUpdateUI()
+void MenuManager::LiveUpdateUI()
 {
     // Check for file modification and reload if necessary
     time_t currentModTime = GetLastModificationTime();
@@ -78,4 +78,4 @@ void UIManager::LiveUpdateUI()
         LoadUIConfig();
         lastModifiedTime = currentModTime;
     }
-}
+};

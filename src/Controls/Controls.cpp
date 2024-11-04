@@ -1,4 +1,4 @@
-#include "Controls/Controls.h"
+#include "Controls.h"
 
 void GameControls::UpdateControls(Vector3 *characterPosition, float characterSpeed)
 {

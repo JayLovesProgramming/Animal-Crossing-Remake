@@ -1,4 +1,4 @@
-#include "Tree/Tree.h"
+#include "Tree.h"
 
 Shader doubleSidedShader; // Declare a shader variable
 void Tree::LoadTrees()

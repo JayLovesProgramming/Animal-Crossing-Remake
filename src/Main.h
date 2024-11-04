@@ -28,7 +28,7 @@
 #include "Character/Character.cpp"
 #include "Map/Map.cpp"
 #include "GameState/GameState.cpp"
-#include "UI/UI.cpp"
+#include "Menu/Menu.cpp"
 
 class Main
 {

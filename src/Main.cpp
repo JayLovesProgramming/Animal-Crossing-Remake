@@ -6,7 +6,7 @@ void Main::EndDrawingLoop()
 {
     EndMode3D();                                                                                                               // End the 3D mode so we can then draw other UI on top
     DrawText(TextFormat("FPS: %i", GetFPS()), WindowManager::screenWidth - 220, WindowManager::screenHeight - 100, 30, GREEN); // Draws the current FPS
-    // uiManager.DrawShakeTreePrompt(true, 250.0f); // Draws some simple UI for shaking the tree
+    MenuManager::DrawShakeTreePrompt(true, 250.0f); // Draws some simple UI for shaking the tree
     EndDrawing(); // Ends the canvas drawing and swap buffers
 }
 
@@ -14,7 +14,7 @@ void Main::EndDrawingLoop()
 bool Main::InitGame()
 {
     SetTraceLogLevel(LOG_WARNING);
-    // uiManager.LoadUIConfig(); // Loads the UI config when the game initalizes TODO: Init this in UI.h
+    MenuManager::LoadUIConfig(); // Loads the UI config when the game initalizes TODO: Init this in UI.h
 
     InitWindow(WindowManager::screenWidth, WindowManager::screenHeight, WindowManager::windowName); // Init a window with a screen width, height and window name
     WindowManager::SetWindowFlags();

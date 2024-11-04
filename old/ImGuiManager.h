@@ -1,4 +1,4 @@
-// // ImGuiManager.h
+// // ImGMenuManager.h
 // #pragma once
 
 // #include "raylib.h" 

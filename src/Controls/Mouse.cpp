@@ -1,5 +1,5 @@
 // Controls/Mouse.cpp
-#include "Controls/Mouse.h"
+#include "Mouse.h"
 
 void MouseManager::UpdateMousePosition()
 {
