@@ -78,7 +78,7 @@ void CharacterCamera::UpdateCamera(Vector3 *characterPosition)
     float cameraGroundHeight = SurfaceManager::GetHeightAtPosition(rawCameraPos.x, rawCameraPos.z);
 
     // characterGroundHeight = 0.0f; // This locks to the character
-    std::cout << "[CHARACTER] Ground Height: " << characterGroundHeight << std::endl;
+    // std::cout << "[CHARACTER] Ground Height: " << characterGroundHeight << std::endl;
 
 
     // Get and smooth surface normal

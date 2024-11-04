@@ -26,7 +26,7 @@ bool Main::InitGame()
     Flower::LoadFlowers(); // Init and load the flowers TOOD: Init and load this in Flower.h
 
     Grass::LoadGrassTexture();
-    SurfaceManager::GenerateGroundSurface(Grass::grassTexture); // Generates the surfaces planes
+    SurfaceManager::GenerateGroundSurface(); // Generates the surfaces planes
     return true;
 }
 

@@ -6,6 +6,8 @@ void Grass::LoadGrassTexture()
     Grass::grassTexture = LoadTexture("../src/Assets/Textures/grass.png");
     assert(grassTexture.id != 0);
     std::cout << "[LOADED]: Grass Texture" << std::endl;
+    GenTextureMipmaps(&grassTexture);
+    SetTextureFilter(grassTexture, TEXTURE_FILTER_TRILINEAR);
 };
 
 void Grass::UnloadGrassTexture()

@@ -17,6 +17,7 @@
 
 #include "Debug/Debug.h"
 
+#include "Grass/Grass.cpp"
 #include "Window/Window.cpp"
 #include "Camera/Camera.cpp"
 #include "Flower/Flower.cpp"
@@ -28,7 +29,6 @@
 #include "Map/Map.cpp"
 #include "GameState/GameState.cpp"
 #include "UI/UI.cpp"
-#include "Grass/Grass.cpp"
 
 class Main
 {
