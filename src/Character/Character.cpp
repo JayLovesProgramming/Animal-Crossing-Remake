@@ -1,9 +1,9 @@
 // Character/Character.cpp
 #include "Character.h"
 
-void Character::HandleCharacterMovement(Vector3 &characterPosition)
+void Character::HandleCharacterMovement()
 {
-    float groundHeight = SurfaceManager::GetHeightAtPosition(characterPosition.x, characterPosition.z);
+    float groundHeight = Map::GetHeightAtPosition(characterPosition.x, characterPosition.z);
 
     characterPosition.y = (groundHeight + .5f);
 

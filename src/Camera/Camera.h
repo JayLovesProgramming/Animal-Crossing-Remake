@@ -1,8 +1,10 @@
 // Camera/Camera.h
 #pragma once
 
-#include "Map/Map.h"
+#include "Map/Ground/Ground.h"
+
 #include "raylib.h" // TEMP TO DISABLE RED SQUIGGLY
+#include <cmath> // TEMP TO DISABLE RED SQUIGGLY
 
 class CharacterCamera {
 public:

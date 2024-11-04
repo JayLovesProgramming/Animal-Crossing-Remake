@@ -74,15 +74,15 @@ void CharacterCamera::UpdateCamera(Vector3 *characterPosition)
         characterPosition->z + cameraOffset.z};
 
     // Get heights
-    float characterGroundHeight = SurfaceManager::GetHeightAtPosition(characterPosition->x, characterPosition->z);
-    float cameraGroundHeight = SurfaceManager::GetHeightAtPosition(rawCameraPos.x, rawCameraPos.z);
+    float characterGroundHeight = Map::GetHeightAtPosition(characterPosition->x, characterPosition->z);
+    float cameraGroundHeight = Map::GetHeightAtPosition(rawCameraPos.x, rawCameraPos.z);
 
     // characterGroundHeight = 0.0f; // This locks to the character
     // std::cout << "[CHARACTER] Ground Height: " << characterGroundHeight << std::endl;
 
 
     // Get and smooth surface normal
-    Vector3 currentNormal = SurfaceManager::GetSurfaceNormalAtPosition(rawCameraPos.x, rawCameraPos.z);
+    Vector3 currentNormal = Map::GetSurfaceNormalAtPosition(rawCameraPos.x, rawCameraPos.z);
     Vector3 smoothedNormal = SmoothVector3(lastNormal, currentNormal, 0.05f); // Reduced smoothing factor
     lastNormal = smoothedNormal;
 

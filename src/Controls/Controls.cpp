@@ -1,8 +1,11 @@
 #include "Controls.h"
 
+
+
 void GameControls::UpdateControls(Vector3 *characterPosition, float characterSpeed)
 {
     float deltaSpeed = characterSpeed * GetFrameTime();
+    nearTree = false;
 
     // Set fixed ground level
     const float groundLevel = 0.0f;
@@ -29,52 +32,61 @@ void GameControls::UpdateControls(Vector3 *characterPosition, float characterSpe
     Vector3 initialPosition = *characterPosition;
 
     // Forward and backward movement
-    if (IsKeyDown(KEY_W)) {
+    if (IsKeyDown(KEY_W)) 
+    {
         newPosition.x -= forwardDirection.x * deltaSpeed;
         newPosition.z -= forwardDirection.z * deltaSpeed;
     }
-    if (IsKeyDown(KEY_S)) {
+    if (IsKeyDown(KEY_S)) 
+    {
         newPosition.x += forwardDirection.x * deltaSpeed;
         newPosition.z += forwardDirection.z * deltaSpeed;
     }
 
     // Left and right movement
-    if (IsKeyDown(KEY_A)) {
+    if (IsKeyDown(KEY_A)) 
+    {
         newPosition.x -= rightDirection.x * deltaSpeed;
         newPosition.z -= rightDirection.z * deltaSpeed;
     }
-    if (IsKeyDown(KEY_D)) {
+    if (IsKeyDown(KEY_D)) 
+    {
         newPosition.x += rightDirection.x * deltaSpeed;
         newPosition.z += rightDirection.z * deltaSpeed;
     }
 
+  
+
     //Boundary checks
-    newPosition.x = Clamp(newPosition.x, SurfaceManager::BOUNDARY_MIN_X, SurfaceManager::BOUNDARY_MAX_X);
-    newPosition.z = Clamp(newPosition.z, SurfaceManager::BOUNDARY_MIN_Z, SurfaceManager::BOUNDARY_MAX_Z);
+    newPosition.x = Clamp(newPosition.x, Map::BOUNDARY_MIN_X, Map::BOUNDARY_MAX_X);
+    newPosition.z = Clamp(newPosition.z, Map::BOUNDARY_MIN_Z, Map::BOUNDARY_MAX_Z);
     // std::cout << "X: " << newPosition.x << " Y: " << newPosition.y << std::endl;
-    // // Collision detection with trees
-    bool canMove = true;
-    // for (const auto &treePos : Tree::treePositions) {
-    //     float distance = Vector3Distance(newPosition, treePos);
-    //     if (distance < Tree::treeCollisionRadius) {
-    //         canMove = false;
-    //         // Reset position based on attempted movement direction
-    //         if (IsKeyDown(KEY_W) || IsKeyDown(KEY_S)) {
-    //             newPosition.z = initialPosition.z;
-    //         }
-    //         if (IsKeyDown(KEY_A) || IsKeyDown(KEY_D)) {
-    //             newPosition.x = initialPosition.x;
-    //         }
-    //         break;
-    //     }
-    // }
+    
+    // Collision detection with trees
+    for (const auto &treePos : Tree::treePositions) 
+    {
+        float distance = Vector3Distance(newPosition, treePos);
+        if (distance <= Tree::treeCollisionRadius) 
+        {
+            nearTree = true;
+            // Reset position based on attempted movement direction
+            if (IsKeyDown(KEY_W) || IsKeyDown(KEY_S)) 
+            {
+                newPosition.z = initialPosition.z;
+            }
+            if (IsKeyDown(KEY_A) || IsKeyDown(KEY_D)) 
+            {
+                newPosition.x = initialPosition.x;
+            }
+            break;
+        }
+    }
 
     // Apply movement if no collision detected, ensuring y stays at ground level
-    if (canMove) {
+    if (!nearTree) 
+    {
         newPosition.y = groundLevel; // Force Y-axis to ground level
         *characterPosition = newPosition;
         animFrameCounter++;
     }
-
-
-}
+};

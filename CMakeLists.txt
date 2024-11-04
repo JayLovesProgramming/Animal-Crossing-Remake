@@ -5,14 +5,10 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED On)
 
 # Include the dependencies
-include_directories(C:/Users/jayxw/Desktop/AnimalCrossing/dependencies/raylib/include)
-include_directories(C:/Users/jayxw/Desktop/AnimalCrossing/dependencies/imgui)
-include_directories(C:/Users/jayxw/Desktop/AnimalCrossing/dependencies/rlImGui)
+include_directories(C:/Users/jayxw/Desktop/AnimalCrossing/dependencies/rlImGui C:/Users/jayxw/Desktop/AnimalCrossing/dependencies/raylib/include C:/Users/jayxw/Desktop/AnimalCrossing/dependencies/imgui)
 
 # Add executable
 add_executable(MyExecutable src/Main.cpp)
-
-
 
 # Disable specific warnings for MSVC
 if(MSVC)

@@ -40,9 +40,9 @@ void MenuManager::LoadUIConfig()
     }
 };
 
-void MenuManager::DrawShakeTreePrompt(bool isNearTree, float alpha)
+void MenuManager::DrawShakeTreePrompt()
 {
-    if (isNearTree)
+    if (GameControls::nearTree)
     {
         DrawRectangleRounded(
             Rectangle{boxPosition.x,
@@ -51,20 +51,27 @@ void MenuManager::DrawShakeTreePrompt(bool isNearTree, float alpha)
                       boxSize.y},
             0.2f,
             10,
-            Fade(DARKGRAY, alpha));
+            Fade(RAYWHITE, 10.0f));
 
         Vector2 iconPosition = {boxPosition.x + iconOffset.x, boxPosition.y + boxSize.y / 2};
+
+        // DrawRectangleRounded(
+        //     Rectangle{static_cast<float>(iconPosition.x),
+        //               static_cast<float>(iconPosition.y),
+        //                 20.0f,
+        //               20}, 0.2f, 10, Fade(RED, 10.0f));
+            
 
         DrawCircle(
             static_cast<int>(iconPosition.x),
             static_cast<int>(iconPosition.y),
-            10.0f,
-            Fade(WHITE, alpha));
+            15.0f,
+            Fade(RED, 20.0f));
 
-        DrawText("E", static_cast<int>(iconPosition.x - 6), static_cast<int>(iconPosition.y - 10), 20, Fade(BLACK, alpha));
+        DrawText("E", static_cast<int>(iconPosition.x - 6), static_cast<int>(iconPosition.y - 10), 20, Fade(BLACK, 20.0f));
 
         Vector2 textPosition = {iconPosition.x + 30, iconPosition.y - 10};
-        DrawText(promptText, static_cast<int>(textPosition.x), static_cast<int>(textPosition.y), 20, Fade(WHITE, alpha));
+        DrawText(promptText, static_cast<int>(textPosition.x), static_cast<int>(textPosition.y), 20, Fade(BLACK, 20.0f));
     }
 };
 

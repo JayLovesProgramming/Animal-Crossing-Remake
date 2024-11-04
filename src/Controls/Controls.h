@@ -4,12 +4,14 @@
 #include <cmath>
 #include "raylib.h"
 #include "Camera/Camera.h"
-#include "Map/Map.h"
-#include "Tree/Tree.h"
+#include "Map/Ground/Ground.h"
+#include "Map/Tree/Tree.h"
 
 class GameControls
 {
 public:
+    inline static bool nearTree;
+
     static void UpdateControls(Vector3 *characterPosition, float characterSpeed);
 
 private:

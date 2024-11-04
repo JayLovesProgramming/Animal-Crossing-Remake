@@ -81,18 +81,21 @@ void WindowManager::CheckForVSync()
     }
 }
 
+#define RLGL_SHOW_GL_DETAILS_INFO     0    // Disable OpenGL debug messages 
 void WindowManager::SetWindowFlags()
 {
+    SetTraceLogLevel(LOG_ERROR);
     InitGameWindowIcon(); // Init a window icon
     // Set some flags for the window
     SetWindowState(FLAG_WINDOW_RESIZABLE); // Makes the window resizeable
     SetWindowMonitor(0);                   // Sets the window to your primary application. To be tested
     CheckForVSync();
+
     SetWindowState(FLAG_WINDOW_ALWAYS_RUN); // Will run even if minimised
     // SetWindowState(FLAG_WINDOW_TRANSPARENT);
     HideCursor();
     // SetWindowState(FLAG_FULLSCREEN_MODE);
-    SetConfigFlags(FLAG_MSAA_4X_HINT);
+    SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_WINDOW_HIGHDPI);
     // SetMouseCursor(0);
     SetExitKey(0); // Removes all defaults for Exit key so I can create my own.
 };

@@ -1,10 +1,11 @@
 // UI/UI.h
 #pragma once
 
-#include <iostream>
-#include <fstream>
-#include <sys/stat.h>
-#include "raylib.h" // Assuming you're using raylib for graphics
+#include <iostream>// TEMP TO DISABLE RED SQUIGGLY LINES
+#include <fstream>// TEMP TO DISABLE RED SQUIGGLY LINES
+#include <sys/stat.h>// TEMP TO DISABLE RED SQUIGGLY LINES
+#include "raylib.h" // TEMP TO DISABLE RED SQUIGGLY LINES
+#include "Controls/Controls.h" // TEMP TO DISABLE RED SQUIGGLY LINES
 
 class MenuManager
 {
@@ -20,6 +21,6 @@ public:
     inline static time_t lastModifiedTime;
 
     static void LoadUIConfig();
-    static void DrawShakeTreePrompt(bool isNearTree, float alpha);
+    static void DrawShakeTreePrompt();
     static void LiveUpdateUI();
 };
