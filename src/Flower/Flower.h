@@ -8,17 +8,12 @@ public:
     Vector3 position;
     Color color = WHITE;
     float scale = 0.015f;
-    static Model flowerModel;
-    static std::vector<Flower> flowers;
-    const static int numberOfFlowers = 0;
+    inline static Model flowerModel;
+    inline static std::vector<Flower> flowers;
+    const static int numberOfFlowers = 100;
 
     static void LoadFlowers()
     {
-        if (DEBUG_FLOWERS)
-        {
-            std::cout << "Loaded flowers" << std::endl;
-        }
-
         if (numberOfFlowers == 0)
             return;
 
@@ -30,11 +25,6 @@ public:
 
     static void DrawFlowers()
     {
-        if (DEBUG_FLOWERS)
-        {
-            // std::cout << "Drawing flowers" << std::endl;
-        }
-
         if (numberOfFlowers != 0)
         {
             for (const Flower &flower : flowers)
@@ -49,10 +39,12 @@ public:
         Flower flower;
         for (int i = 0; i < count; ++i)
         {
+            float flowerX = static_cast<float>(rand()) / RAND_MAX * xRange - (xRange / 2);
+            float flowerZ = static_cast<float>(rand()) / RAND_MAX * zRange - (zRange / 2);
             flower.position = {
-                static_cast<float>(rand()) / RAND_MAX * xRange - (xRange / 2),
-                0.0f,
-                static_cast<float>(rand()) / RAND_MAX * zRange - (zRange / 2)};
+                flowerX,
+                SurfaceManager::GetHeightAtPosition(flowerX, flowerZ),
+                flowerZ};
             flower.color = GenerateRandomFlowerColour();
             flowers.push_back(flower);
         }
@@ -74,6 +66,3 @@ private:
         return colors[rand() % (sizeof(colors) / sizeof(colors[0]))];
     }
 };
-
-std::vector<Flower> Flower::flowers;
-Model Flower::flowerModel;

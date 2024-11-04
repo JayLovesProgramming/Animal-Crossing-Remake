@@ -39,9 +39,8 @@ void Main::UpdatePostDrawLoop()
 }
 
 // The main game draw loop. This draws everything you see on the screen
-void Main::DrawLoop(Vector3 &characterPosition, SurfaceManager grounds[SurfaceManager::GRID_SIZE][SurfaceManager::GRID_SIZE])
+void Main::DrawLoop(Vector3 &characterPosition)
 {
-
     // Begin the drawing, 3D mode and blend mode
     BeginDrawing();
     BeginMode3D(CharacterCamera::camera);
@@ -63,7 +62,7 @@ int Main::Run()
     InitGame(); // A main function to initalize all the shit we need
     while (!WindowShouldClose())
     {
-        DrawLoop(Character::characterPosition, grounds); // Main game draw loop
+        DrawLoop(Character::characterPosition); // Main game draw loop
         UpdatePostDrawLoop();
 
         if (WindowManager::PressedExit()) // Check for a specific key and exit the game

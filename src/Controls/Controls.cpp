@@ -48,10 +48,10 @@ void GameControls::UpdateControls(Vector3 *characterPosition, float characterSpe
         newPosition.z += rightDirection.z * deltaSpeed;
     }
 
-    // Boundary checks
-    // newPosition.x = Clamp(newPosition.x, SurfaceManager::BOUNDARY_MIN_X, SurfaceManager::BOUNDARY_MAX_X);
-    // newPosition.z = Clamp(newPosition.z, SurfaceManager::BOUNDARY_MIN_Z, SurfaceManager::BOUNDARY_MAX_Z);
-
+    //Boundary checks
+    newPosition.x = Clamp(newPosition.x, SurfaceManager::BOUNDARY_MIN_X, SurfaceManager::BOUNDARY_MAX_X);
+    newPosition.z = Clamp(newPosition.z, SurfaceManager::BOUNDARY_MIN_Z, SurfaceManager::BOUNDARY_MAX_Z);
+    // std::cout << "X: " << newPosition.x << " Y: " << newPosition.y << std::endl;
     // // Collision detection with trees
     bool canMove = true;
     // for (const auto &treePos : Tree::treePositions) {

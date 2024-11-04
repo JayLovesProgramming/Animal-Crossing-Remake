@@ -1,12 +1,14 @@
+// Camera/Camera.h
 #pragma once
 
 #include "Map/Map.h"
+#include "raylib.h" // TEMP TO DISABLE RED SQUIGGLY
 
 class CharacterCamera {
 public:
-    static Camera camera;
-    static float cameraRotationAngle;
-    static Vector3 lastNormal;  // Store last normal for smoothing
+    inline static Camera camera = { 0 };
+    inline static float cameraRotationAngle  = 0.0f;
+    inline static Vector3 lastNormal = {0.0f, 1.0f, 0.0f};  // Store last normal for smoothing
 
     static void InitCamera();
 
@@ -19,7 +21,7 @@ public:
     static void UpdateCamera(Vector3* characterPosition);
 
 private:
-    static float cameraDistance;
+    inline static float cameraDistance = 15.0f;
     constexpr static float turningModifier = 20.5f;
 
     static float Lerp(float start, float end, float amount) {
@@ -34,9 +36,3 @@ private:
         return { v.x * scale, v.y * scale, v.z * scale };
     }
 };
-
-// Static member initialization
-Camera CharacterCamera::camera = {0};
-float CharacterCamera::cameraDistance = 15.0f;
-float CharacterCamera::cameraRotationAngle = 0.0f;
-Vector3 CharacterCamera::lastNormal = {0.0f, 1.0f, 0.0f};

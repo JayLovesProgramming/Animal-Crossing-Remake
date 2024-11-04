@@ -40,5 +40,5 @@ private:
     static bool InitGame();
     static void UpdatePostDrawLoop();
     static void HandleCharacterMovement(Vector3 &characterPosition);
-    static void DrawLoop(Vector3& characterPosition, SurfaceManager grounds[SurfaceManager::GRID_SIZE][SurfaceManager::GRID_SIZE]);
+    static void DrawLoop(Vector3& characterPosition);
 };

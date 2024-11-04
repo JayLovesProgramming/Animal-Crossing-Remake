@@ -4,12 +4,12 @@
 class WindowManager
 {
 public:
-    static int screenWidth;
-    static int screenHeight;
-    static int targetFPS;
-    static int prevScreenWidth;
-    static int prevScreenHeight;
-    static const char windowName[];
+    inline static int screenWidth = 1280;
+    inline static int screenHeight = 720;
+    inline static int targetFPS = 200;
+    inline static int prevScreenWidth;
+    inline static int prevScreenHeight;
+    inline static const char windowName[] = "Animal Crossing - Development Build (Alpha 0.0.1)";
 
     static bool PressedExit(); // Check if a exit key is pressed. Used to exit and destroy the window
 
@@ -25,10 +25,3 @@ public:
 
     static void SetWindowFlags();
 };
-
-int WindowManager::screenWidth = 1280;
-int WindowManager::screenHeight = 720;
-int WindowManager::targetFPS = 200;
-int WindowManager::prevScreenWidth;
-int WindowManager::prevScreenHeight;
-const char WindowManager::windowName[] = "Animal Crossing - Development Build (Alpha 0.0.1)";

@@ -13,7 +13,5 @@ public:
     static void UpdateControls(Vector3 *characterPosition, float characterSpeed);
 
 private:
-    static int animFrameCounter;
+    inline static int animFrameCounter = 0;
 };
-
-int GameControls::animFrameCounter = 0;

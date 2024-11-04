@@ -5,8 +5,8 @@
 class SurfaceManager
 {
 public:
-    static Model model;
-    static Image noiseImage; // Store the noise image for continuous sampling
+    inline static Model model;
+    inline static Image noiseImage; // Store the noise image for continuous sampling
 
     const static auto GRID_SIZE = 20; // Too high values spread out the texture
     constexpr static auto GROUND_SIZE = (GRID_SIZE / 2);
@@ -18,8 +18,8 @@ public:
     
     constexpr static auto curvature = 0.002f;
     // Store the heights and noise values seperately
-    static float heightMap[GRID_SIZE][GRID_SIZE];
-    static float noiseMap[GRID_SIZE][GRID_SIZE];
+    inline static float heightMap[GRID_SIZE][GRID_SIZE];
+    inline static float noiseMap[GRID_SIZE][GRID_SIZE];
 
     // Map Boundaries - TODO: Recalculate to get the proper boundaries
     constexpr static auto BOUNDARY_MIN_X = -((GRID_SIZE / 2) * GROUND_SIZE);
@@ -47,8 +47,3 @@ public:
 private:
 };
 
-Model SurfaceManager::model;
-Image SurfaceManager::noiseImage;
-float SurfaceManager::heightMap[GRID_SIZE][GRID_SIZE];
-float SurfaceManager::noiseMap[GRID_SIZE][GRID_SIZE];
-SurfaceManager grounds[SurfaceManager::GRID_SIZE][SurfaceManager::GRID_SIZE];

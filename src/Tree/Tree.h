@@ -9,8 +9,8 @@
 class Tree
 {
 public:
-    static Model treeModel;
-    static std::vector<Vector3> treePositions;
+    inline static Model treeModel;
+    inline static std::vector<Vector3> treePositions;
     static constexpr auto treeCollisionRadius = 1.45f;
     static constexpr auto numberOfTrees = 50;
     static constexpr auto treeSpacing = 5.0f;
@@ -22,5 +22,3 @@ public:
     static void UnloadTrees();
 };
 
-Model Tree::treeModel;
-std::vector<Vector3> Tree::treePositions;
