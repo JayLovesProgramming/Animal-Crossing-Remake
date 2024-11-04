@@ -1,8 +1,6 @@
 // Window/Window.h
 #pragma once
 
-#include <string>
-
 class WindowManager
 {
 public:

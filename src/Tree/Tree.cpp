@@ -25,7 +25,7 @@ void Tree::LoadTrees()
     {
         float x = static_cast<float>(std::rand() % 200 - 100);
         float z = static_cast<float>(std::rand() % 200 - 100);
-        Vector3 newPos = {x, 0.0f, z};
+        Vector3 newPos = {x, SurfaceManager::GetHeightAtPosition(x, z), z};
 
         bool isTreeSpaced = true;
         for (const Vector3 &pos : treePositions)

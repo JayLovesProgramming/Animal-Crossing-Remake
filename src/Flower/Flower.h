@@ -1,13 +1,6 @@
 // Flower/Flower.h
 #pragma once
 
-#include "raylib.h"
-#include "Debug/Debug.h"
-#include <iostream>
-#include <vector>
-#include <cstdlib>
-#include <ctime>
-#include <cassert>
 
 class Flower
 {

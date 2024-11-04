@@ -92,7 +92,7 @@ void WindowManager::SetWindowFlags()
     // SetWindowState(FLAG_WINDOW_TRANSPARENT);
     HideCursor();
     // SetWindowState(FLAG_FULLSCREEN_MODE);
-    // SetConfigFlags(FLAG_MSAA_4X_HINT);
+    SetConfigFlags(FLAG_MSAA_4X_HINT);
     // SetMouseCursor(0);
     SetExitKey(0); // Removes all defaults for Exit key so I can create my own.
 };

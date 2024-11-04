@@ -55,11 +55,6 @@ void CharacterCamera::UpdateCamera(Vector3 *characterPosition)
     Vector2 mouseDelta = GetMouseDelta();
     float rotationInput = 0.0f;
 
-    if (IsKeyDown(KEY_LEFT))
-        rotationInput += turningModifier;
-    if (IsKeyDown(KEY_RIGHT))
-        rotationInput -= turningModifier;
-
     rotationInput += (mouseDelta.x != 0) ? -mouseDelta.x * turningModifier * 0.01f : 0;
 
     targetAngle += rotationInput;
@@ -81,6 +76,10 @@ void CharacterCamera::UpdateCamera(Vector3 *characterPosition)
     // Get heights
     float characterGroundHeight = SurfaceManager::GetHeightAtPosition(characterPosition->x, characterPosition->z);
     float cameraGroundHeight = SurfaceManager::GetHeightAtPosition(rawCameraPos.x, rawCameraPos.z);
+
+    // characterGroundHeight = 0.0f; // This locks to the character
+    std::cout << "[CHARACTER] Ground Height: " << characterGroundHeight << std::endl;
+
 
     // Get and smooth surface normal
     Vector3 currentNormal = SurfaceManager::GetSurfaceNormalAtPosition(rawCameraPos.x, rawCameraPos.z);
