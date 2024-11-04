@@ -8,27 +8,26 @@
 
 #include <cmath>
 
-const static auto MAP_SHADER_TYPE = 0;
-const static auto GRID_SIZE = 20;
-const static auto GROUND_SIZE = 10.0f;
-const static auto BOUNDARY_MIN_X = -((GRID_SIZE / 2) * GROUND_SIZE);
-const static auto BOUNDARY_MIN_Z = -((GRID_SIZE / 2) * GROUND_SIZE);
-const static auto BOUNDARY_MAX_X = ((GRID_SIZE / 2) * GROUND_SIZE);
-const static auto BOUNDARY_MAX_Z = ((GRID_SIZE / 2) * GROUND_SIZE);
-const static auto TEXTURE_REPEAT = 10.0f;
-
 class SurfaceManager
 {
 public:
     static Model model;
 
+    const static auto GRID_SIZE = 20;
+    constexpr static auto GROUND_SIZE = 10.0f;
+    constexpr static auto BOUNDARY_MIN_X = -((GRID_SIZE / 2) * GROUND_SIZE);
+    constexpr static auto BOUNDARY_MIN_Z = -((GRID_SIZE / 2) * GROUND_SIZE);
+    constexpr static auto BOUNDARY_MAX_X = ((GRID_SIZE / 2) * GROUND_SIZE);
+    constexpr static auto BOUNDARY_MAX_Z = ((GRID_SIZE / 2) * GROUND_SIZE);
+    constexpr static auto TEXTURE_REPEAT = 30.0f;
+
     static Image noiseImage; // Store the noise image for continuous sampling
-    constexpr static auto curveStrength = 2.0f;
-    constexpr static auto noiseScale = 0.5f;
-    constexpr static auto curvature = 0.001f;
+    constexpr static auto curveStrength = 0.0f;
+    constexpr static auto noiseScale = 0.0f;
+    constexpr static auto curvature = 0.0012f;
     // Store the heights and noise values seperately
-     static float heightMap[GRID_SIZE][GRID_SIZE];
-     static float noiseMap[GRID_SIZE][GRID_SIZE];
+    static float heightMap[GRID_SIZE][GRID_SIZE];
+    static float noiseMap[GRID_SIZE][GRID_SIZE];
 
     // Get interpolated noise value at any position
     static float GetNoiseAt(float x, float z)
@@ -91,6 +90,38 @@ public:
         // Calculate the curved height based on the distance from the center and the curvature factor
         // The result is negated to imply that the height decreases as the distance increases
         return -(distanceFromCenter * distanceFromCenter) * curvature; // Curvature effect on height
+    }
+
+    static Vector3 GetSurfaceNormalAtPosition(float x, float z)
+    {
+        // Use small delta for numerical derivatives
+        const float delta = 0.01f;
+
+        // Get heights at nearby points
+        float h = GetHeightAtPosition(x, z);
+        float hx1 = GetHeightAtPosition(x + delta, z);
+        float hz1 = GetHeightAtPosition(x, z + delta);
+
+        // Calculate partial derivatives
+        float dx = (hx1 - h) / delta; // dh/dx
+        float dz = (hz1 - h) / delta; // dh/dz
+
+        // The normal is the cross product of tangent vectors
+        // tangent in x direction: (1, dx, 0)
+        // tangent in z direction: (0, dz, 1)
+        Vector3 normal = {
+            -dx,  // x component
+            1.0f, // y component
+            -dz   // z component
+        };
+
+        // Normalize the vector
+        float length = sqrtf(normal.x * normal.x + normal.y * normal.y + normal.z * normal.z);
+        normal.x /= length;
+        normal.y /= length;
+        normal.z /= length;
+
+        return normal;
     }
 
     static void GenerateGroundSurface(Texture2D grassTexture)
@@ -195,11 +226,10 @@ public:
     }
 
 private:
- 
 };
 
 Model SurfaceManager::model;
 Image SurfaceManager::noiseImage;
 float SurfaceManager::heightMap[GRID_SIZE][GRID_SIZE];
 float SurfaceManager::noiseMap[GRID_SIZE][GRID_SIZE];
-SurfaceManager grounds[GRID_SIZE][GRID_SIZE];
+SurfaceManager grounds[SurfaceManager::GRID_SIZE][SurfaceManager::GRID_SIZE];

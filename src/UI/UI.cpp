@@ -12,15 +12,15 @@ time_t UIManager::GetLastModificationTime()
 };
 
 void UIManager::LoadConfigValues(FILE *file)
-    {
-        fscanf(file, "boxPositionX=%f\n", boxPosition.x);
-        fscanf(file, "boxPositionY=%f\n", boxPosition.y);
-        fscanf(file, "boxSizeX=%f\n", boxSize.x);
-        fscanf(file, "boxSizeY=%f\n", boxSize.y);
-        fscanf(file, "iconOffsetX=%f\n", iconOffset.x);
-        fscanf(file, "iconOffsetY=%f\n", iconOffset.y);
-        fscanf(file, "promptText=%255[^\n]", promptText);
-    }
+{
+    fscanf(file, "boxPositionX=%f\n", boxPosition.x);
+    fscanf(file, "boxPositionY=%f\n", boxPosition.y);
+    fscanf(file, "boxSizeX=%f\n", boxSize.x);
+    fscanf(file, "boxSizeY=%f\n", boxSize.y);
+    fscanf(file, "iconOffsetX=%f\n", iconOffset.x);
+    fscanf(file, "iconOffsetY=%f\n", iconOffset.y);
+    fscanf(file, "promptText=%255[^\n]", promptText);
+}
 
 void UIManager::LoadUIConfig()
 {

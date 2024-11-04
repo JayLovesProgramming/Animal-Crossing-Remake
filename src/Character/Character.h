@@ -6,7 +6,7 @@
 class Character
 {
 public:
-    constexpr static float characterSpeed = 75.0f; 
+    constexpr static float characterSpeed = 7.0f;
     static Vector3 characterPosition;
 };
 

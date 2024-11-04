@@ -1,96 +1,76 @@
-// Controls/Controls.cpp
 #include "Controls/Controls.h"
 
 void GameControls::UpdateControls(Vector3 *characterPosition, float characterSpeed)
 {
     float deltaSpeed = characterSpeed * GetFrameTime();
 
+    // Set fixed ground level
+    const float groundLevel = 0.0f;
+
+    // Calculate directional vectors based on camera rotation
     Vector3 forwardDirection = {
         sinf(DEG2RAD * CharacterCamera::cameraRotationAngle),
         0.0f,
         cosf(DEG2RAD * CharacterCamera::cameraRotationAngle)};
-
     Vector3 rightDirection = {
         cosf(DEG2RAD * CharacterCamera::cameraRotationAngle),
         0.0f,
         -sinf(DEG2RAD * CharacterCamera::cameraRotationAngle)};
 
-    float forwardLength = sqrtf(forwardDirection.x * forwardDirection.x + forwardDirection.z * forwardDirection.z);
-    forwardDirection.x /= forwardLength;
-    forwardDirection.z /= forwardLength;
+    // Normalize forward and right vectors
+    forwardDirection = Vector3Normalize(forwardDirection);
+    rightDirection = Vector3Normalize(rightDirection);
 
-    float rightLength = sqrtf(rightDirection.x * rightDirection.x + rightDirection.z * rightDirection.z);
-    rightDirection.x /= rightLength;
-    rightDirection.z /= rightLength;
-
+    // Store initial position for collision checking and movement
     Vector3 newPosition = *characterPosition;
+    newPosition.y = groundLevel; // Ensure Y-axis stays at ground level
 
-    // Store initial position for collision checking
     Vector3 initialPosition = *characterPosition;
 
-    // Forward
-    if (IsKeyDown(KEY_W))
-    {
-        newPosition.z -= forwardDirection.z * deltaSpeed;
+    // Forward and backward movement
+    if (IsKeyDown(KEY_W)) {
         newPosition.x -= forwardDirection.x * deltaSpeed;
+        newPosition.z -= forwardDirection.z * deltaSpeed;
     }
-
-    // Backward
-    if (IsKeyDown(KEY_S))
-    {
-        newPosition.z += forwardDirection.z * deltaSpeed;
+    if (IsKeyDown(KEY_S)) {
         newPosition.x += forwardDirection.x * deltaSpeed;
+        newPosition.z += forwardDirection.z * deltaSpeed;
     }
 
-    // Left
-    if (IsKeyDown(KEY_A))
-    {
+    // Left and right movement
+    if (IsKeyDown(KEY_A)) {
         newPosition.x -= rightDirection.x * deltaSpeed;
         newPosition.z -= rightDirection.z * deltaSpeed;
     }
-
-    // Right
-    if (IsKeyDown(KEY_D))
-    {
+    if (IsKeyDown(KEY_D)) {
         newPosition.x += rightDirection.x * deltaSpeed;
         newPosition.z += rightDirection.z * deltaSpeed;
     }
 
-    // Bound checks
-    if (newPosition.x < BOUNDARY_MIN_X)
-        newPosition.x = BOUNDARY_MIN_X;
-    if (newPosition.x > BOUNDARY_MAX_X)
-        newPosition.x = BOUNDARY_MAX_X;
-    if (newPosition.z < BOUNDARY_MIN_Z)
-        newPosition.z = BOUNDARY_MIN_Z;
-    if (newPosition.z > BOUNDARY_MAX_Z)
-        newPosition.z = BOUNDARY_MAX_Z;
+    // Boundary checks
+    newPosition.x = Clamp(newPosition.x, SurfaceManager::BOUNDARY_MIN_X, SurfaceManager::BOUNDARY_MAX_X);
+    newPosition.z = Clamp(newPosition.z, SurfaceManager::BOUNDARY_MIN_Z, SurfaceManager::BOUNDARY_MAX_Z);
 
-    // Check for collisions with trees
+    // Collision detection with trees
     bool canMove = true;
-    for (const auto &treePos : Tree::treePositions)
-    {
-        float distance = sqrtf(powf(newPosition.x - treePos.x, 2) + powf(newPosition.y - treePos.y, 2) + powf(newPosition.z - treePos.z, 2));
-        if (distance < Tree::treeCollisionRadius)
-        {
+    for (const auto &treePos : Tree::treePositions) {
+        float distance = Vector3Distance(newPosition, treePos);
+        if (distance < Tree::treeCollisionRadius) {
             canMove = false;
-
-            // Check if the character is trying to move into the tree
-            if (IsKeyDown(KEY_W) || IsKeyDown(KEY_S))
-            {
-                newPosition.z = initialPosition.z; // Reset Z position
+            // Reset position based on attempted movement direction
+            if (IsKeyDown(KEY_W) || IsKeyDown(KEY_S)) {
+                newPosition.z = initialPosition.z;
             }
-            if (IsKeyDown(KEY_A) || IsKeyDown(KEY_D))
-            {
-                newPosition.x = initialPosition.x; // Reset X position
+            if (IsKeyDown(KEY_A) || IsKeyDown(KEY_D)) {
+                newPosition.x = initialPosition.x;
             }
-            break; // No need to check further trees
+            break;
         }
     }
 
-    // Apply movement if no collision detected
-    if (canMove)
-    {
+    // Apply movement if no collision detected, ensuring y stays at ground level
+    if (canMove) {
+        newPosition.y = groundLevel; // Force Y-axis to ground level
         *characterPosition = newPosition;
         animFrameCounter++;
     }
