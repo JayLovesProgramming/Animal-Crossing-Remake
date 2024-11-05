@@ -27,6 +27,7 @@ void Tree::LoadTrees()
         float z = static_cast<float>(std::rand() % xRange - zRange);
         Vector3 newPos = {x, Map::GetHeightAtPosition(x, z), z};
 
+
         bool isTreeSpaced = true;
         for (const Vector3 &pos : treePositions)
         {
@@ -61,7 +62,11 @@ void Tree::DrawTrees()
 
     for (const auto &position : treePositions)
     {
+        // float mapRotation = Map::CalculateRotationForObject(position.x, position.z);
+        // rlPushMatrix();
+        // rlRotatef(mapRotation * (180.0f / PI), -0.01f, 0.0f, 0.0f); 
         DrawModel(treeModel, position, 0.9f, WHITE);
+        // rlPopMatrix();
     }
 
     // End shader mode

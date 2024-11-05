@@ -3,7 +3,7 @@
 
 void MouseManager::UpdateMousePosition()
 {
-    if (!MouseCursorToggled)
+    if (!F8_ACTIVE)
     {
         Vector2 windowSize = {static_cast<float>(GetScreenWidth()), static_cast<float>(GetScreenHeight())};
         Vector2 centerPosition = {windowSize.x / 2, windowSize.y / 2};
@@ -16,8 +16,8 @@ void MouseManager::ToggleMouseCursor()
 {
     if (IsKeyReleased(KEY_F8))
     {
-        MouseCursorToggled = !MouseCursorToggled;
-        if (MouseCursorToggled)
+        F8_ACTIVE = !F8_ACTIVE;
+        if (F8_ACTIVE)
         {
             ShowCursor();
         }

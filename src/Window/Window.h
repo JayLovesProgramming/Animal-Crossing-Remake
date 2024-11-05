@@ -1,6 +1,9 @@
 // Window/Window.h
 #pragma once
 
+#include "raylib.h"
+#include <iostream>
+
 class WindowManager
 {
 public:

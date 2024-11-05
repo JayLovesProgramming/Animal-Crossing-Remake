@@ -39,6 +39,8 @@ public:
     // Get the exact height at any world position
     static float GetHeightAtPosition(float x, float z);
 
+    static float CalculateRotationForObject(float x, float z);
+
     // Calculate the curved height
     static float CalculateCurvedHeight(float x, float z);
 

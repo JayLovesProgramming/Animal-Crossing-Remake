@@ -10,7 +10,7 @@
 class MouseManager
 {
 public:
-    inline static bool MouseCursorToggled = false;
+    inline static bool F8_ACTIVE = false;
 
     static void UpdateMousePosition();
 
