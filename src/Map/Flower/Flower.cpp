@@ -10,7 +10,7 @@ void Flower::LoadFlowers()
     flowerModel = LoadModel("../src/Assets/Models/plant/scene.gltf");
     assert(flowerModel.meshCount > 0);
     GenerateRandomFlowers(numberOfFlowers);
-    std::cout << "[LOADED]: " << numberOfFlowers << " Flowers" << std::endl;
+    cout << "[LOADED]: " << numberOfFlowers << " Flowers" << endl;
 };
 
 void Flower::DrawFlowers()
@@ -43,7 +43,7 @@ void Flower::GenerateRandomFlowers(int count)
 void Flower::UnloadFlowers()
 {
     UnloadModel(flowerModel);
-    std::cout << "[UNLOADED]: " << numberOfFlowers << " Flowers" << std::endl;
+    cout << "[UNLOADED]: " << numberOfFlowers << " Flowers" << endl;
 };
 
 Color Flower::GenerateRandomFlowerColour()

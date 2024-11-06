@@ -7,17 +7,12 @@
 #include "Map/Tree/Tree.h" // TEMP TO DISABLE RED SQUIGGLY LINES
 #include <iostream> // TEMP TO DISABLE RED SQUIGGLY LINES
 
+using std::cout, std::endl;
+
 class GameState
 {
 public:
-     ~GameState()
-    {
-        Flower::UnloadFlowers();
-        Tree::UnloadTrees();
-        Map::UnloadGround();
-        Grass::UnloadGrassTexture();
-        CloseWindow(); // Finally close the window
-        std::cout << "[DESTROYED]: Game State" << std::endl;
-    };
+    ~GameState();
 };
+
 GameState state;

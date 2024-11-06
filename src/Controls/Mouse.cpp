@@ -11,7 +11,6 @@ void MouseManager::UpdateMousePosition()
     }
 };
 
-
 void MouseManager::ToggleMouseCursor()
 {
     if (IsKeyReleased(KEY_F8))
@@ -25,6 +24,6 @@ void MouseManager::ToggleMouseCursor()
         {
             HideCursor();
         }
-        std::cout << "TOGGLED F8" << std::endl;
+        cout << "TOGGLED F8" << endl;
     }
 }

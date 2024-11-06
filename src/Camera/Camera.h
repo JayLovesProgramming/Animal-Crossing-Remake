@@ -6,6 +6,8 @@
 #include "raylib.h" // TEMP TO DISABLE RED SQUIGGLY
 #include <cmath> // TEMP TO DISABLE RED SQUIGGLY
 
+using std::cout, std::endl;
+
 class CharacterCamera {
 public:
     inline static Camera camera = { 0 };

@@ -9,6 +9,8 @@
 #include <cstdlib> // TEMP TO DISABLE RED SQUIGGLY LINES
 #include <ctime> // TEMP TO DISABLE RED SQUIGGLY LINES
 
+using std::cout, std::endl;
+
 class Flower
 {
 public:

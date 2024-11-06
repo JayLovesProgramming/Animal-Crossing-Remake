@@ -7,6 +7,8 @@
 #include "rlImGui.h"      
 #include <iostream>
 
+using std::cout, std::endl;
+
 class MouseManager
 {
 public:

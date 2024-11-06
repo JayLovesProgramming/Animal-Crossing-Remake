@@ -52,12 +52,12 @@ void WindowManager::HandleAltEnterWindowMode()
             }
         }
     }
-    cout << isVsync << endl;
 }
 
 void WindowManager::HandleWindow()
 {
     HandleAltEnterWindowMode();
+    // cout << "LOOP" << endl;
 }
 
 void WindowManager::InitGameWindowIcon() // Inits the window icon and sets it

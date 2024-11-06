@@ -18,13 +18,13 @@ void Tree::LoadTrees()
     Vector4 lightColor = {1.0f, 1.0f, 1.0f, 1.0f};
     SetShaderValue(doubleSidedShader, GetShaderLocation(doubleSidedShader, "lightColor"), &lightColor, SHADER_UNIFORM_VEC4);
 
-    std::srand(static_cast<unsigned int>(std::time(0)));
+    srand(static_cast<unsigned int>(time(0)));
     treePositions.clear();
 
     while (treePositions.size() < numberOfTrees)
     {
-        float x = static_cast<float>(std::rand() % xRange - zRange);
-        float z = static_cast<float>(std::rand() % xRange - zRange);
+        float x = static_cast<float>(rand() % xRange - zRange);
+        float z = static_cast<float>(rand() % xRange - zRange);
         Vector3 newPos = {x, Map::GetHeightAtPosition(x, z, "tree"), z};
 
 
@@ -45,14 +45,14 @@ void Tree::LoadTrees()
         }
     }
 
-    std::cout << "[LOADED]: " << numberOfTrees << " Trees" << std::endl;
+    cout << "[LOADED]: " << numberOfTrees << " Trees" << endl;
 }
 
 void Tree::UnloadTrees()
 {
     UnloadModel(treeModel);
     UnloadShader(doubleSidedShader); // Unload the shader
-    std::cout << "[UNLOADED]: " << numberOfTrees << " Trees" << std::endl;
+    cout << "[UNLOADED]: " << numberOfTrees << " Trees" << endl;
 }
 
 void Tree::DrawTrees()

@@ -8,6 +8,8 @@
 #include <vector>
 #include <iostream>
 
+using std::cout, std::endl;
+
 class Tree
 {
 public:

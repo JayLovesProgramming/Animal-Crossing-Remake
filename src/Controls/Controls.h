@@ -7,6 +7,8 @@
 #include "Map/Ground/Ground.h"
 #include "Map/Tree/Tree.h"
 
+using std::cout, std::endl;
+
 class GameControls
 {
 public:

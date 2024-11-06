@@ -60,7 +60,7 @@ void GameControls::UpdateControls(Vector3 *characterPos, float characterSpeed)
     //Boundary checks
     newPosition.x = Clamp(newPosition.x, Map::BOUNDARY_MIN_X, Map::BOUNDARY_MAX_X);
     newPosition.z = Clamp(newPosition.z, Map::BOUNDARY_MIN_Z, Map::BOUNDARY_MAX_Z);
-    // std::cout << "X: " << newPosition.x << " Y: " << newPosition.y << std::endl;
+    // cout << "X: " << newPosition.x << " Y: " << newPosition.y << endl;
     
     // Collision detection with trees
     for (const auto &treePos : Tree::treePositions) 

@@ -5,7 +5,7 @@
 #include "rlgl.h"              // TEMP TO DISABLE RED SQUIGGLY LINES
 #include "Map/Ground/Ground.h" // TEMP TO DISABLE RED SQUIGGLY LINES
 
-
+using std::cout, std::endl;
 
 class Character
 {

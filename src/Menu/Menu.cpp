@@ -24,7 +24,7 @@ void MenuManager::LoadConfigValues(FILE *file)
 
 void MenuManager::LoadUIConfig()
 {
-    std::cout << "Opening UI config: " << configFilePath << std::endl;
+    cout << "Opening UI config: " << configFilePath << endl;
     FILE *file = fopen(configFilePath, "r");
 
     if (file != NULL)
@@ -32,11 +32,11 @@ void MenuManager::LoadUIConfig()
         LoadConfigValues(file);
         fclose(file);
         lastModifiedTime = GetLastModificationTime();
-        std::cout << "Loaded UI config" << std::endl;
+        cout << "Loaded UI config" << endl;
     }
     else
     {
-        std::cerr << "Failed to open the UI config file" << std::endl;
+        cerr << "Failed to open the UI config file" << endl;
     }
 };
 
@@ -81,7 +81,7 @@ void MenuManager::LiveUpdateUI()
     time_t currentModTime = GetLastModificationTime();
     if (currentModTime != lastModifiedTime)
     {
-        std::cout << "Config file modified. Reloading..." << std::endl;
+        cout << "Config file modified. Reloading..." << endl;
         LoadUIConfig();
         lastModifiedTime = currentModTime;
     }
