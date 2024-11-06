@@ -1,6 +1,12 @@
 // Grass/Grass.cpp
 #include "Grass.h"
 
+#include <cassert> // TEMP TO DISABLE RED SQUIGGLY LINES
+#include <iostream> // TEMP TO DISABLE RED SQUIGGLY LINES
+#include "raylib.h" // TEMP TO DISABLE RED SQUIGGLY LINES
+
+using std::cout, std::endl;
+
 void Grass::LoadGrassTexture()
 {
     Grass::grassTexture = LoadTexture("../src/Assets/Textures/grass.png");

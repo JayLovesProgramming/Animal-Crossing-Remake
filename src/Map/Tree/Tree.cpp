@@ -1,5 +1,11 @@
 #include "Tree.h"
+#include "Map/Ground/Ground.h"
 
+#include "raylib.h"
+#include "raymath.h"
+#include "rlgl.h"
+#include <iostream>
+using std::cout, std::endl;
 
 void Tree::LoadTrees()
 {
@@ -26,7 +32,6 @@ void Tree::LoadTrees()
         float x = static_cast<float>(rand() % xRange - zRange);
         float z = static_cast<float>(rand() % xRange - zRange);
         Vector3 newPos = {x, Map::GetHeightAtPosition(x, z, "tree"), z};
-
 
         bool isTreeSpaced = true;
         for (const Vector3 &pos : treePositions)
@@ -64,7 +69,9 @@ void Tree::DrawTrees()
     {
         // float mapRotation = Map::CalculateRotationForObject(position.x, position.z);
         // rlPushMatrix();
-        // rlRotatef(mapRotation * (180.0f / PI), -0.01f, 0.0f, 0.0f); 
+        DrawCylinder(position, treeCollisionRadius, treeCollisionRadius, 2, 0, LIME);
+        // DrawSphere(position, treeCollisionRadius, PINK); // Visualize with a red sphere
+        // rlRotatef(mapRotation * (180.0f / PI), -0.01f, 0.0f, 0.0f);
         DrawModel(treeModel, position, 0.9f, WHITE);
         // rlPopMatrix();
     }

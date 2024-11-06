@@ -1,6 +1,11 @@
 // Camera/Camera.cpp
 #include "Camera.h"
 
+#include "Map/Ground/Ground.h"
+#include "raylib.h" // TEMP TO DISABLE RED SQUIGGLY
+#include <cmath> // TEMP TO DISABLE RED SQUIGGLY
+#include <iostream>
+
 void CharacterCamera::InitCamera()
 {
     camera.position = Vector3{0.0f, 0.0f, 0.0f};

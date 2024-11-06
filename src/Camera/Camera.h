@@ -1,11 +1,6 @@
 // Camera/Camera.h
 #pragma once
 
-#include "Map/Ground/Ground.h"
-
-#include "raylib.h" // TEMP TO DISABLE RED SQUIGGLY
-#include <cmath> // TEMP TO DISABLE RED SQUIGGLY
-
 using std::cout, std::endl;
 
 class CharacterCamera {

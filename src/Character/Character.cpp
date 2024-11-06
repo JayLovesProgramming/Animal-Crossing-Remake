@@ -1,5 +1,10 @@
 #include "Character.h"
 
+#include "raylib.h"            // TEMP TO DISABLE RED SQUIGGLY LINES
+#include "rlgl.h"              // TEMP TO DISABLE RED SQUIGGLY LINES
+#include "Map/Ground/Ground.h" // TEMP TO DISABLE RED SQUIGGLY LINES
+#include <iostream>
+
 // Handles the character movement respective of the maps curvature
 void Character::HandleCharacterMovement()
 {

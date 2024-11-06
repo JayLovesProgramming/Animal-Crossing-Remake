@@ -1,14 +1,7 @@
-// Map/Map.h
+// Ground/Ground.h
 #pragma once
 
-#include <iostream> // TEMP TO DISABLE RED SQUIGGLY LINES
-#include <stdio.h> // TEMP TO DISABLE RED SQUIGGLY LINES
-#include "raymath.h" // TEMP TO DISABLE RED SQUIGGLY LINES
-#include "raylib.h" // TEMP TO DISABLE RED SQUIGGLY LINES
-#include "Map/Grass/Grass.h"
-#include "Debug/Debug.h"
-
-using std::string, std::cout, std::endl;
+using std::string;
 
 class Map
 {

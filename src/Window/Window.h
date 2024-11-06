@@ -1,11 +1,6 @@
 // Window/Window.h
 #pragma once
 
-#include "raylib.h"
-#include <iostream>
-
-using std::cout, std::endl;
-
 class WindowManager
 {
 public:

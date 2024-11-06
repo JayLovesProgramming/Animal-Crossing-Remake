@@ -1,6 +1,10 @@
 // Window/Window.cpp
 #include "Window.h"
 
+#include "raylib.h"
+#include <iostream>
+using std::cout, std::endl;
+
 bool WindowManager::PressedExit() // Check if a exit key is pressed. Used to exit and destroy the window
 {
     return IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_BACKSPACE); // ESC or Backspace (Should be debug only but on release remove this check)

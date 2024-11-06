@@ -1,37 +1,32 @@
 #include "Controls.h"
-
-
+#include <cmath>
+#include "raylib.h"
+#include "raymath.h"
+#include "Camera/Camera.h"
+#include "Map/Ground/Ground.h"
+#include "Map/Tree/Tree.h"
+#include <iostream>
+using std::cout, std::endl;
 
 void GameControls::UpdateControls(Vector3 *characterPos, float characterSpeed)
 {
     float deltaSpeed = characterSpeed * GetFrameTime();
     nearTree = false;
 
-    // Set fixed ground level
-    const float groundLevel = 0.0f;
+    // Calculate directional vectors based on camera rotation (done once)
+    float cameraAngle = DEG2RAD * CharacterCamera::cameraRotationAngle;
+    Vector3 forwardDirection = {sinf(cameraAngle), 0.0f, cosf(cameraAngle)};
+    Vector3 rightDirection = {cosf(cameraAngle), 0.0f, -sinf(cameraAngle)};
 
-    // Calculate directional vectors based on camera rotation
-    Vector3 forwardDirection = {
-        sinf(DEG2RAD * CharacterCamera::cameraRotationAngle),
-        0.0f,
-        cosf(DEG2RAD * CharacterCamera::cameraRotationAngle)};
-        
-    Vector3 rightDirection = {
-        cosf(DEG2RAD * CharacterCamera::cameraRotationAngle),
-        0.0f,
-        -sinf(DEG2RAD * CharacterCamera::cameraRotationAngle)};
-
-    // Normalize forward and right vectors
+    // Normalize the direction vectors
     forwardDirection = Vector3Normalize(forwardDirection);
     rightDirection = Vector3Normalize(rightDirection);
 
-    // Store initial position for collision checking and movement
-    Vector3 newPosition = *characterPos;
-    // newPosition.y = groundLevel; // Ensure Y-axis stays at ground level
-
+    // Store initial position for collision checking
     Vector3 initialPosition = *characterPos;
+    Vector3 newPosition = initialPosition;
 
-    // Forward and backward movement
+    // Movement (forward/backward, left/right)
     if (IsKeyDown(KEY_W)) 
     {
         newPosition.x -= forwardDirection.x * deltaSpeed;
@@ -42,8 +37,6 @@ void GameControls::UpdateControls(Vector3 *characterPos, float characterSpeed)
         newPosition.x += forwardDirection.x * deltaSpeed;
         newPosition.z += forwardDirection.z * deltaSpeed;
     }
-
-    // Left and right movement
     if (IsKeyDown(KEY_A)) 
     {
         newPosition.x -= rightDirection.x * deltaSpeed;
@@ -55,37 +48,48 @@ void GameControls::UpdateControls(Vector3 *characterPos, float characterSpeed)
         newPosition.z += rightDirection.z * deltaSpeed;
     }
 
-  
-
-    //Boundary checks
+    // Boundary checks
     newPosition.x = Clamp(newPosition.x, Map::BOUNDARY_MIN_X, Map::BOUNDARY_MAX_X);
     newPosition.z = Clamp(newPosition.z, Map::BOUNDARY_MIN_Z, Map::BOUNDARY_MAX_Z);
-    // cout << "X: " << newPosition.x << " Y: " << newPosition.y << endl;
-    
+
+    // Debugging output
+    // cout << "Character Position: (" << newPosition.x << ", " << newPosition.y << ", " << newPosition.z << ")\n";
+
     // Collision detection with trees
-    for (const auto &treePos : Tree::treePositions) 
+    // Collision detection with trees considering both horizontal distance and y-axis position
+for (const auto &treePos : Tree::treePositions) 
+{
+    // Calculate horizontal distance (ignore y-axis)
+    float horizontalDistance = sqrtf((newPosition.x - treePos.x) * (newPosition.x - treePos.x) + 
+                                      (newPosition.z - treePos.z) * (newPosition.z - treePos.z));
+
+    // Calculate vertical distance (y-axis)
+    float verticalDistance = fabs(newPosition.y - treePos.y);
+
+    // If within both horizontal and vertical distance thresholds, consider it a collision
+    if (horizontalDistance <= Tree::treeCollisionRadius && verticalDistance <= Tree::treeHeightThreshold) 
     {
-        float distance = Vector3Distance(newPosition, treePos);
-        if (distance <= Tree::treeCollisionRadius) 
+        cout << "Near tree: " << endl;
+        nearTree = true;
+
+        // Reset position based on attempted movement direction
+        if (IsKeyDown(KEY_W) || IsKeyDown(KEY_S)) 
         {
-            nearTree = true;
-            // Reset position based on attempted movement direction
-            if (IsKeyDown(KEY_W) || IsKeyDown(KEY_S)) 
-            {
-                newPosition.z = initialPosition.z;
-            }
-            if (IsKeyDown(KEY_A) || IsKeyDown(KEY_D)) 
-            {
-                newPosition.x = initialPosition.x;
-            }
-            break;
+            newPosition.z = initialPosition.z;
         }
+        if (IsKeyDown(KEY_A) || IsKeyDown(KEY_D)) 
+        {
+            newPosition.x = initialPosition.x;
+        }
+        break;
     }
+}
+
 
     // Apply movement if no collision detected, ensuring y stays at ground level
     if (!nearTree) 
     {
-        newPosition.y = groundLevel; // Force Y-axis to ground level
+        newPosition.y = 0.0f; // Force Y-axis to ground level
         *characterPos = newPosition;
         animFrameCounter++;
     }

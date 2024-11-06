@@ -30,11 +30,11 @@ bool Main::InitGame()
 
 void Main::UpdatePostDrawLoop()
 {
-    GameControls::UpdateControls(&Character::characterPos, Character::characterSpeed);
     CharacterCamera::UpdateCamera(&Character::characterPos);
     MouseManager::UpdateMousePosition();
     WindowManager::HandleWindow();
     MouseManager::ToggleMouseCursor();
+    GameControls::UpdateControls(&Character::characterPos, Character::characterSpeed);
 }
 
 // The main game draw loop. This draws everything you see on the screen
@@ -43,12 +43,12 @@ void Main::DrawLoop()
     // Begin the drawing, 3D mode and blend mode
     BeginDrawing();
     BeginMode3D(CharacterCamera::camera);
-    rlEnableBackfaceCulling();
     ClearBackground(BLANK); // Clears the background every frame
+    rlEnableBackfaceCulling();
 
     // Draw world elements
-    Flower::DrawFlowers(); // Draws the flowers on the map
     Tree::DrawTrees();     // Draws the trees on the map
+    Flower::DrawFlowers(); // Draws the flowers on the map
     Map::DrawGround();
 
     Character::HandleCharacterMovement();

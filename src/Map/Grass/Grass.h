@@ -1,12 +1,6 @@
 // Grass/Grass.h
 #pragma once
 
-#include <cassert> // TEMP TO DISABLE RED SQUIGGLY LINES
-#include <iostream> // TEMP TO DISABLE RED SQUIGGLY LINES
-#include "raylib.h" // TEMP TO DISABLE RED SQUIGGLY LINES
-
-using std::cout, std::endl;
-
 class Grass
 {
 public:

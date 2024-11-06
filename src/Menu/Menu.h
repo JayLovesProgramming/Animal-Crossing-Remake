@@ -1,14 +1,6 @@
 // UI/UI.h
 #pragma once
 
-#include <iostream>// TEMP TO DISABLE RED SQUIGGLY LINES
-#include <fstream>// TEMP TO DISABLE RED SQUIGGLY LINES
-#include <sys/stat.h>// TEMP TO DISABLE RED SQUIGGLY LINES
-#include "raylib.h" // TEMP TO DISABLE RED SQUIGGLY LINES
-#include "Controls/Controls.h" // TEMP TO DISABLE RED SQUIGGLY LINES
-
-using std::cout, std::cerr, std::endl;
-
 class MenuManager
 {
 public:

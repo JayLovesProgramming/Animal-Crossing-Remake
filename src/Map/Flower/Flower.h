@@ -1,16 +1,6 @@
 // Flower/Flower.h
 #pragma once
 
-#include "raylib.h" // TEMP TO DISABLE RED SQUIGGLY LINES
-#include "Map/Ground/Ground.h" // TEMP TO DISABLE RED SQUIGGLY LINES
-#include <iostream> // TEMP TO DISABLE RED SQUIGGLY LINES
-#include <vector> // TEMP TO DISABLE RED SQUIGGLY LINES
-#include <cassert> // TEMP TO DISABLE RED SQUIGGLY LINES
-#include <cstdlib> // TEMP TO DISABLE RED SQUIGGLY LINES
-#include <ctime> // TEMP TO DISABLE RED SQUIGGLY LINES
-
-using std::cout, std::endl;
-
 class Flower
 {
 public:

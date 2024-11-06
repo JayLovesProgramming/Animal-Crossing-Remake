@@ -1,5 +1,13 @@
-// Map/Map.cpp
+// Ground/Ground.cpp
 #include "Ground.h"
+
+#include <iostream> // TEMP TO DISABLE RED SQUIGGLY LINES
+#include <stdio.h> // TEMP TO DISABLE RED SQUIGGLY LINES
+#include "raymath.h" // TEMP TO DISABLE RED SQUIGGLY LINES
+#include "raylib.h" // TEMP TO DISABLE RED SQUIGGLY LINES
+#include "Map/Grass/Grass.h"
+#include "Debug/Debug.h"
+using std::cout, std::endl;
 
 // Get interpolated noise value at any position
 float Map::GetNoiseAt(float x, float z)
