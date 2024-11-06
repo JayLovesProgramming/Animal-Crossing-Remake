@@ -15,8 +15,7 @@ bool Main::InitGame()
 {
     MenuManager::LoadUIConfig(); // Loads the UI config when the game initalizes TODO: Init this in UI.h
 
-    InitWindow(WindowManager::screenWidth, WindowManager::screenHeight, WindowManager::windowName); // Init a window with a screen width, height and window name
-    WindowManager::SetWindowFlags();
+    WindowManager::InitWindowAndSetFlags();
 
     CharacterCamera::InitCamera(); // Init the camera for the character TODO: Init this in the Camera.h
 

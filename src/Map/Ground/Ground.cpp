@@ -37,7 +37,7 @@ float Map::GetNoiseAt(float x, float z)
 }
 
 // Get the exact height at any world position
-float Map::GetHeightAtPosition(float x, float z, std::string type)
+float Map::GetHeightAtPosition(float x, float z, string type)
 {
     // Calculate the base curved height
     float baseHeight = CalculateCurvedHeight(x, z); 
@@ -217,7 +217,7 @@ void Map::UnloadGround()
 {
     UnloadModel(model);
     UnloadImage(noiseImage);
-    std::cout << "[UNLOADED]: Ground" << std::endl;
+    cout << "[UNLOADED]: Ground" << endl;
 }
 
 

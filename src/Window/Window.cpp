@@ -52,6 +52,7 @@ void WindowManager::HandleAltEnterWindowMode()
             }
         }
     }
+    cout << isVsync << endl;
 }
 
 void WindowManager::HandleWindow()
@@ -65,30 +66,57 @@ void WindowManager::InitGameWindowIcon() // Inits the window icon and sets it
     SetWindowIcon(windowIcon);                                       // Sets the window icon
 };
 
-void WindowManager::CheckForVSync()
+void WindowManager::EnableVsync(bool fallback)
 {
-    int currentMonitorRefreshRate = GetMonitorRefreshRate(GetCurrentMonitor());
-
-    if (targetFPS > currentMonitorRefreshRate)
+    if (fallback)
     {
-        std::cout << "VSYNC: Disabled" << std::endl;
-        SetTargetFPS(targetFPS); // Sets the TARGET FPS
+        cout << "[VSYNC]: Fallback so disabled" << endl;
     }
     else
     {
-        std::cout << "VSYNC: Enabled" << std::endl;
-        SetWindowState(FLAG_VSYNC_HINT); // Enables V-Sync
+        cout << "[VSYNC]: Enabled" << endl;
+    }
+    SetWindowState(FLAG_VSYNC_HINT); // Enables V-Sync
+    isVsync = true;
+}
+
+void WindowManager::DisableVsync()
+{
+    cout << "[VSYNC]: Disabled" << endl;
+    SetTargetFPS(targetFPS); // Sets the TARGET FPS
+}
+
+void WindowManager::CheckForVSync()
+{
+    isVsync = false;
+    int currentMonitor = GetCurrentMonitor(); // 0 is typically the primary monitor on their OS
+    int currentMonitorRefreshRate = GetMonitorRefreshRate(currentMonitor);
+
+    cout << "[MONITOR]: " << currentMonitor << endl;
+    cout << "[REFRESH RATE]: " << currentMonitorRefreshRate << endl;
+
+    if (targetFPS == currentMonitorRefreshRate)
+    {
+        EnableVsync(false);
+    }
+    else if (targetFPS > currentMonitorRefreshRate || targetFPS < currentMonitorRefreshRate)
+    {
+        DisableVsync();
+    }
+    else // Fallback, just enable v sync
+    {
+        EnableVsync(true);
     }
 }
 
-#define RLGL_SHOW_GL_DETAILS_INFO     0    // Disable OpenGL debug messages 
-void WindowManager::SetWindowFlags()
+void WindowManager::InitWindowAndSetFlags()
 {
+    InitWindow(screenWidth, screenHeight, windowName); // Init a window with a screen width, height and window name
     SetTraceLogLevel(LOG_ERROR);
     InitGameWindowIcon(); // Init a window icon
     // Set some flags for the window
     SetWindowState(FLAG_WINDOW_RESIZABLE); // Makes the window resizeable
-    SetWindowMonitor(0);                   // Sets the window to your primary application. To be tested
+    // SetWindowMonitor(1);                   // Sets the window to your primary application. To be tested
     CheckForVSync();
 
     SetWindowState(FLAG_WINDOW_ALWAYS_RUN); // Will run even if minimised

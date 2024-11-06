@@ -5,6 +5,7 @@
 #include <iostream> // TEMP TO DISABLE RED SQUIGGLY LINES
 #include "raylib.h" // TEMP TO DISABLE RED SQUIGGLY LINES
 
+using std::cout, std::endl;
 
 class Grass
 {

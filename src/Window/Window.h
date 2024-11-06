@@ -4,12 +4,17 @@
 #include "raylib.h"
 #include <iostream>
 
+using std::cout, std::endl;
+
 class WindowManager
 {
 public:
     inline static int screenWidth = 1280;
     inline static int screenHeight = 720;
-    inline static int targetFPS = 200;
+    inline static int targetFPS = 75; // Lower or higher values than your refresh rate will disable vsync and apply the target FPS
+    inline static bool isVsync;
+
+
     inline static int prevScreenWidth;
     inline static int prevScreenHeight;
     inline static const char windowName[] = "Animal Crossing - Development Build (Alpha 0.0.1)";
@@ -26,5 +31,8 @@ public:
 
     static void CheckForVSync();
 
-    static void SetWindowFlags();
+    static void EnableVsync(bool fallback);
+    static void DisableVsync();
+
+    static void InitWindowAndSetFlags();
 };
