@@ -31,8 +31,8 @@ bool Main::InitGame()
 
 void Main::UpdatePostDrawLoop()
 {
-    GameControls::UpdateControls(&Character::characterPosition, Character::characterSpeed);
-    CharacterCamera::UpdateCamera(&Character::characterPosition);
+    GameControls::UpdateControls(&Character::characterPos, Character::characterSpeed);
+    CharacterCamera::UpdateCamera(&Character::characterPos);
     MouseManager::UpdateMousePosition();
     WindowManager::HandleWindow();
     MouseManager::ToggleMouseCursor();

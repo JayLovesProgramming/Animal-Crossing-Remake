@@ -25,7 +25,7 @@ void Tree::LoadTrees()
     {
         float x = static_cast<float>(std::rand() % xRange - zRange);
         float z = static_cast<float>(std::rand() % xRange - zRange);
-        Vector3 newPos = {x, Map::GetHeightAtPosition(x, z), z};
+        Vector3 newPos = {x, Map::GetHeightAtPosition(x, z, "tree"), z};
 
 
         bool isTreeSpaced = true;

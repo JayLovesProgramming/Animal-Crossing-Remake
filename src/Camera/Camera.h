@@ -20,7 +20,7 @@ public:
 
     static Vector3 SmoothVector3(Vector3 current, Vector3 target, float smoothFactor);
 
-    static void UpdateCamera(Vector3* characterPosition);
+    static void UpdateCamera(Vector3* characterPos);
 
 private:
     inline static float cameraDistance = 15.0f;

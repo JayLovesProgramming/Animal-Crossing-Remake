@@ -45,7 +45,7 @@ Vector3 CharacterCamera::SmoothVector3(Vector3 current, Vector3 target, float sm
         Lerp(current.z, target.z, smoothFactor)};
 };
 
-void CharacterCamera::UpdateCamera(Vector3 *characterPosition)
+void CharacterCamera::UpdateCamera(Vector3 *characterPos)
 {
     UpdateCameraZoom();
     UpdateCameraModeProjection();
@@ -69,13 +69,13 @@ void CharacterCamera::UpdateCamera(Vector3 *characterPosition)
 
     // Calculate camera position on curved surface
     Vector3 rawCameraPos = {
-        characterPosition->x + cameraOffset.x,
+        characterPos->x + cameraOffset.x,
         0.0f,
-        characterPosition->z + cameraOffset.z};
+        characterPos->z + cameraOffset.z};
 
     // Get heights
-    float characterGroundHeight = Map::GetHeightAtPosition(characterPosition->x, characterPosition->z);
-    float cameraGroundHeight = Map::GetHeightAtPosition(rawCameraPos.x, rawCameraPos.z);
+    float characterGroundHeight = Map::GetHeightAtPosition(characterPos->x, characterPos->z, "camera");
+    float cameraGroundHeight = Map::GetHeightAtPosition(rawCameraPos.x, rawCameraPos.z, "camera");
 
     // characterGroundHeight = 0.0f; // This locks to the character
     // std::cout << "[CHARACTER] Ground Height: " << characterGroundHeight << std::endl;
@@ -112,7 +112,7 @@ void CharacterCamera::UpdateCamera(Vector3 *characterPosition)
     camera.up = smoothedNormal;
 
     // Set target position with smoothed height
-    camera.target = *characterPosition;
+    camera.target = *characterPos;
     static float lastTargetHeight = characterGroundHeight;
     float targetHeightOffset = 1.0f;
     float newTargetHeight = characterGroundHeight + targetHeightOffset;

@@ -1,0 +1,7 @@
+- Rotate the trees relative to the maps curvature
+- Ensure the trees don't go through the ground
+
+- Make the character/cube rotate all around the maps curvature
+
+- Implement lakes around the map
+

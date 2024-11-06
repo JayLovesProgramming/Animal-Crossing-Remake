@@ -33,7 +33,7 @@ void Flower::GenerateRandomFlowers(int count)
         float flowerZ = static_cast<float>(rand()) / RAND_MAX * zRange - (zRange / 2);
         flower.position = {
             flowerX,
-            Map::GetHeightAtPosition(flowerX, flowerZ),
+            Map::GetHeightAtPosition(flowerX, flowerZ, "flower"),
             flowerZ};
         flower.color = GenerateRandomFlowerColour();
         flowers.push_back(flower);

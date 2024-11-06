@@ -2,7 +2,7 @@
 
 
 
-void GameControls::UpdateControls(Vector3 *characterPosition, float characterSpeed)
+void GameControls::UpdateControls(Vector3 *characterPos, float characterSpeed)
 {
     float deltaSpeed = characterSpeed * GetFrameTime();
     nearTree = false;
@@ -26,10 +26,10 @@ void GameControls::UpdateControls(Vector3 *characterPosition, float characterSpe
     rightDirection = Vector3Normalize(rightDirection);
 
     // Store initial position for collision checking and movement
-    Vector3 newPosition = *characterPosition;
+    Vector3 newPosition = *characterPos;
     // newPosition.y = groundLevel; // Ensure Y-axis stays at ground level
 
-    Vector3 initialPosition = *characterPosition;
+    Vector3 initialPosition = *characterPos;
 
     // Forward and backward movement
     if (IsKeyDown(KEY_W)) 
@@ -86,7 +86,7 @@ void GameControls::UpdateControls(Vector3 *characterPosition, float characterSpe
     if (!nearTree) 
     {
         newPosition.y = groundLevel; // Force Y-axis to ground level
-        *characterPosition = newPosition;
+        *characterPos = newPosition;
         animFrameCounter++;
     }
 };

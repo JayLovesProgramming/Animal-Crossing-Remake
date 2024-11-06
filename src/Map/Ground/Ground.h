@@ -37,7 +37,7 @@ public:
     static float GetNoiseAt(float x, float z);
 
     // Get the exact height at any world position
-    static float GetHeightAtPosition(float x, float z);
+    static float GetHeightAtPosition(float x, float z, std::string type);
 
     static float CalculateRotationForObject(float x, float z);
 

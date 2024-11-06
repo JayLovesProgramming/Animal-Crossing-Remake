@@ -20,5 +20,4 @@ public:
         std::cout << "[DESTROYED]: Game State" << std::endl;
     };
 };
-
 GameState state;

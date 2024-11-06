@@ -37,10 +37,14 @@ float Map::GetNoiseAt(float x, float z)
 }
 
 // Get the exact height at any world position
-float Map::GetHeightAtPosition(float x, float z)
+float Map::GetHeightAtPosition(float x, float z, std::string type)
 {
     // Calculate the base curved height
-    float baseHeight = CalculateCurvedHeight(x, z);
+    float baseHeight = CalculateCurvedHeight(x, z); 
+    if (type == "character")
+    {
+         baseHeight += 0.5f; // +0.5f gets the actual bottom surface and doesn't center the cube/character with the ground (stops the character from clipping through the ground surface)
+    }
 
     // Get the interpolated noise value
     float noiseValue = GetNoiseAt(x, z);
@@ -86,12 +90,12 @@ float Map::CalculateCurvedHeight(float x, float z)
 Vector3 Map::GetSurfaceNormalAtPosition(float x, float z)
 {
     // Use small delta for numerical derivatives
-    const float delta = 3.00f;
+    const float delta = 1.0f;
 
     // Get heights at nearby points
-    float h = GetHeightAtPosition(x, z);
-    float hx1 = GetHeightAtPosition(x + delta, z);
-    float hz1 = GetHeightAtPosition(x, z + delta);
+    float h = GetHeightAtPosition(x, z, "");
+    float hx1 = GetHeightAtPosition(x + delta, z, "");
+    float hz1 = GetHeightAtPosition(x, z + delta, "");
 
     // Calculate partial derivatives
     float dx = (hx1 - h) / delta; // dh/dx
@@ -215,3 +219,5 @@ void Map::UnloadGround()
     UnloadImage(noiseImage);
     std::cout << "[UNLOADED]: Ground" << std::endl;
 }
+
+
