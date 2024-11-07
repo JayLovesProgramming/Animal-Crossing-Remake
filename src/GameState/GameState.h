@@ -1,11 +1,11 @@
 // GameState/GameState.h
 #pragma once
 
-#include "Map/Grass/Grass.h" // TEMP TO DISABLE RED SQUIGGLY LINES
-#include "Map/Ground/Ground.h" // TEMP TO DISABLE RED SQUIGGLY LINES
-#include "Map/Flower/Flower.h" // TEMP TO DISABLE RED SQUIGGLY LINES
-#include "Map/Tree/Tree.h" // TEMP TO DISABLE RED SQUIGGLY LINES
-#include <iostream> // TEMP TO DISABLE RED SQUIGGLY LINES
+#include "Map/Grass/Grass.h" 
+#include "Map/Ground/Ground.h" 
+#include "Map/Flower/Flower.h" 
+#include "Map/Tree/Tree.h" 
+#include <iostream> 
 
 using std::cout, std::endl;
 

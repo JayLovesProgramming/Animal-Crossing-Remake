@@ -1,11 +1,11 @@
 // Menu/Menu.cpp
 #include "Menu.h"
 
-#include <iostream>// TEMP TO DISABLE RED SQUIGGLY LINES
-#include <fstream>// TEMP TO DISABLE RED SQUIGGLY LINES
-#include <sys/stat.h>// TEMP TO DISABLE RED SQUIGGLY LINES
-#include "raylib.h" // TEMP TO DISABLE RED SQUIGGLY LINES
-#include "Controls/Controls.h" // TEMP TO DISABLE RED SQUIGGLY LINES
+#include <iostream>
+#include <fstream>
+#include <sys/stat.h>
+#include "raylib.h" 
+#include "Controls/Controls.h" 
 
 using std::cout, std::cerr, std::endl;
 

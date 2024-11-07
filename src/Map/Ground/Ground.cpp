@@ -1,13 +1,13 @@
 // Ground/Ground.cpp
 #include "Ground.h"
 
-#include <iostream> // TEMP TO DISABLE RED SQUIGGLY LINES
-#include <stdio.h> // TEMP TO DISABLE RED SQUIGGLY LINES
-#include "raymath.h" // TEMP TO DISABLE RED SQUIGGLY LINES
-#include "raylib.h" // TEMP TO DISABLE RED SQUIGGLY LINES
+#include <iostream> 
+#include <stdio.h> 
+#include "raymath.h" 
+#include "raylib.h" 
 #include "Map/Grass/Grass.h"
 #include "Debug/Debug.h"
-using std::cout, std::endl;
+using std::cout, std::endl, std::string;
 
 // Get interpolated noise value at any position
 float Map::GetNoiseAt(float x, float z)
@@ -51,7 +51,7 @@ float Map::GetHeightAtPosition(float x, float z, string type)
     float baseHeight = CalculateCurvedHeight(x, z); 
     if (type == "character")
     {
-         baseHeight += 0.5f; // +0.5f gets the actual bottom surface and doesn't center the cube/character with the ground (stops the character from clipping through the ground surface)
+         baseHeight += 0.2f; // +0.5f gets the actual bottom surface and doesn't center the cube/character with the ground (stops the character from clipping through the ground surface)
     }
 
     // Get the interpolated noise value
@@ -101,9 +101,9 @@ Vector3 Map::GetSurfaceNormalAtPosition(float x, float z)
     const float delta = 1.0f;
 
     // Get heights at nearby points
-    float h = GetHeightAtPosition(x, z, "");
-    float hx1 = GetHeightAtPosition(x + delta, z, "");
-    float hz1 = GetHeightAtPosition(x, z + delta, "");
+    float h = GetHeightAtPosition(x, z, string());
+    float hx1 = GetHeightAtPosition(x + delta, z, string());
+    float hz1 = GetHeightAtPosition(x, z + delta, string());
 
     // Calculate partial derivatives
     float dx = (hx1 - h) / delta; // dh/dx

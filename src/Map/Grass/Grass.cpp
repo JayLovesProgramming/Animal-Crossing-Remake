@@ -1,9 +1,9 @@
 // Grass/Grass.cpp
 #include "Grass.h"
 
-#include <cassert> // TEMP TO DISABLE RED SQUIGGLY LINES
-#include <iostream> // TEMP TO DISABLE RED SQUIGGLY LINES
-#include "raylib.h" // TEMP TO DISABLE RED SQUIGGLY LINES
+#include <cassert> 
+#include <iostream> 
+#include "raylib.h" 
 
 using std::cout, std::endl;
 

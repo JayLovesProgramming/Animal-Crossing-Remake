@@ -1,11 +1,14 @@
 #include "Tree.h"
 #include "Map/Ground/Ground.h"
+#include "Character/Character.h"
 
 #include "raylib.h"
 #include "raymath.h"
 #include "rlgl.h"
 #include <iostream>
 using std::cout, std::endl;
+
+// TODO: Implement a feature so the trees have a bounding box so we can use that. Sort of doing it a cheap way currently
 
 void Tree::LoadTrees()
 {
@@ -51,31 +54,61 @@ void Tree::LoadTrees()
     }
 
     cout << "[LOADED]: " << numberOfTrees << " Trees" << endl;
-}
+};
 
 void Tree::UnloadTrees()
 {
     UnloadModel(treeModel);
     UnloadShader(doubleSidedShader); // Unload the shader
     cout << "[UNLOADED]: " << numberOfTrees << " Trees" << endl;
-}
+};
+
+void Tree::BeginTreeShader()
+{
+    BeginShaderMode(doubleSidedShader);
+    // Intend to implment some other shit here later down the line
+};
+
+void Tree::EndTreeShader()
+{
+    rlPopMatrix();
+    EndShaderMode();
+    // Intend to implment some other shit here later down the line
+};
+
+void Tree::RotateTrees(Vector3 position)
+{
+    float mapCurvature = Map::curvature;
+    // float mapRotation = mapCurvature * (180.0f / PI);
+    // float mapRotation = 15.0f;
+
+    Vector3 normal = Map::GetSurfaceNormalAtPosition(position.x, position.z);
+
+    rotX = atan2f(normal.z, normal.y) * (180.0f / PI);
+    float rotZ = atan2f(normal.x, normal.y) * (180.0f / PI);
+
+
+    rlPushMatrix();
+
+    // rlRotatef(rotX, 1.0f, 0.0f, 0.0f);
+    rlRotatef(rotX, 0.0f, 0.0f, 0.0f); // Calc the maps curvature??
+    // rlRotatef(rotZ, 0.0f, 0.0f, -1.0f);
+    
+};
 
 void Tree::DrawTrees()
 {
-    // Set the shader to be used for rendering the trees
-    BeginShaderMode(doubleSidedShader);
-
     for (const auto &position : treePositions)
     {
-        // float mapRotation = Map::CalculateRotationForObject(position.x, position.z);
-        // rlPushMatrix();
-        DrawCylinder(position, treeCollisionRadius, treeCollisionRadius, 2, 0, LIME);
-        // DrawSphere(position, treeCollisionRadius, PINK); // Visualize with a red sphere
-        // rlRotatef(mapRotation * (180.0f / PI), -0.01f, 0.0f, 0.0f);
-        DrawModel(treeModel, position, 0.9f, WHITE);
-        // rlPopMatrix();
-    }
 
-    // End shader mode
-    EndShaderMode();
-}
+        RotateTrees(position);
+        // DrawSphere(position, treeCollisionRadius, PINK); // Visualize with a red sphere
+        // DrawSphere(position, treeCollisionRadius, Color{255, 20, 147, 250}); // PINK with 50% opacity - useful for debugging rlEnableBackfaceCulling
+
+        BeginTreeShader();
+
+        DrawModel(treeModel, position, 0.9f, WHITE);
+
+        EndTreeShader();
+    }
+};
