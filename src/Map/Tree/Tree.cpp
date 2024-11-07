@@ -1,6 +1,7 @@
 #include "Tree.h"
 #include "Map/Ground/Ground.h"
 #include "Character/Character.h"
+#include "Controls/Controls.h"
 
 #include "raylib.h"
 #include "raymath.h"
@@ -14,7 +15,7 @@ void Tree::LoadTrees()
 {
     treeModel = LoadModel("C:/Users/jayxw/Desktop/AnimalCrossing/src/Assets/Models/treetest/treetest.gltf");
     assert(treeModel.meshCount > 0);
-    
+
     for (int i = 0; i < treeModel.materialCount; i++)
     {
         SetTextureFilter(treeModel.materials[i].maps[MATERIAL_MAP_ALBEDO].texture, TEXTURE_FILTER_ANISOTROPIC_16X);
@@ -65,6 +66,36 @@ void Tree::UnloadTrees()
     cout << "[UNLOADED]: " << numberOfTrees << " Trees" << endl;
 };
 
+void Tree::HandleTreeCollision()
+{
+    // Collision detection with trees considering both horizontal distance and y-axis position
+    for (const auto &treePos : Tree::treePositions)
+    {
+        // Calculate horizontal distance (ignore y-axis)
+        float horizontalDistance = sqrtf((GameControls::newPosition.x - treePos.x) * (GameControls::newPosition.x - treePos.x) + (GameControls::newPosition.z - treePos.z) * (GameControls::newPosition.z - treePos.z));
+
+        // Calculate vertical distance (y-axis)
+        float verticalDistance = fabs(GameControls::newPosition.y - treePos.y);
+
+        // If within both horizontal and vertical distance thresholds, consider it a collision
+        if (horizontalDistance <= Tree::treeCollisionRadius && verticalDistance <= Tree::treeHeightThreshold)
+        {
+            GameControls::nearTree = true;
+            // Reset position based on attempted movement direction
+            if (IsKeyDown(KEY_W) || IsKeyDown(KEY_S))
+            {
+                GameControls::newPosition.z = GameControls::initialPosition.z;
+            }
+            if (IsKeyDown(KEY_A) || IsKeyDown(KEY_D))
+            {
+                GameControls::newPosition.x = GameControls::initialPosition.x;
+            }
+            break;
+        }
+        GameControls::nearTree = false;
+    }
+}
+
 void Tree::BeginTreeShader()
 {
     BeginShaderMode(doubleSidedShader);
@@ -73,7 +104,7 @@ void Tree::BeginTreeShader()
 
 void Tree::EndTreeShader()
 {
-    rlPopMatrix();
+    // rlPopMatrix();
     EndShaderMode();
     // Intend to implment some other shit here later down the line
 };
@@ -89,13 +120,11 @@ void Tree::RotateTrees(Vector3 position)
     rotX = atan2f(normal.z, normal.y) * (180.0f / PI);
     float rotZ = atan2f(normal.x, normal.y) * (180.0f / PI);
 
-
     rlPushMatrix();
 
     // rlRotatef(rotX, 1.0f, 0.0f, 0.0f);
     rlRotatef(rotX, 0.0f, 0.0f, 0.0f); // Calc the maps curvature??
     // rlRotatef(rotZ, 0.0f, 0.0f, -1.0f);
-    
 };
 
 void Tree::DrawTrees()
@@ -103,7 +132,7 @@ void Tree::DrawTrees()
     for (const auto &position : treePositions)
     {
 
-        RotateTrees(position);
+        // RotateTrees(position);
         // DrawSphere(position, treeCollisionRadius, PINK); // Visualize with a red sphere
         // DrawSphere(position, treeCollisionRadius, Color{255, 20, 147, 250}); // PINK with 50% opacity - useful for debugging rlEnableBackfaceCulling
 

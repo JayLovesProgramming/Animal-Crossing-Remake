@@ -60,7 +60,7 @@ void Character::HandleCharacterMovement(Vector3 newPosition, Vector3 initialPosi
         // Play walk animation
         float movementAngle = atan2f(newPosition.x - initialPosition.x, newPosition.z - initialPosition.z);
 
-        cout << movementAngle << endl;
+        // cout << movementAngle << endl;
 
         Matrix rotation = MatrixRotateY(movementAngle);
         model.transform = rotation;
@@ -95,7 +95,7 @@ void Character::DrawCharacter()
     rlRotatef(rotX, 1.0f, 0.0f, 0.0f);
     rlRotatef(rotZ, 0.0f, 0.0f, -1.0f);
 
-    DrawModel(model, Vector3{0.0f, 0.0f, 0.0f}, 0.5f, WHITE);
+    DrawModel(model, Vector3{0.0f, 0.0f, 0.0f}, 0.4f, WHITE);
     // DrawCube(Vector3{0.0f, 0.0f, 0.0f}, 1.0f, 2.0f, 1.0f, LIME);
 
     rlPopMatrix();

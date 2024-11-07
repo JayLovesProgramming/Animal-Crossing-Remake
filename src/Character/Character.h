@@ -6,7 +6,8 @@ using std::cout, std::endl;
 class Character
 {
 public:
-    constexpr static float characterSpeed = 7.0f;
+    inline static float defaultCharacterSpeed = 7.0f;
+    inline static float characterSpeed = defaultCharacterSpeed;
     inline static Vector3 characterPos = {0.0f, 1.0f, 0.0f};
     inline static Vector3 position = {0.0f, 0.0f, 0.0f}; // Set model pos
     

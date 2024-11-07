@@ -4,36 +4,40 @@
 #include "raymath.h"
 #include "Camera/Camera.h"
 #include "Map/Ground/Ground.h"
-#include "Character/Character.h"
 #include "Map/Tree/Tree.h"
+#include "Map/Flower/Flower.h"
+#include "Character/Character.h"
 #include <iostream>
 using std::cout, std::endl;
 
-void GameControls::UpdateControls(Vector3 *characterPos, float characterSpeed)
+void GameControls::HandleNearbyObjectCollisions()
+{
+    Tree::HandleTreeCollision();
+    Flower::HandleFlowerCollision();
+};
+
+void GameControls::UpdateControls(Vector3 *characterPos, float &characterSpeed)
 {
     float deltaSpeed = characterSpeed * GetFrameTime();
-    nearTree = false;
 
     // Calculate directional vectors based on camera rotation (done once)
     float cameraAngle = DEG2RAD * CharacterCamera::cameraRotationAngle;
     Vector3 forwardDirection = {
-        sinf(cameraAngle), 
-        0.0f, 
-        cosf(cameraAngle)
-    };
+        sinf(cameraAngle),
+        0.0f,
+        cosf(cameraAngle)};
     Vector3 rightDirection = {
-        cosf(cameraAngle), 
-        0.0f, 
-        -sinf(cameraAngle)
-    };
+        cosf(cameraAngle),
+        0.0f,
+        -sinf(cameraAngle)};
 
     // Normalize the direction vectors
     forwardDirection = Vector3Normalize(forwardDirection);
     rightDirection = Vector3Normalize(rightDirection);
 
     // Store initial position for collision checking
-    Vector3 initialPosition = *characterPos; // ? WTF is this doing
-    Vector3 newPosition = initialPosition;
+    initialPosition = *characterPos; // ? WTF is this doing
+    newPosition = initialPosition;
 
     // Movement (forward/backward, left/right)
     if (IsKeyDown(KEY_W))
@@ -57,6 +61,31 @@ void GameControls::UpdateControls(Vector3 *characterPos, float characterSpeed)
         newPosition.z += rightDirection.z * deltaSpeed;
     }
 
+    if (IsKeyPressed(KEY_SPACE) && !isJumping)
+    {
+        isJumping = true;
+        verticalVelocity = jumpForce;
+    }
+
+    if (isJumping)
+    {
+        // Apply upward movement and gravity
+        newPosition.y += verticalVelocity * GetFrameTime();
+        verticalVelocity -= gravity * GetFrameTime();
+
+        // Check if character has landed
+        if (newPosition.y <= 0.0f)
+        {
+            newPosition.y = 0.0f;
+            isJumping = false;
+            verticalVelocity = 0.0f;
+        }
+    }
+    else
+    {
+        newPosition.y = 0.0f; // Force Y-axis to ground level
+    }
+
     Character::HandleCharacterMovement(newPosition, initialPosition);
 
     // Boundary checks
@@ -66,36 +95,20 @@ void GameControls::UpdateControls(Vector3 *characterPos, float characterSpeed)
     // Debugging output
     // cout << "Character Position: (" << newPosition.x << ", " << newPosition.y << ", " << newPosition.z << ")\n";
 
-    // Collision detection with trees considering both horizontal distance and y-axis position
-    for (const auto &treePos : Tree::treePositions)
-    {
-        // Calculate horizontal distance (ignore y-axis)
-        float horizontalDistance = sqrtf((newPosition.x - treePos.x) * (newPosition.x - treePos.x) + (newPosition.z - treePos.z) * (newPosition.z - treePos.z));
-
-        // Calculate vertical distance (y-axis)
-        float verticalDistance = fabs(newPosition.y - treePos.y);
-
-        // If within both horizontal and vertical distance thresholds, consider it a collision
-        if (horizontalDistance <= Tree::treeCollisionRadius && verticalDistance <= Tree::treeHeightThreshold)
-        {
-            nearTree = true;
-            // Reset position based on attempted movement direction
-            if (IsKeyDown(KEY_W) || IsKeyDown(KEY_S))
-            {
-                newPosition.z = initialPosition.z;
-            }
-            if (IsKeyDown(KEY_A) || IsKeyDown(KEY_D))
-            {
-                newPosition.x = initialPosition.x;
-            }
-            break;
-        }
-    }
+    HandleNearbyObjectCollisions();
 
     // Apply movement if no collision detected, ensuring y stays at ground level
+    if (nearFlower && Character::defaultCharacterSpeed == Character::characterSpeed)
+    {
+        characterSpeed -= 1.2f;
+    }
+    else
+    {
+        characterSpeed = Character::defaultCharacterSpeed;
+    }
+
     if (!nearTree)
     {
-        newPosition.y = 0.0f; // Force Y-axis to ground level
         *characterPos = newPosition;
         animFrameCounter++;
     }

@@ -49,10 +49,10 @@ float Map::GetHeightAtPosition(float x, float z, string type)
 {
     // Calculate the base curved height
     float baseHeight = CalculateCurvedHeight(x, z); 
-    if (type == "character")
-    {
-         baseHeight += 0.2f; // +0.5f gets the actual bottom surface and doesn't center the cube/character with the ground (stops the character from clipping through the ground surface)
-    }
+    // if (type == "character")
+    // {
+    //      baseHeight += 0.1f; // +0.5f gets the actual bottom surface and doesn't center the cube/character with the ground (stops the character from clipping through the ground surface)
+    // }
 
     // Get the interpolated noise value
     float noiseValue = GetNoiseAt(x, z);

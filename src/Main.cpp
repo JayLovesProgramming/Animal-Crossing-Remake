@@ -51,8 +51,8 @@ void Main::DrawLoop()
         BeginMode3D(CharacterCamera::camera);
         rlEnableBackfaceCulling();
         // Draw world elements
-        Tree::DrawTrees();     // Draws the trees on the map
         Flower::DrawFlowers(); // Draws the flowers on the map
+        Tree::DrawTrees();     // Draws the trees on the map
         Map::DrawGround();
         Character::DrawCharacter();
 

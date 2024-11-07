@@ -1,13 +1,14 @@
 // Flower/Flower.cpp
 #include "Flower.h"
 
-#include "raylib.h" 
-#include "Map/Ground/Ground.h" 
-#include <iostream> 
-#include <vector> 
-#include <cassert> 
-#include <cstdlib> 
-#include <ctime> 
+#include "raylib.h"
+#include "Map/Ground/Ground.h"
+#include "Controls/Controls.h"
+#include <iostream>
+#include <vector>
+#include <cassert>
+#include <cstdlib>
+#include <ctime>
 using std::cout, std::endl;
 
 void Flower::LoadFlowers()
@@ -21,6 +22,29 @@ void Flower::LoadFlowers()
     GenerateRandomFlowers(numberOfFlowers);
     cout << "[LOADED]: " << numberOfFlowers << " Flowers" << endl;
 };
+
+void Flower::HandleFlowerCollision()
+{
+    // Iterate through each flower to check for collisions
+    for (const auto &flower : flowers)
+    {
+        // Calculate horizontal distance (ignore y-axis)
+        float horizontalDistance = sqrtf(
+            (GameControls::newPosition.x - flower.position.x) * (GameControls::newPosition.x - flower.position.x) +
+            (GameControls::newPosition.z - flower.position.z) * (GameControls::newPosition.z - flower.position.z));
+
+        // Calculate vertical distance (y-axis)
+        float verticalDistance = fabs(GameControls::newPosition.y - flower.position.y);
+
+        // If within both horizontal and vertical distance thresholds, consider it a collision
+        if (horizontalDistance <= flowerCollisionRadius && verticalDistance <= flowerHeightThreshold)
+        {
+            GameControls::nearFlower = true;
+            break;
+        }
+        GameControls::nearFlower = false;
+    }
+}
 
 void Flower::DrawFlowers()
 {
