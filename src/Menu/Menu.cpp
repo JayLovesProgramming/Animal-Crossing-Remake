@@ -6,8 +6,56 @@
 #include <sys/stat.h>
 #include "raylib.h" 
 #include "Controls/Controls.h" 
+#include "Window/Window.h" 
+#include "Audio/Audio.h" 
 
 using std::cout, std::cerr, std::endl;
+
+void MenuManager::InitalizeButton()
+{
+    cout << "Initializing button" << endl;
+    int NUM_FRAMES = 3;
+    button = LoadTexture("C:/Users/jayxw/Desktop/AnimalCrossing/src/Assets/Textures/button.png");
+    frameHeight = (float)button.height / NUM_FRAMES;
+    sourceRec = {0, 0, (float)button.width, frameHeight};
+    buttonBounds = {WindowManager::screenWidth / 2.0f, WindowManager::screenHeight / 2.0f - button.height / NUM_FRAMES / 2.0f, (float)button.width, frameHeight};
+
+    fxButtonSound = LoadSound("C:/Users/jayxw/Desktop/AnimalCrossing/src/Assets/Sounds/buttonfx.wav");
+    cout << "Initialized button" << endl;
+};
+
+void MenuManager::CheckForButtonPress()
+{
+    if (!GameControls::nearTree)
+        return;
+        
+    if (IsKeyDown(KEY_E))
+    {
+        buttonState = 2;
+    }
+    else
+    {
+        buttonState = 1;
+    }
+
+    if (IsKeyReleased(KEY_E))
+    {
+        buttonPressed = true;
+    }
+    else
+    {
+        buttonPressed = false;
+    }
+
+    if (buttonPressed)
+    {
+        PlaySound(fxButtonSound);
+    }
+
+    sourceRec.y = buttonState * frameHeight;
+    DrawTextureRec(button, sourceRec, Vector2{buttonBounds.x, buttonBounds.y}, WHITE);
+};
+
 
 time_t MenuManager::GetLastModificationTime()
 {
@@ -21,13 +69,13 @@ time_t MenuManager::GetLastModificationTime()
 
 void MenuManager::LoadConfigValues(FILE *file)
 {
-    fscanf(file, "boxPositionX=%f\n", &boxPosition.x);
-    fscanf(file, "boxPositionY=%f\n", &boxPosition.y);
-    fscanf(file, "boxSizeX=%f\n", &boxSize.x);
-    fscanf(file, "boxSizeY=%f\n", &boxSize.y);
-    fscanf(file, "iconOffsetX=%f\n", &iconOffset.x);
-    fscanf(file, "iconOffsetY=%f\n", &iconOffset.y);
-    fscanf(file, "promptText=%255[^\n]", &promptText);
+    fscanf(file, "boxPositionX=%f/n", &boxPosition.x);
+    fscanf(file, "boxPositionY=%f/n", &boxPosition.y);
+    fscanf(file, "boxSizeX=%f/n", &boxSize.x);
+    fscanf(file, "boxSizeY=%f/n", &boxSize.y);
+    fscanf(file, "iconOffsetX=%f/n", &iconOffset.x);
+    fscanf(file, "iconOffsetY=%f/n", &iconOffset.y);
+    fscanf(file, "promptText=%255[^/n]", &promptText);
 };
 
 void MenuManager::LoadUIConfig()

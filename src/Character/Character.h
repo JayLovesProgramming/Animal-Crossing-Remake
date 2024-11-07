@@ -24,10 +24,18 @@ public:
 
     static void HandleCharacterMovement(Vector3 newPosition, Vector3 initialPosition);
 
-    static void CharacterWalk(bool isWalking);
+    static void CharacterAnimation(bool isWalking);
 
     static void DrawCharacter();
 
     // DEBUG - Soon to remove
     static inline bool printedCurrentAnim = false;
+
+
+    struct CharacterAnims
+    {
+        int idle = 3;
+        int walking = 6;
+        int running;
+    }; // Func name here
 };

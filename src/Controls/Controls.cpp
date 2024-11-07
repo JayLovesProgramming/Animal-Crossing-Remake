@@ -21,14 +21,18 @@ void GameControls::UpdateControls(Vector3 *characterPos, float characterSpeed)
         0.0f, 
         cosf(cameraAngle)
     };
-    Vector3 rightDirection = {cosf(cameraAngle), 0.0f, -sinf(cameraAngle)};
+    Vector3 rightDirection = {
+        cosf(cameraAngle), 
+        0.0f, 
+        -sinf(cameraAngle)
+    };
 
     // Normalize the direction vectors
     forwardDirection = Vector3Normalize(forwardDirection);
     rightDirection = Vector3Normalize(rightDirection);
 
     // Store initial position for collision checking
-    Vector3 initialPosition = *characterPos;
+    Vector3 initialPosition = *characterPos; // ? WTF is this doing
     Vector3 newPosition = initialPosition;
 
     // Movement (forward/backward, left/right)
@@ -62,7 +66,6 @@ void GameControls::UpdateControls(Vector3 *characterPos, float characterSpeed)
     // Debugging output
     // cout << "Character Position: (" << newPosition.x << ", " << newPosition.y << ", " << newPosition.z << ")\n";
 
-    // Collision detection with trees
     // Collision detection with trees considering both horizontal distance and y-axis position
     for (const auto &treePos : Tree::treePositions)
     {

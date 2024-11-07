@@ -9,6 +9,7 @@
 
 using std::cout, std::endl;
 
+// Loads the character model, asserts it, rotates it 180 then load the models anims
 void Character::LoadCharacterModel()
 {
 
@@ -21,14 +22,15 @@ void Character::LoadCharacterModel()
     modelAnimations = LoadModelAnimations(modelPath, &animsCount); // Load the models animations and assign the count of anims to animsCount
 };
 
-void Character::CharacterWalk(bool isWalking)
+// Handles ALL character animations here
+void Character::CharacterAnimation(bool isWalking)
 {
     assert(modelAnimations);
 
-    animIndex = 2;
+    animIndex = 2; // Idle anim
     if (isWalking)
     {
-        animIndex = 6;
+        animIndex = 6; // Walk/run anim
     }
 
     ModelAnimation anim = modelAnimations[animIndex];
@@ -49,18 +51,22 @@ void Character::HandleCharacterMovement(Vector3 newPosition, Vector3 initialPosi
     bool characterWalking = (IsKeyDown(KEY_W) || IsKeyDown(KEY_A) || IsKeyDown(KEY_S) || IsKeyDown(KEY_D));
     if (characterWalking)
     {
-        // Play walk animation
-        float movementAngle = atan2f(newPosition.z - initialPosition.z, newPosition.x - initialPosition.x);
+        // Right == 0 ?? Why? Forward should == 0? or Forward should ==  3.14159
 
+        // Play walk animation
+        float movementAngle = atan2f(newPosition.x - initialPosition.x, newPosition.z - initialPosition.z);
+
+        cout << movementAngle << endl;
+        
         Matrix rotation = MatrixRotateY(movementAngle);
         model.transform = rotation;
 
-        CharacterWalk(true);
+        CharacterAnimation(true); // TODO: Use a struct here? Don't pass a bool
     }
     else
     {
         // Play idle animation
-        CharacterWalk(false);
+        CharacterAnimation(false); // TODO: Use a struct here? Don't pass a bool
     }
 };
 

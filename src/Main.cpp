@@ -6,16 +6,17 @@ void Main::EndDrawingLoop()
 {
     EndMode3D();                                                                                                               // End the 3D mode so we can then draw other UI on top
     DrawText(TextFormat("FPS: %i", GetFPS()), WindowManager::screenWidth - 220, WindowManager::screenHeight - 100, 30, GREEN); // Draws the current FPS
-    MenuManager::DrawShakeTreePrompt();                                                                                        // Draws some simple UI for shaking the tree
+    MenuManager::CheckForButtonPress();
     EndDrawing();                                                                                                              // Ends the canvas drawing and swap buffers
 }
 
 // Initalizes the game
 bool Main::InitGame()
 {
-    MenuManager::LoadUIConfig(); // Loads the UI config when the game initalizes TODO: Init this in UI.h
-
     WindowManager::InitWindowAndSetFlags();
+
+    MenuManager::LoadUIConfig(); // Loads the UI config when the game initalizes TODO: Init this in UI.h
+    MenuManager::InitalizeButton();
 
     Character::LoadCharacterModel();
 
@@ -42,19 +43,16 @@ void Main::UpdatePostDrawLoop()
 // The main game draw loop. This draws everything you see on the screen
 void Main::DrawLoop()
 {
-
     // Begin the drawing, 3D mode and blend mode
     BeginDrawing();
-    BeginMode3D(CharacterCamera::camera);
-    ClearBackground(BLANK); // Clears the background every frame
-    rlEnableBackfaceCulling();
-
-    // Draw world elements
-    Tree::DrawTrees();     // Draws the trees on the map
-    Flower::DrawFlowers(); // Draws the flowers on the map
-    Map::DrawGround();
-
-    Character::DrawCharacter();
+        ClearBackground(BLANK); // Clears the background every frame
+        BeginMode3D(CharacterCamera::camera);
+        rlEnableBackfaceCulling();
+        // Draw world elements
+        Tree::DrawTrees();     // Draws the trees on the map
+        Flower::DrawFlowers(); // Draws the flowers on the map
+        Map::DrawGround();
+        Character::DrawCharacter();
 
     EndDrawingLoop();
 }
