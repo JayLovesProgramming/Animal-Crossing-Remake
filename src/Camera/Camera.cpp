@@ -5,13 +5,14 @@
 #include "raylib.h" // TEMP TO DISABLE RED SQUIGGLY
 #include <cmath> // TEMP TO DISABLE RED SQUIGGLY
 #include <iostream>
+#include "CameraZoom.h"
 
 void CharacterCamera::InitCamera()
 {
     camera.position = Vector3{0.0f, 0.0f, 0.0f};
     camera.target = Vector3{0.0f, 0.0f, 0.0f};
     camera.up = Vector3{0.0f, 1.0f, 0.0f};
-    camera.fovy = 35.0f;
+    camera.fovy = 55.0f;
     camera.projection = CAMERA_PERSPECTIVE;
     lastNormal = {0.0f, 1.0f, 0.0f}; // Initialize last normal
 };
@@ -24,23 +25,6 @@ void CharacterCamera::UpdateCameraModeProjection()
     }
 };
 
-void CharacterCamera::UpdateCameraZoom()
-{
-    static float targetCameraDistance = cameraDistance;
-    const float zoomSpeed = 1.5f;
-    const float minCameraDistance = 10.0f;
-    const float maxCameraDistance = 20.0f;
-    const float smoothFactor = 0.1f;
-
-    float mouseWheelMove = GetMouseWheelMove();
-    if (mouseWheelMove != 0)
-    {
-        targetCameraDistance -= mouseWheelMove * zoomSpeed;
-        targetCameraDistance = Clamp(targetCameraDistance, minCameraDistance, maxCameraDistance);
-    }
-
-    cameraDistance = Lerp(cameraDistance, targetCameraDistance, smoothFactor);
-};
 
 Vector3 CharacterCamera::SmoothVector3(Vector3 current, Vector3 target, float smoothFactor)
 {
@@ -52,7 +36,7 @@ Vector3 CharacterCamera::SmoothVector3(Vector3 current, Vector3 target, float sm
 
 void CharacterCamera::UpdateCamera(Vector3 *characterPos)
 {
-    UpdateCameraZoom();
+    CameraZoom::UpdateCameraZoom();
     UpdateCameraModeProjection();
 
     // Handle rotation
@@ -68,9 +52,9 @@ void CharacterCamera::UpdateCamera(Vector3 *characterPos)
     // Calculate base camera position relative to character
     float angleRad = DEG2RAD * cameraRotationAngle;
     Vector3 cameraOffset = {
-        sinf(angleRad) * cameraDistance,
+        sinf(angleRad) * CameraZoom::cameraDistance,
         0.0f,
-        cosf(angleRad) * cameraDistance};
+        cosf(angleRad) * CameraZoom::cameraDistance};
 
     // Calculate camera position on curved surface
     Vector3 rawCameraPos = {

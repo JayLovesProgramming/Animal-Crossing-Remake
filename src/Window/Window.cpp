@@ -115,6 +115,7 @@ void WindowManager::CheckForVSync()
 
 void WindowManager::InitWindowAndSetFlags()
 {
+    // SetConfigFlags(FLAG_MSAA_4X_HINT);
     InitWindow(screenWidth, screenHeight, windowName); // Init a window with a screen width, height and window name
     SetTraceLogLevel(LOG_ERROR);
     InitGameWindowIcon(); // Init a window icon
@@ -127,7 +128,6 @@ void WindowManager::InitWindowAndSetFlags()
     // SetWindowState(FLAG_WINDOW_TRANSPARENT);
     HideCursor();
     // SetWindowState(FLAG_FULLSCREEN_MODE);
-    SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_WINDOW_HIGHDPI);
     // SetMouseCursor(0);
     SetExitKey(0); // Removes all defaults for Exit key so I can create my own.
 };

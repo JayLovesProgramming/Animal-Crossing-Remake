@@ -12,8 +12,8 @@ public:
     // Initialize static variables
     inline static bool isJumping = false;
     inline static float verticalVelocity = 0.0f;
-    inline static  float gravity = 18.0f;
-    inline static  float jumpForce = 5.0f;
+    inline static  float gravity = 25.0f;
+    inline static  float jumpForce = 6.0f;
 
     static void UpdateControls(Vector3 *characterPos, float &characterSpeed);
 

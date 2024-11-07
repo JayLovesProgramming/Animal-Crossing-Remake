@@ -7,6 +7,7 @@ GameState::~GameState()
     Tree::UnloadTrees();
     Map::UnloadGround();
     Grass::UnloadGrassTexture();
+    AudioManager::UnloadAudio();
     CloseWindow(); // Finally close the window
     std::cout << "[DESTROYED]: Game State" << std::endl;
 }

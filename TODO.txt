@@ -5,3 +5,4 @@
 
 - Implement lakes around the map
 
+- Watching twitch on my 2nd monitor while developing and the audio sounds really fucked on my browser, possibly due to the game. Not sure yet and not worried cause I can refresh the wind

@@ -4,7 +4,8 @@
 // Ends the drawing loop and draws some other things outside of the main game draw
 void Main::EndDrawingLoop()
 {
-    EndMode3D();                                                                                                               // End the 3D mode so we can then draw other UI on top
+    EndMode3D();  
+    EndShaderMode();                                                                                                             // End the 3D mode so we can then draw other UI on top
     DrawText(TextFormat("FPS: %i", GetFPS()), WindowManager::screenWidth - 220, WindowManager::screenHeight - 100, 30, GREEN); // Draws the current FPS
     MenuManager::CheckForButtonPress();
     EndDrawing();                                                                                                              // Ends the canvas drawing and swap buffers
@@ -15,7 +16,10 @@ bool Main::InitGame()
 {
     WindowManager::InitWindowAndSetFlags();
 
+
     AudioManager::InitializeAudioDevice();
+
+    ShaderManager::InitializeSkyboxLighting();
 
     // MenuManager::LoadUIConfig(); // Loads the UI config when the game initalizes TODO: Init this in UI.h
     MenuManager::InitalizeButton();
@@ -29,7 +33,9 @@ bool Main::InitGame()
     Flower::LoadFlowers(); // Init and load the flowers TOOD: Init and load this in Flower.h
 
     Grass::LoadGrassTexture();
+
     Map::GenerateGroundSurface(); // Generates the surfaces planes
+
     return true;
 }
 
@@ -39,7 +45,9 @@ void Main::UpdatePostDrawLoop()
     MouseManager::UpdateMousePosition();
     WindowManager::HandleWindow();
     MouseManager::ToggleMouseCursor();
+    ShaderManager::UpdateSkyboxLighting();
     GameControls::UpdateControls(&Character::characterPos, Character::characterSpeed);
+    AudioManager::ManageMainMusic();
 }
 
 // The main game draw loop. This draws everything you see on the screen
@@ -47,7 +55,8 @@ void Main::DrawLoop()
 {
     // Begin the drawing, 3D mode and blend mode
     BeginDrawing();
-        ClearBackground(BLANK); // Clears the background every frame
+        ClearBackground(RAYWHITE); // Clears the background every frame
+        BeginShaderMode(ShaderManager::skyBoxShader);
         BeginMode3D(CharacterCamera::camera);
         rlEnableBackfaceCulling();
         // Draw world elements

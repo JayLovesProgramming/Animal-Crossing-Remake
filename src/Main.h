@@ -19,6 +19,7 @@
 #include "Map/Grass/Grass.cpp"
 #include "Window/Window.cpp"
 #include "Camera/Camera.cpp"
+#include "Camera/CameraZoom.cpp"
 #include "Map/Flower/Flower.cpp"
 #include "Map/Tree/Tree.cpp"
 #include "Controls/Mouse.cpp"
@@ -29,6 +30,7 @@
 #include "GameState/GameState.cpp"
 #include "Menu/Menu.cpp"
 #include "Audio/Audio.cpp"
+#include "Shader/Shader.cpp"
 
 class Main
 {

@@ -49,8 +49,8 @@ void MenuManager::CheckForButtonPress()
 
     if (buttonPressed)
     {
-        cout << "Playing sound" << endl;
-        PlaySound(fxButtonSound);
+        // PlaySound(fxButtonSound);
+        AudioManager::PlayACoolSoundThing("ShakeTree");
     }
 
     sourceRec.y = buttonState * frameHeight;

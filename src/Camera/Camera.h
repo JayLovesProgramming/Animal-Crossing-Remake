@@ -13,14 +13,11 @@ public:
 
     static void UpdateCameraModeProjection();
 
-    static void UpdateCameraZoom();
-
     static Vector3 SmoothVector3(Vector3 current, Vector3 target, float smoothFactor);
 
     static void UpdateCamera(Vector3* characterPos);
 
 private:
-    inline static float cameraDistance = 15.0f;
     constexpr static float turningModifier = 20.5f;
 
     static float Lerp(float start, float end, float amount) {

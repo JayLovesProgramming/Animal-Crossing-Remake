@@ -96,19 +96,6 @@ void Tree::HandleTreeCollision()
     }
 }
 
-void Tree::BeginTreeShader()
-{
-    BeginShaderMode(doubleSidedShader);
-    // Intend to implment some other shit here later down the line
-};
-
-void Tree::EndTreeShader()
-{
-    // rlPopMatrix();
-    EndShaderMode();
-    // Intend to implment some other shit here later down the line
-};
-
 void Tree::RotateTrees(Vector3 position)
 {
     float mapCurvature = Map::curvature;
@@ -136,10 +123,8 @@ void Tree::DrawTrees()
         // DrawSphere(position, treeCollisionRadius, PINK); // Visualize with a red sphere
         // DrawSphere(position, treeCollisionRadius, Color{255, 20, 147, 250}); // PINK with 50% opacity - useful for debugging rlEnableBackfaceCulling
 
-        BeginTreeShader();
-
+        // TODO: Rotate the trees PROPERLY!
         DrawModel(treeModel, position, 0.9f, WHITE);
 
-        EndTreeShader();
     }
 };

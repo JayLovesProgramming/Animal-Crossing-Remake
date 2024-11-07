@@ -7,6 +7,7 @@
 #include "Map/Tree/Tree.h"
 #include "Map/Flower/Flower.h"
 #include "Character/Character.h"
+#include "Audio/Audio.h"
 #include <iostream>
 using std::cout, std::endl;
 
@@ -79,6 +80,7 @@ void GameControls::UpdateControls(Vector3 *characterPos, float &characterSpeed)
             newPosition.y = 0.0f;
             isJumping = false;
             verticalVelocity = 0.0f;
+            AudioManager::PlayACoolSoundThing("JumpSound");
         }
     }
     else
@@ -98,14 +100,15 @@ void GameControls::UpdateControls(Vector3 *characterPos, float &characterSpeed)
     HandleNearbyObjectCollisions();
 
     // Apply movement if no collision detected, ensuring y stays at ground level
-    if (nearFlower && Character::defaultCharacterSpeed == Character::characterSpeed)
+    if (nearFlower && Character::defaultCharacterSpeed <= Character::characterSpeed && ( Character::characterSpeed <= Character::defaultCharacterSpeed + 3)) // i felt like being magic
     {
-        characterSpeed -= 1.2f;
+        characterSpeed += 0.65f * deltaSpeed;
     }
     else
     {
         characterSpeed = Character::defaultCharacterSpeed;
     }
+
 
     if (!nearTree)
     {

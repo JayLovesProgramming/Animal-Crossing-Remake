@@ -7,6 +7,7 @@
 #include "raylib.h" 
 #include "Map/Grass/Grass.h"
 #include "Debug/Debug.h"
+
 using std::cout, std::endl, std::string;
 
 // Get interpolated noise value at any position
@@ -62,25 +63,6 @@ float Map::GetHeightAtPosition(float x, float z, string type)
     return returnValue;
 }
 
-float Map::CalculateRotationForObject(float x, float z)
-{
-    Vector3 normal = GetSurfaceNormalAtPosition(x, z);
-
-    Vector3 up = {0.0f, 1.0f, 0.0f};
-
-    // Calculate the dot product
-    float dotProduct = Vector3DotProduct(up, normal);
-    float angle = acosf(dotProduct); // Angle in radians
-
-    // Determine the rotation direction
-    Vector3 crossProduct = Vector3CrossProduct(up, normal);
-    if (crossProduct.y < 0) {
-        angle = -angle; // Adjust angle for rotation direction
-    }
-
-    return angle; // Return angle in radians
-}
-
 // Calculate the curved height
 float Map::CalculateCurvedHeight(float x, float z)
 {
@@ -98,7 +80,7 @@ float Map::CalculateCurvedHeight(float x, float z)
 Vector3 Map::GetSurfaceNormalAtPosition(float x, float z)
 {
     // Use small delta for numerical derivatives
-    const float delta = 1.0f;
+    const float delta = 0.1f;
 
     // Get heights at nearby points
     float h = GetHeightAtPosition(x, z, string());

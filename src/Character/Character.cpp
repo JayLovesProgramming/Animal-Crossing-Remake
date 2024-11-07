@@ -31,10 +31,16 @@ void Character::CharacterAnimation(bool isWalking)
 {
     assert(modelAnimations);
 
-    animIndex = 2; // Idle anim
-    if (isWalking)
+    // ? Is a animation struct a good idea here?
+
+    animIndex = 2; // Idle Animation
+    if (isWalking && !GameControls::isJumping)
     {
-        animIndex = 6; // Walk/run anim
+        animIndex = 6; // Walk/Run Animation
+    }
+    else if (GameControls::isJumping)
+    {
+        animIndex = 11; // Jump Animation
     }
 
     ModelAnimation anim = modelAnimations[animIndex];
@@ -55,12 +61,8 @@ void Character::HandleCharacterMovement(Vector3 newPosition, Vector3 initialPosi
     bool characterWalking = (IsKeyDown(KEY_W) || IsKeyDown(KEY_A) || IsKeyDown(KEY_S) || IsKeyDown(KEY_D));
     if (characterWalking)
     {
-        // Right == 0 ?? Why? Forward should == 0? or Forward should ==  3.14159
-
         // Play walk animation
         float movementAngle = atan2f(newPosition.x - initialPosition.x, newPosition.z - initialPosition.z);
-
-        // cout << movementAngle << endl;
 
         Matrix rotation = MatrixRotateY(movementAngle);
         model.transform = rotation;
@@ -88,9 +90,6 @@ void Character::DrawCharacter()
     rlPushMatrix();
 
     rlTranslatef(characterPos.x, characterPos.y + groundHeight, characterPos.z);
-
-    // cout << "Characer Rotation X: " << rotX << endl;
-    // cout << "Characer Rotation Z: " << rotZ << endl;
 
     rlRotatef(rotX, 1.0f, 0.0f, 0.0f);
     rlRotatef(rotZ, 0.0f, 0.0f, -1.0f);

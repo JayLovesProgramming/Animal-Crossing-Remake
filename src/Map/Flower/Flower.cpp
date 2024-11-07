@@ -9,18 +9,19 @@
 #include <cassert>
 #include <cstdlib>
 #include <ctime>
+
 using std::cout, std::endl;
 
 void Flower::LoadFlowers()
 {
-    if (numberOfFlowers == 0)
-        return;
-
-    srand(static_cast<unsigned>(time(0)));
-    flowerModel = LoadModel("../src/Assets/Models/plant/scene.gltf");
-    assert(flowerModel.meshCount > 0);
-    GenerateRandomFlowers(numberOfFlowers);
-    cout << "[LOADED]: " << numberOfFlowers << " Flowers" << endl;
+    if (numberOfFlowers > 0)
+    {
+        srand(static_cast<unsigned>(time(0)));
+        flowerModel = LoadModel("../src/Assets/Models/plant/scene.gltf");
+        assert(flowerModel.meshCount > 0);
+        GenerateRandomFlowers(numberOfFlowers);
+        cout << "[LOADED]: " << numberOfFlowers << " Flowers" << endl;
+    }
 };
 
 void Flower::HandleFlowerCollision()
@@ -48,7 +49,7 @@ void Flower::HandleFlowerCollision()
 
 void Flower::DrawFlowers()
 {
-    if (numberOfFlowers != 0)
+    if (numberOfFlowers > 0)
     {
         for (const Flower &flower : flowers)
         {

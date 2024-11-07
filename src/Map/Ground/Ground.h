@@ -9,10 +9,10 @@ public:
     inline static Model model;
     inline static Image noiseImage; // Store the noise image for continuous sampling
 
-    const static auto GRID_SIZE = 20; // Too high values spread out the texture
+    const static auto GRID_SIZE = 30; // Too high values spread out the texture
     constexpr static auto GROUND_SIZE = (GRID_SIZE / 2);
 
-    constexpr static auto TEXTURE_REPEAT = GRID_SIZE * 2.94; // Lower values spread the texture out
+    constexpr static auto TEXTURE_REPEAT = GRID_SIZE * 3.5f; // Lower values spread the texture out
 
     constexpr static auto curveStrength = 0.0f; // Not doing a lot for now - Set to 0
     constexpr static auto noiseScale = 0.0f; // Not doing a lot for now - Set to 0
@@ -29,23 +29,21 @@ public:
     constexpr static auto BOUNDARY_MAX_Z = ((GRID_SIZE / 2) * GROUND_SIZE);
 
     // Get interpolated noise value at any position
-    static float GetNoiseAt(float x, float z);
+    inline static float GetNoiseAt(float x, float z);
 
     // Get the exact height at any world position
-    static float GetHeightAtPosition(float x, float z, string type);
-
-    static float CalculateRotationForObject(float x, float z);
+    inline static float GetHeightAtPosition(float x, float z, string type);
 
     // Calculate the curved height
-    static float CalculateCurvedHeight(float x, float z);
+    inline static float CalculateCurvedHeight(float x, float z);
 
-    static Vector3 GetSurfaceNormalAtPosition(float x, float z);
+    inline static Vector3 GetSurfaceNormalAtPosition(float x, float z);
 
-    static void GenerateGroundSurface();
+    inline static void GenerateGroundSurface();
 
-    static void DrawGround();
+    inline static void DrawGround();
     
-    static void UnloadGround();
+    inline static void UnloadGround();
 
 private:
 };
