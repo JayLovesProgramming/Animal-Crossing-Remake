@@ -15,7 +15,9 @@ bool Main::InitGame()
 {
     WindowManager::InitWindowAndSetFlags();
 
-    MenuManager::LoadUIConfig(); // Loads the UI config when the game initalizes TODO: Init this in UI.h
+    AudioManager::InitializeAudioDevice();
+
+    // MenuManager::LoadUIConfig(); // Loads the UI config when the game initalizes TODO: Init this in UI.h
     MenuManager::InitalizeButton();
 
     Character::LoadCharacterModel();

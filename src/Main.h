@@ -28,6 +28,7 @@
 #include "Map/Ground/Ground.cpp"
 #include "GameState/GameState.cpp"
 #include "Menu/Menu.cpp"
+#include "Audio/Audio.cpp"
 
 class Main
 {

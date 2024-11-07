@@ -5,8 +5,8 @@
 class AudioManager
 {
 public:
-    static void InitializeAudioDevice();
+    inline static void InitializeAudioDevice();
 
-    static void LoadButtonSound();
+    inline static void LoadButtonSound();
 
 };
