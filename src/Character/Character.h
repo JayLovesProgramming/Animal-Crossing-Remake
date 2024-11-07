@@ -22,6 +22,8 @@ public:
 
     static void LoadCharacterModel();
 
+    static void HandleCharacterMovement(Vector3 newPosition, Vector3 initialPosition);
+
     static void CharacterWalk(bool isWalking);
 
     static void DrawCharacter();

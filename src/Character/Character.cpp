@@ -25,24 +25,43 @@ void Character::CharacterWalk(bool isWalking)
 {
     assert(modelAnimations);
 
+    animIndex = 2;
     if (isWalking)
     {
         animIndex = 6;
     }
-    else
-    {
-        animIndex = 2;
-    }
 
     ModelAnimation anim = modelAnimations[animIndex];
+    assert(anim.name); // Further assertion to confirm that the model actually holds animations
 
     if (!printedCurrentAnim)
     {
-        cout << "[CURRENT ANIMATION]: " << modelAnimations[animIndex].name << endl;
+        cout << "[CURRENT ANIMATION]: " << anim.name << endl;
         printedCurrentAnim = true;
     }
+
     animCurrentFrame = (animCurrentFrame + 1) % anim.frameCount;
     UpdateModelAnimation(model, anim, animCurrentFrame);
+};
+
+void Character::HandleCharacterMovement(Vector3 newPosition, Vector3 initialPosition)
+{
+    bool characterWalking = (IsKeyDown(KEY_W) || IsKeyDown(KEY_A) || IsKeyDown(KEY_S) || IsKeyDown(KEY_D));
+    if (characterWalking)
+    {
+        // Play walk animation
+        float movementAngle = atan2f(newPosition.z - initialPosition.z, newPosition.x - initialPosition.x);
+
+        Matrix rotation = MatrixRotateY(movementAngle);
+        model.transform = rotation;
+
+        CharacterWalk(true);
+    }
+    else
+    {
+        // Play idle animation
+        CharacterWalk(false);
+    }
 };
 
 void Character::DrawCharacter()

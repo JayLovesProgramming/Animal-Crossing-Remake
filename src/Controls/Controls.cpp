@@ -4,6 +4,7 @@
 #include "raymath.h"
 #include "Camera/Camera.h"
 #include "Map/Ground/Ground.h"
+#include "Character/Character.h"
 #include "Map/Tree/Tree.h"
 #include <iostream>
 using std::cout, std::endl;
@@ -15,7 +16,11 @@ void GameControls::UpdateControls(Vector3 *characterPos, float characterSpeed)
 
     // Calculate directional vectors based on camera rotation (done once)
     float cameraAngle = DEG2RAD * CharacterCamera::cameraRotationAngle;
-    Vector3 forwardDirection = {sinf(cameraAngle), 0.0f, cosf(cameraAngle)};
+    Vector3 forwardDirection = {
+        sinf(cameraAngle), 
+        0.0f, 
+        cosf(cameraAngle)
+    };
     Vector3 rightDirection = {cosf(cameraAngle), 0.0f, -sinf(cameraAngle)};
 
     // Normalize the direction vectors
@@ -48,22 +53,7 @@ void GameControls::UpdateControls(Vector3 *characterPos, float characterSpeed)
         newPosition.z += rightDirection.z * deltaSpeed;
     }
 
-
-    bool characterWalking = (IsKeyDown(KEY_W) || IsKeyDown(KEY_A) || IsKeyDown(KEY_S) || IsKeyDown(KEY_D));
-    if (characterWalking)
-    {
-        // Play walk animation
-        cout << "Walking" << endl;
-        Character::CharacterWalk(true);
-    }
-    else
-    {
-        // Play idle animation
-        cout << "Idle" << endl;
-        Character::CharacterWalk(false);
-    }
-
-
+    Character::HandleCharacterMovement(newPosition, initialPosition);
 
     // Boundary checks
     newPosition.x = Clamp(newPosition.x, Map::BOUNDARY_MIN_X, Map::BOUNDARY_MAX_X);
@@ -77,8 +67,7 @@ void GameControls::UpdateControls(Vector3 *characterPos, float characterSpeed)
     for (const auto &treePos : Tree::treePositions)
     {
         // Calculate horizontal distance (ignore y-axis)
-        float horizontalDistance = sqrtf((newPosition.x - treePos.x) * (newPosition.x - treePos.x) +
-                                         (newPosition.z - treePos.z) * (newPosition.z - treePos.z));
+        float horizontalDistance = sqrtf((newPosition.x - treePos.x) * (newPosition.x - treePos.x) + (newPosition.z - treePos.z) * (newPosition.z - treePos.z));
 
         // Calculate vertical distance (y-axis)
         float verticalDistance = fabs(newPosition.y - treePos.y);
