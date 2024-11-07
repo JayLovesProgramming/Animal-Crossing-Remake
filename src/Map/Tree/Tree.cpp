@@ -13,6 +13,8 @@ using std::cout, std::endl;
 void Tree::LoadTrees()
 {
     treeModel = LoadModel("C:/Users/jayxw/Desktop/AnimalCrossing/src/Assets/Models/treetest/treetest.gltf");
+    assert(treeModel.meshCount > 0);
+    
     for (int i = 0; i < treeModel.materialCount; i++)
     {
         SetTextureFilter(treeModel.materials[i].maps[MATERIAL_MAP_ALBEDO].texture, TEXTURE_FILTER_ANISOTROPIC_16X);

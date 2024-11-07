@@ -15,6 +15,10 @@ void Character::LoadCharacterModel()
 
     model = LoadModel(modelPath); // Load the character model
     assert(model.meshCount > 0);  // Assert the character model to prevent any crashing further down the line
+    // for (int i = 0; i < model.materialCount; i++)
+    // {
+    //     SetTextureFilter(model.materials[i].maps[MATERIAL_MAP_BRDF].texture, TEXTURE_FILTER_ANISOTROPIC_16X);
+    // }
 
     Matrix rotation = MatrixRotateY(PI); // The model by default is not rotated correctly, hard coded for now..
     model.transform = rotation;          // The model by default is not rotated correctly, hard coded for now..
@@ -57,7 +61,7 @@ void Character::HandleCharacterMovement(Vector3 newPosition, Vector3 initialPosi
         float movementAngle = atan2f(newPosition.x - initialPosition.x, newPosition.z - initialPosition.z);
 
         cout << movementAngle << endl;
-        
+
         Matrix rotation = MatrixRotateY(movementAngle);
         model.transform = rotation;
 
