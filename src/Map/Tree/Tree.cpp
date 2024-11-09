@@ -4,9 +4,11 @@
 #include "Controls/Controls.h"
 
 #include "raylib.h"
+#include "Utils/ConsoleOut.h"
 #include "raymath.h"
 #include "rlgl.h"
 #include <iostream>
+
 using std::cout, std::endl;
 
 // TODO: Implement a feature so the trees have a bounding box so we can use that. Sort of doing it a cheap way currently
@@ -63,7 +65,7 @@ void Tree::UnloadTrees()
 {
     UnloadModel(treeModel);
     UnloadShader(doubleSidedShader); // Unload the shader
-    cout << "[UNLOADED]: " << numberOfTrees << " Trees" << endl;
+    cout << unloadString << numberOfTrees << "Trees" << endl;
 };
 
 void Tree::HandleTreeCollision()

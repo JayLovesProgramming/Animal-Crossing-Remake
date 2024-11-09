@@ -1,8 +1,12 @@
 #pragma once
 
+#include "raylib.h"
+
+
 class AudioManager
 {
 public:
+    inline static bool MusicEnabled = false;
     inline static Sound usefulSound;
     inline static Sound mainMusicFile;
 

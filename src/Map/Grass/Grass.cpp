@@ -4,6 +4,7 @@
 #include <cassert> 
 #include <iostream> 
 #include "raylib.h" 
+#include "Utils/ConsoleOut.h" 
 
 using std::cout, std::endl;
 
@@ -19,5 +20,5 @@ void Grass::LoadGrassTexture()
 void Grass::UnloadGrassTexture()
 {
     UnloadTexture(grassTexture);                           // Unload the texture on destroy
-    cout << "[UNLOADED]: Grass Texture" << endl; // Let us know when it's been destroyed
+    cout << unloadString << "Grass texture" << endl;
 }

@@ -4,6 +4,7 @@
 #include "raylib.h"
 #include "Map/Ground/Ground.h"
 #include "Controls/Controls.h"
+#include "Utils/ConsoleOut.h"
 #include <iostream>
 #include <vector>
 #include <cassert>
@@ -77,7 +78,7 @@ void Flower::GenerateRandomFlowers(int count)
 void Flower::UnloadFlowers()
 {
     UnloadModel(flowerModel);
-    cout << "[UNLOADED]: " << numberOfFlowers << " Flowers" << endl;
+    cout << unloadString << numberOfFlowers << "Flowers" << endl;
 };
 
 Color Flower::GenerateRandomFlowerColour()

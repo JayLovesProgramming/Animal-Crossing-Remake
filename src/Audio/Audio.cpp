@@ -1,5 +1,10 @@
 #include "Audio.h"
 
+#include <iostream>
+#include <string>
+#include <cassert>
+#include "Utils/ConsoleOut.h"
+
 using std::cout, std::endl, std::string, std::to_string;
 
 void AudioManager::InitializeAudioDevice()
@@ -11,10 +16,12 @@ void AudioManager::InitializeAudioDevice()
 
 void AudioManager::PlayMusicStage1()
 {
+    if (!MusicEnabled)
+        return;
+
     if (mainMusicFile.frameCount == 0)
-    {
         UnloadSound(mainMusicFile);
-    };
+
     mainMusicFile = LoadSound("C:/Users/jayxw/Desktop/AnimalCrossing/src/Assets/Sounds/main.wav");
     assert(mainMusicFile.frameCount > 0);
     SetSoundVolume(mainMusicFile, 0.2f);
@@ -27,7 +34,7 @@ void AudioManager::PlayMusicStage1()
 void AudioManager::ManageMainMusic()
 {
     // If "MainMusic" is not playing, restart it
-    if (!IsSoundPlaying(mainMusicFile))
+    if (!IsSoundPlaying(mainMusicFile) && MusicEnabled)
     {
         PlayMusicStage1();
         cout << "[AUDIO]: Restarting Main Music" << endl;
@@ -76,5 +83,5 @@ void AudioManager::UnloadAudio()
     UnloadSound(mainMusicFile);
     UnloadSound(usefulSound);
     CloseAudioDevice();
-    cout << "[UNLOADED]: Audio" << endl;
+    cout << unloadString << "Audio" << endl;
 };

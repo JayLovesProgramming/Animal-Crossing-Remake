@@ -22,12 +22,14 @@ public:
     inline static unsigned int animCurrentFrame = 0;
 
     static void LoadCharacterModel();
+    static void UnloadCharacterModel();
 
     static void HandleCharacterMovement(Vector3 newPosition, Vector3 initialPosition);
 
     static void CharacterAnimation(bool isWalking);
 
     static void DrawCharacter();
+
 
     // DEBUG - Soon to remove
     static inline bool printedCurrentAnim = false;

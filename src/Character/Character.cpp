@@ -4,6 +4,8 @@
 #include "rlgl.h"
 #include "Map/Ground/Ground.h"
 #include "Controls/Mouse.h"
+#include "Controls/Controls.h"
+#include "Utils/ConsoleOut.h"
 #include <iostream>
 #include <cassert>
 
@@ -12,18 +14,21 @@ using std::cout, std::endl;
 // Loads the character model, asserts it, rotates it 180 then load the models anims
 void Character::LoadCharacterModel()
 {
-
     model = LoadModel(modelPath); // Load the character model
     assert(model.meshCount > 0);  // Assert the character model to prevent any crashing further down the line
-    // for (int i = 0; i < model.materialCount; i++)
-    // {
-    //     SetTextureFilter(model.materials[i].maps[MATERIAL_MAP_BRDF].texture, TEXTURE_FILTER_ANISOTROPIC_16X);
-    // }
 
     Matrix rotation = MatrixRotateY(PI); // The model by default is not rotated correctly, hard coded for now..
     model.transform = rotation;          // The model by default is not rotated correctly, hard coded for now..
 
     modelAnimations = LoadModelAnimations(modelPath, &animsCount); // Load the models animations and assign the count of anims to animsCount
+};
+
+void Character::UnloadCharacterModel()
+{
+    // ? Should we unload the model first or the models animations first?
+    UnloadModelAnimations(modelAnimations, animsCount);
+    UnloadModel(model);
+    cout << unloadString << "Character Model" << endl;
 };
 
 // Handles ALL character animations here

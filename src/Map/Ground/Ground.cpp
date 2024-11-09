@@ -7,6 +7,7 @@
 #include "raylib.h" 
 #include "Map/Grass/Grass.h"
 #include "Debug/Debug.h"
+#include "Utils/ConsoleOut.h"
 
 using std::cout, std::endl, std::string;
 
@@ -207,7 +208,7 @@ void Map::UnloadGround()
 {
     UnloadModel(model);
     UnloadImage(noiseImage);
-    cout << "[UNLOADED]: Ground" << endl;
+    cout << unloadString << "Ground" << endl;
 }
 
 
