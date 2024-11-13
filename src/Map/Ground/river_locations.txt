@@ -1,0 +1,4 @@
+riverMinX 10
+riverMaxX 30
+riverMinZ 10
+riverMaxZ 30

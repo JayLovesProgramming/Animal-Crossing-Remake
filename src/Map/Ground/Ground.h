@@ -9,7 +9,7 @@ public:
     inline static Model model;
     inline static Image noiseImage; // Store the noise image for continuous sampling
 
-    const static auto GRID_SIZE = 30; // Too high values spread out the texture
+    const static auto GRID_SIZE = 90; // Too high values spread out the texture
     constexpr static auto GROUND_SIZE = (GRID_SIZE / 2);
 
     constexpr static auto TEXTURE_REPEAT = GRID_SIZE * 3.5f; // Lower values spread the texture out
@@ -17,10 +17,12 @@ public:
     constexpr static auto curveStrength = 0.0f; // Not doing a lot for now - Set to 0
     constexpr static auto noiseScale = 0.0f; // Not doing a lot for now - Set to 0
     
-    constexpr static auto curvature = 0.0025f;
+    constexpr static auto curvature = 0.00f;
     // Store the heights and noise values seperately
     inline static float heightMap[GRID_SIZE][GRID_SIZE];
     inline static float noiseMap[GRID_SIZE][GRID_SIZE];
+
+    inline static Vector3 riverLocation {-25.0f, 0.0f, -32.5f};
 
     // Map Boundaries - TODO: Recalculate to get the proper boundaries
     constexpr static auto BOUNDARY_MIN_X = -((GRID_SIZE / 2) * GROUND_SIZE);
