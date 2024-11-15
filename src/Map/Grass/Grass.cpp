@@ -10,7 +10,7 @@ using std::cout, std::endl;
 
 void Grass::LoadGrassTexture()
 {
-    Grass::grassTexture = LoadTexture("../src/Assets/Textures/grass.png");
+    Grass::grassTexture = LoadTexture("../src/Assets/Textures/grass2.png");
     assert(grassTexture.id > 0);
     cout << "[LOADED]: Grass Texture" << endl;
     GenTextureMipmaps(&grassTexture);

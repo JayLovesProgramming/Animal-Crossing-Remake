@@ -12,12 +12,10 @@ using std::cout, std::endl;
 class MouseManager
 {
 public:
-    inline static bool F8_ACTIVE = false;
-
     static void UpdateMousePosition();
 
     static void ToggleMouseCursor();
 
-
-    
+private:
+    inline static bool F8_ACTIVE = false;
 };

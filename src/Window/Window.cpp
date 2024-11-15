@@ -3,6 +3,7 @@
 
 #include "raylib.h"
 #include <iostream>
+
 using std::cout, std::endl;
 
 bool WindowManager::PressedExit() // Check if a exit key is pressed. Used to exit and destroy the window
@@ -113,7 +114,7 @@ void WindowManager::CheckForVSync()
     }
 }
 
-void WindowManager::InitWindowAndSetFlags()
+void WindowManager::InitializeWindow()
 {
     // SetConfigFlags(FLAG_MSAA_4X_HINT);
     InitWindow(screenWidth, screenHeight, windowName); // Init a window with a screen width, height and window name
@@ -130,4 +131,6 @@ void WindowManager::InitWindowAndSetFlags()
     // SetWindowState(FLAG_FULLSCREEN_MODE);
     // SetMouseCursor(0);
     SetExitKey(0); // Removes all defaults for Exit key so I can create my own.
+
+    AudioManager::InitializeAudioDevice();
 };

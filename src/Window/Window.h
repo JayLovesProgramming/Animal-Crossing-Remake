@@ -27,5 +27,5 @@ public:
     static void EnableVsync(bool fallback);
     static void DisableVsync();
 
-    static void InitWindowAndSetFlags();
+    static void InitializeWindow();
 };

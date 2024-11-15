@@ -19,6 +19,8 @@ public:
 
     static void HandleNearbyObjectCollisions();
 
+    static void HandleCameraPerspective();
+
 private:
     inline static int animFrameCounter = 0;
 };

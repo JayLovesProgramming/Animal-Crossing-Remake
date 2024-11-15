@@ -15,7 +15,15 @@ void GameControls::HandleNearbyObjectCollisions()
 {
     Tree::HandleTreeCollision();
     Flower::HandleFlowerCollision();
-};
+}
+
+void GameControls::HandleCameraPerspective()
+{
+    if (IsKeyReleased(KEY_F5))
+    {
+        CharacterCamera::camera.projection = (CharacterCamera::camera.projection == CAMERA_ORTHOGRAPHIC) ? CAMERA_PERSPECTIVE : CAMERA_ORTHOGRAPHIC;
+    }
+}
 
 void GameControls::UpdateControls(Vector3 *characterPos, float &characterSpeed)
 {

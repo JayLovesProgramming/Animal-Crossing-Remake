@@ -9,7 +9,7 @@ public:
     inline static Model model;
     inline static Image noiseImage; // Store the noise image for continuous sampling
 
-    const static auto GRID_SIZE = 90; // Too high values spread out the texture
+    const static auto GRID_SIZE = 40; // Too high values spread out the texture
     constexpr static auto GROUND_SIZE = (GRID_SIZE / 2);
 
     constexpr static auto TEXTURE_REPEAT = GRID_SIZE * 3.5f; // Lower values spread the texture out

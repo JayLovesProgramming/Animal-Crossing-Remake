@@ -65,7 +65,7 @@ void Tree::UnloadTrees()
 {
     UnloadModel(treeModel);
     UnloadShader(doubleSidedShader); // Unload the shader
-    cout << unloadString << numberOfTrees << "Trees" << endl;
+    cout << unloadString << numberOfTrees << " Trees" << endl;
 };
 
 void Tree::HandleTreeCollision()

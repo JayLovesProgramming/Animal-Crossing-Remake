@@ -1,13 +1,15 @@
 // Camera/Camera.cpp
 #include "Camera.h"
 
+#include "Controls/Controls.h"
 #include "Map/Ground/Ground.h"
-#include "raylib.h" // TEMP TO DISABLE RED SQUIGGLY
-#include <cmath> // TEMP TO DISABLE RED SQUIGGLY
+#include "raylib.h"
+#include "raymath.h"
+#include <cmath> 
 #include <iostream>
 #include "CameraZoom.h"
 
-void CharacterCamera::InitCamera()
+void CharacterCamera::InitalizeCamera()
 {
     camera.position = Vector3{0.0f, 0.0f, 0.0f};
     camera.target = Vector3{0.0f, 0.0f, 0.0f};
@@ -16,15 +18,6 @@ void CharacterCamera::InitCamera()
     camera.projection = CAMERA_PERSPECTIVE;
     lastNormal = {0.0f, 1.0f, 0.0f}; // Initialize last normal
 };
-
-void CharacterCamera::UpdateCameraModeProjection()
-{
-    if (IsKeyReleased(KEY_F5))
-    {
-        camera.projection = (camera.projection == CAMERA_ORTHOGRAPHIC) ? CAMERA_PERSPECTIVE : CAMERA_ORTHOGRAPHIC;
-    }
-};
-
 
 Vector3 CharacterCamera::SmoothVector3(Vector3 current, Vector3 target, float smoothFactor)
 {
@@ -37,7 +30,7 @@ Vector3 CharacterCamera::SmoothVector3(Vector3 current, Vector3 target, float sm
 void CharacterCamera::UpdateCamera(Vector3 *characterPos)
 {
     CameraZoom::UpdateCameraZoom();
-    UpdateCameraModeProjection();
+    GameControls::HandleCameraPerspective();
 
     // Handle rotation
     float targetAngle = cameraRotationAngle;

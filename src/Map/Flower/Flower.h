@@ -15,18 +15,19 @@ public:
     inline const static auto xRange = 900.0f;
     inline const static auto zRange = 900.0f;
     static constexpr auto flowerCollisionRadius = 3.5f;
-    inline static float flowerHeightThreshold = 15.0f;
 
-    inline static void LoadFlowers();
+    static void LoadFlowers();
 
-    inline static void DrawFlowers();
+    static void DrawFlowers();
 
-    inline static void GenerateRandomFlowers(int count);
+    inline static void GenerateFlowers(int count);
 
     inline static void UnloadFlowers();
 
-    inline static void HandleFlowerCollision();
+    static void HandleFlowerCollision();
 
 private:
     static Color GenerateRandomFlowerColour();
+    
+    inline static float flowerHeightThreshold = 15.0f;
 };
