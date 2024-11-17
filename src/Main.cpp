@@ -1,5 +1,5 @@
 // Main.cpp
-#include "Application/Application.cpp"
+#include "Application/Application.h"
 
 int main()
 {

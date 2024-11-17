@@ -35,10 +35,10 @@ public:
     static inline bool printedCurrentAnim = false;
 
 
-    struct CharacterAnims
-    {
-        int idle = 3;
-        int walking = 6;
-        int running;
-    }; // Func name here
+    // struct CharacterAnims
+    // {
+    //     int idle = 3;
+    //     int walking = 6;
+    //     int running;
+    // }; // Func name here
 };

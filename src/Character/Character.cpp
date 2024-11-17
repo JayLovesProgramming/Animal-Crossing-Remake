@@ -83,7 +83,6 @@ void Character::HandleCharacterMovement(Vector3 newPosition, Vector3 initialPosi
 
 void Character::DrawCharacter()
 {
-
     float groundHeight = Map::GetHeightAtPosition(characterPos.x, characterPos.z, "character"); // Gets the ground height at any given time, respective to the grounds curvature
 
     Vector3 normal = Map::GetSurfaceNormalAtPosition(characterPos.x, characterPos.z);

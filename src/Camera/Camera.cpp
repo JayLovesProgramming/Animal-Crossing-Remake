@@ -1,6 +1,5 @@
 // Camera/Camera.cpp
 #include "Camera.h"
-
 #include "Controls/Controls.h"
 #include "Map/Ground/Ground.h"
 #include "raylib.h"
@@ -16,7 +15,7 @@ void CharacterCamera::InitalizeCamera()
     camera.up = Vector3{0.0f, 1.0f, 0.0f};
     camera.fovy = 55.0f;
     camera.projection = CAMERA_PERSPECTIVE;
-    lastNormal = {0.0f, 1.0f, 0.0f}; // Initialize last normal
+    lastNormal = {0.0f, 1.0f, 0.0f}; 
 };
 
 Vector3 CharacterCamera::SmoothVector3(Vector3 current, Vector3 target, float smoothFactor)

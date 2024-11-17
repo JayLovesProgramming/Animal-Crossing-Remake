@@ -2,7 +2,6 @@
 
 #include "raylib.h"
 
-
 class AudioManager
 {
 public:
@@ -19,5 +18,4 @@ public:
     inline static void UnloadAudio();
 
     inline static void PlayMusicStage1();
-
 };

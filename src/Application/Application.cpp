@@ -1,6 +1,6 @@
 #include "Application.h"
 
-#include "LoadOnce.h"
+#include "C:\Users\jayxw\Desktop\AnimalCrossing\src\LoadOnce.h"
 
 void Application::Run()
 {
@@ -20,24 +20,15 @@ void Application::Run()
 bool Application::InitializeGame()
 {
     WindowManager::InitializeWindow();
-
     // ShaderManager::InitializeSkyboxLighting(); // Figure out this later on
-
     // MenuManager::LoadUIConfig(); // Loads the UI config when the game initalizes TODO: Init this in UI.h
     MenuManager::InitalizeButton();
-
     Character::LoadCharacterModel();
-
     CharacterCamera::InitalizeCamera(); // Init the camera for the character TODO: Init this in the Camera.h
-
     Grass::LoadGrassTexture();
-
     Map::GenerateGroundSurface(); // Generates the surfaces planes
-
     Tree::LoadTrees(); // Init and load the trees for the map TODO: Init and load this in Tree.h
-
     Flower::LoadFlowers(); // Init and load the flowers TOOD: Init and load this in Flower.h
-
     return true;
 }
 

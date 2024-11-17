@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED On)
 include_directories(C:/Users/jayxw/Desktop/AnimalCrossing/dependencies/rlImGui C:/Users/jayxw/Desktop/AnimalCrossing/dependencies/raylib/include C:/Users/jayxw/Desktop/AnimalCrossing/dependencies/imgui)
 
 # Add executable
-add_executable(Game src/Main.cpp)
+add_executable(Game src/Application/Application.cpp src/Main.cpp)
 
 # Disable specific warnings for MSVC
 if(MSVC)
